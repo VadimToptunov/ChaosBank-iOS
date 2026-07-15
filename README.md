@@ -13,7 +13,7 @@ localization, concurrency, networking, security, accessibility and performance.
 ![iOS 17+](https://img.shields.io/badge/iOS-17%2B-black)
 ![Swift 5.9](https://img.shields.io/badge/Swift-5.9-orange)
 ![SwiftUI](https://img.shields.io/badge/UI-SwiftUI-blue)
-![Logic coverage](https://img.shields.io/badge/logic%20coverage-96%25-brightgreen)
+![Logic coverage](https://img.shields.io/badge/logic%20coverage-97%25-brightgreen)
 ![Dependencies](https://img.shields.io/badge/app%20dependencies-none-brightgreen)
 
 ---
@@ -284,7 +284,7 @@ xcrun simctl launch <device> VadimToptunov.ChaosBank -ChaosBankProfile flaky
 
 A unit-test target (`ChaosBankTests`, XCTest) covers the correct baseline and the
 regression pattern — the same assertion passes on `clean` and fails when a defect
-is active. **155 tests** across the catalog (integrity, profiles, exercises), money
+is active. **161 tests** across the catalog (integrity, profiles, exercises), money
 & rounding, locale parsing, the mock backend & every network scenario/error path,
 the seeded price feed, the auth ladder, and every view model (Home, Transfer,
 Exchange, Transactions, Order, Portfolio, Card + TokenStore).
@@ -297,7 +297,7 @@ xcodebuild test -project ChaosBank.xcodeproj -scheme ChaosBank \
 Scripts/coverage.sh 95
 ```
 
-**Coverage.** The logic layer (Core, Models, view models, backend) is at **~96%**,
+**Coverage.** The logic layer (Core, Models, view models, backend) is at **~97%**,
 enforced by `Scripts/coverage.sh` and CI. Total line coverage is lower because
 roughly two-thirds of the code is SwiftUI `View` bodies, which unit tests do not
 execute — those are excluded from the unit-coverage budget and covered by UI tests
