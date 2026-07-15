@@ -1,0 +1,45 @@
+name: CI
+
+# Builds the app, runs the unit tests, and enforces the logic-layer coverage gate.
+#
+# NOTE: the project targets the iOS 26 SDK (deployment target 26.5), so the runner
+# needs Xcode 26+. GitHub-hosted images may lag; if so, run this on a self-hosted
+# runner with Xcode 26, or temporarily lower IPHONEOS_DEPLOYMENT_TARGET.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Build, test & coverage
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select newest Xcode
+        run: |
+          LATEST=$(ls -d /Applications/Xcode*.app | sort -V | tail -1)
+          echo "Using $LATEST"
+          sudo xcode-select -s "$LATEST"
+          xcodebuild -version
+
+      - name: Pick an available iOS simulator
+        id: sim
+        run: |
+          NAME=$(xcrun simctl list devices available \
+            | grep -oE 'iPhone [0-9]+( Pro( Max)?| Plus| e)?' | sort -Vr | head -1)
+          NAME=${NAME:-iPhone 16}
+          echo "Using simulator: $NAME"
+          echo "dest=platform=iOS Simulator,name=$NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Build, test and enforce coverage
+        env:
+          DEST: ${{ steps.sim.outputs.dest }}
+        run: ./Scripts/coverage.sh 95

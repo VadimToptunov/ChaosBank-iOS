@@ -9,9 +9,11 @@ test-automation engineers a realistic app to **write UI tests against** — with
 known, switchable defects planted across every layer: UI, state, validation,
 localization, concurrency, networking, security, accessibility and performance.
 
+![CI](https://github.com/VadimToptunov/ChaosBank-iOS/actions/workflows/ci.yml/badge.svg)
 ![iOS 17+](https://img.shields.io/badge/iOS-17%2B-black)
 ![Swift 5.9](https://img.shields.io/badge/Swift-5.9-orange)
 ![SwiftUI](https://img.shields.io/badge/UI-SwiftUI-blue)
+![Logic coverage](https://img.shields.io/badge/logic%20coverage-96%25-brightgreen)
 ![Dependencies](https://img.shields.io/badge/app%20dependencies-none-brightgreen)
 
 ---
@@ -282,21 +284,24 @@ xcrun simctl launch <device> VadimToptunov.ChaosBank -ChaosBankProfile flaky
 
 A unit-test target (`ChaosBankTests`, XCTest) covers the correct baseline and the
 regression pattern — the same assertion passes on `clean` and fails when a defect
-is active. **103 tests** across the catalog (integrity, profiles, exercises), money
-& rounding, locale parsing, the mock backend & network scenarios, the seeded price
-feed, the auth ladder, and every view model (Home, Transfer, Exchange,
-Transactions, Order, Portfolio, Card + TokenStore).
+is active. **155 tests** across the catalog (integrity, profiles, exercises), money
+& rounding, locale parsing, the mock backend & every network scenario/error path,
+the seeded price feed, the auth ladder, and every view model (Home, Transfer,
+Exchange, Transactions, Order, Portfolio, Card + TokenStore).
 
 ```bash
 xcodebuild test -project ChaosBank.xcodeproj -scheme ChaosBank \
-  -destination 'platform=iOS Simulator,name=iPhone 17' -enableCodeCoverage YES
+  -destination 'platform=iOS Simulator,name=iPhone 17'
+
+# …or the coverage gate (fails under the logic-layer threshold):
+Scripts/coverage.sh 95
 ```
 
-**Coverage.** The testable logic layer (Core, Models, view models, backend) sits at
-~88%. Total line coverage is lower because roughly two-thirds of the code is SwiftUI
-`View` bodies, which unit tests do not execute — covering those needs UI tests, and
-UI tests are intentionally left to the reference suites (see Roadmap) so the app
-stays a neutral target.
+**Coverage.** The logic layer (Core, Models, view models, backend) is at **~96%**,
+enforced by `Scripts/coverage.sh` and CI. Total line coverage is lower because
+roughly two-thirds of the code is SwiftUI `View` bodies, which unit tests do not
+execute — those are excluded from the unit-coverage budget and covered by UI tests
+instead (intentionally left to the reference suites; see Roadmap).
 
 ## Roadmap
 

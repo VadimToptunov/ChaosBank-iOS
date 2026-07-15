@@ -112,10 +112,15 @@ final class TransferViewModel {
         // `transferDebitsWrongAccount`: debit USD instead of the chosen account.
         let debitFrom = Defects.isActive(.transferDebitsWrongAccount) ? .USD : fromCurrency
 
+        // Correct: one stable idempotency key per confirmation, so a retry (same
+        // key) is deduped by the backend. The `doubleCharge` defect mints a fresh
+        // key on every tap, so a rapid double-tap posts two transactions.
+        let key = Defects.isActive(.doubleCharge) ? UUID().uuidString : idempotencyKey
+
         do {
             try await services.backend.transfer(from: debitFrom, amount: amount,
                                                 recipient: effectiveRecipient, note: note,
-                                                idempotencyKey: idempotencyKey)
+                                                idempotencyKey: key)
             services.bumpData()
             succeeded = true
             canRetry = false
