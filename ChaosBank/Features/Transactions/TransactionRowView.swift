@@ -71,7 +71,9 @@ struct TransactionRowView: View {
 
             Spacer()
 
-            Text(tx.money.formattedSigned)
+            // `outgoingSignHidden`: outgoing amounts drop the leading minus.
+            Text(tx.direction == .moneyOut && Defects.isActive(.outgoingSignHidden)
+                 ? tx.money.formatted : tx.money.formattedSigned)
                 .moneyStyle(15, weight: .semibold)
                 .foregroundStyle(tx.direction == .moneyIn ? Palette.gain : Palette.text)
         }

@@ -24,12 +24,21 @@ final class OrderViewModel {
     private let services: AppServices
     let currency: Currency = .USD
 
+    private var heldQuantity: Decimal = 0
+
     init(request: OrderRequest, services: AppServices) {
         self.symbol = request.symbol
         self.side = request.side
         self.capturedPrice = request.capturedPrice
         self.services = services
         self.limitPriceText = MoneyFormat.price(request.capturedPrice)
+        // `orderQtyDefaultsZero`: the ticket opens with an invalid quantity.
+        if Defects.isActive(.orderQtyDefaultsZero) { self.quantity = 0 }
+    }
+
+    func load() async {
+        heldQuantity = (await services.backend.fetchHoldings()
+            .first { $0.symbol == symbol })?.quantity ?? 0
     }
 
     /// The price the order acts on.
@@ -49,7 +58,10 @@ final class OrderViewModel {
     var executionPrice: Decimal {
         switch type {
         case .market: return referencePrice
-        case .limit: return limitPrice ?? referencePrice
+        case .limit:
+            // `limitExecutesAtMarket`: a limit order fills at the market price.
+            if Defects.isActive(.limitExecutesAtMarket) { return referencePrice }
+            return limitPrice ?? referencePrice
         }
     }
 
@@ -59,10 +71,12 @@ final class OrderViewModel {
     /// actually charged. The `roundingDrift` defect routes the multiply through
     /// Double, so the displayed total drifts from the charged amount.
     var estTotal: Money {
+        // `estTotalIgnoresQty`: the total drops the quantity factor.
+        let qty = Defects.isActive(.estTotalIgnoresQty) ? Decimal(1) : quantity
         if Defects.isActive(.roundingDrift) {
-            return Money(Decimal(quantity.doubleValue * executionPrice.doubleValue), currency)
+            return Money(Decimal(qty.doubleValue * executionPrice.doubleValue), currency)
         }
-        return Money((quantity * executionPrice).roundedMoney(), currency)
+        return Money((qty * executionPrice).roundedMoney(), currency)
     }
 
     var limitBelowMarket: Bool {
@@ -87,10 +101,16 @@ final class OrderViewModel {
         if type == .limit {
             guard let lp = limitPrice, lp > 0 else { return false }
         }
+        // Correct: a sell needs enough holding. `sellWithoutHoldingReviewable`
+        // lets a sell be reviewed even when the position can't cover it.
+        if side == .sell, quantity > heldQuantity, !Defects.isActive(.sellWithoutHoldingReviewable) {
+            return false
+        }
         return true
     }
 
-    func increment() { quantity += 1 }
+    // `qtyIncrementByTwo`: the stepper jumps by two.
+    func increment() { quantity += Defects.isActive(.qtyIncrementByTwo) ? 2 : 1 }
 
     func decrement() {
         if Defects.isActive(.limitValidation) {
@@ -111,7 +131,9 @@ final class OrderViewModel {
         isSubmitting = true
         defer { isSubmitting = false }
 
-        let order = Order(id: UUID().uuidString, symbol: symbol, side: side, type: type,
+        // `buySellSwapped`: the placed order uses the opposite side.
+        let placedSide: OrderSide = Defects.isActive(.buySellSwapped) ? (side == .buy ? .sell : .buy) : side
+        let order = Order(id: UUID().uuidString, symbol: symbol, side: placedSide, type: type,
                           quantity: quantity, limitPrice: type == .limit ? limitPrice : nil,
                           referencePrice: referencePrice, executionPrice: executionPrice,
                           status: .pending, placedAt: Date())

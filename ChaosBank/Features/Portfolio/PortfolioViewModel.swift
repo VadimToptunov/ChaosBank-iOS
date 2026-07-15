@@ -27,8 +27,19 @@ final class PortfolioViewModel {
         services.market.price(for: symbol)
     }
 
+    /// Price used to value a position. `holdingValueUsesCost` values positions at
+    /// their cost basis instead of the live price.
+    private func valuationPrice(_ h: Holding) -> Decimal {
+        Defects.isActive(.holdingValueUsesCost) ? h.avgCost : price(h.symbol)
+    }
+
+    /// Holdings counted in the total. `totalValueOmitsHolding` drops ETH.
+    private var countedHoldings: [Holding] {
+        Defects.isActive(.totalValueOmitsHolding) ? holdings.filter { $0.symbol != "ETH" } : holdings
+    }
+
     var totalValue: Money {
-        let sum = holdings.reduce(Decimal(0)) { $0 + $1.marketValue(at: price($1.symbol)) }
+        let sum = countedHoldings.reduce(Decimal(0)) { $0 + $1.marketValue(at: valuationPrice($1)) }
         return Money(sum, .USD)
     }
 
@@ -40,13 +51,14 @@ final class PortfolioViewModel {
 
     var totalPnLPercent: Decimal {
         // Correct: percent against cost basis. `pnlPercentVsValue` divides by the
-        // current market value instead.
+        // current market value instead; `pnlPercentAbsOnly` drops the sign.
         let denom = Defects.isActive(.pnlPercentVsValue) ? totalValue.amount : totalCost
         guard denom != 0 else { return 0 }
-        return totalPnL / denom * 100
+        let pct = totalPnL / denom * 100
+        return Defects.isActive(.pnlPercentAbsOnly) ? abs(pct) : pct
     }
 
-    func marketValue(_ h: Holding) -> Money { Money(h.marketValue(at: price(h.symbol)), .USD) }
+    func marketValue(_ h: Holding) -> Money { Money(h.marketValue(at: valuationPrice(h)), .USD) }
 
     func pnl(_ h: Holding) -> Decimal { h.pnl(at: price(h.symbol)) }
 

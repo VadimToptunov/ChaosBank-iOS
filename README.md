@@ -95,9 +95,13 @@ triple-tap the build badge).
 
 ---
 
-## Defect catalog (44 defects, 10 categories)
+## Defect catalog (104 defects, 10 categories)
 
-Every defect ships **OFF** in the `clean` profile.
+Every defect ships **OFF** in the `clean` profile. Counts by category: money 22,
+state 17, security 14, validation 12, ui 11, network 7, performance 6,
+concurrency 5, localization 5, accessibility 5. The **complete, machine-readable
+list** is in [`exercises.json`](exercises.json) (one exercise per defect); the
+table below is a representative selection.
 
 | Category | Defect | What it breaks |
 |---|---|---|

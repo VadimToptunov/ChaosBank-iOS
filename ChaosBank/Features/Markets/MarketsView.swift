@@ -11,9 +11,15 @@ struct MarketsView: View {
 
     private var assets: [Asset] {
         switch segment {
-        case "stocks": return SeedData.assets.filter { $0.kind == .stock }
-        case "crypto": return SeedData.assets.filter { $0.kind == .crypto }
-        default: return SeedData.assets.filter { SeedData.watchlistSymbols.contains($0.symbol) }
+        case "stocks":
+            // `cryptoShownInStocks`: crypto leaks into the Stocks segment.
+            return SeedData.assets.filter { $0.kind == .stock || (Defects.isActive(.cryptoShownInStocks) && $0.kind == .crypto) }
+        case "crypto":
+            return SeedData.assets.filter { $0.kind == .crypto }
+        default:
+            // `watchlistShowsAll`: the watchlist shows every asset.
+            if Defects.isActive(.watchlistShowsAll) { return SeedData.assets }
+            return SeedData.assets.filter { SeedData.watchlistSymbols.contains($0.symbol) }
         }
     }
 
@@ -52,12 +58,18 @@ struct MarketsView: View {
             CardSurface(padding: 6) {
                 VStack(spacing: 0) {
                     ForEach(Array(assets.enumerated()), id: \.element.id) { index, asset in
+                        // `assetRowOpensWrongDetail`: open the next row's asset.
+                        let targetSymbol = Defects.isActive(.assetRowOpensWrongDetail)
+                            ? assets[(index + 1) % assets.count].symbol
+                            : asset.symbol
                         NavigationLink {
-                            AssetDetailView(symbol: asset.symbol)
+                            AssetDetailView(symbol: targetSymbol)
                         } label: {
                             MarketRow(asset: asset, quote: services.market.quote(for: asset.symbol))
                         }
                         .accessibilityIdentifier(rowA11y(asset.symbol))
+                        // `marketRowNoLabel`: strip the row's accessibility label.
+                        .accessibilityLabel(Defects.isActive(.marketRowNoLabel) ? Text(" ") : Text(asset.symbol))
                         if index < assets.count - 1 {
                             Divider().overlay(Palette.line)
                         }
@@ -76,7 +88,13 @@ struct MarketRow: View {
 
     private var price: Decimal { quote?.price ?? asset.basePrice }
     private var changePct: Decimal { quote?.changePct ?? 0 }
+    /// `changePctSignFlipped`: the displayed % change is negated.
+    private var shownChange: Decimal { Defects.isActive(.changePctSignFlipped) ? -changePct : changePct }
     private var direction: TickDirection { quote?.lastDirection ?? .flat }
+    /// `priceMissingDecimals`: render whole-dollar prices.
+    private var priceText: String {
+        "$" + MoneyFormat.price(price, fractionDigits: Defects.isActive(.priceMissingDecimals) ? 0 : 2)
+    }
 
     var body: some View {
         HStack(spacing: 12) {
@@ -90,15 +108,17 @@ struct MarketRow: View {
             }
             .frame(width: 110, alignment: .leading)
 
-            Sparkline(symbol: asset.symbol, up: changePct >= 0)
+            // `sparklineHeavyPoints`: compute an absurd number of points.
+            Sparkline(symbol: asset.symbol, up: changePct >= 0,
+                      pointCount: Defects.isActive(.sparklineHeavyPoints) ? 4000 : 24)
                 .frame(height: 32)
 
             VStack(alignment: .trailing, spacing: 2) {
-                LiveTickerText(text: "$" + MoneyFormat.price(price), direction: direction,
+                LiveTickerText(text: priceText, direction: direction,
                                size: 15, a11y: A11y.Markets.assetPrice(asset.symbol))
-                Text(MoneyFormat.percent(changePct))
+                Text(MoneyFormat.percent(shownChange))
                     .moneyStyle(12, weight: .semibold)
-                    .foregroundStyle(Palette.pnl(changePct))
+                    .foregroundStyle(Palette.pnl(shownChange))
                     .accessibilityIdentifier(A11y.Markets.assetChange(asset.symbol))
             }
             .frame(width: 96, alignment: .trailing)

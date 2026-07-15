@@ -18,13 +18,22 @@ nonisolated struct BackendScenario: Sendable, Equatable {
     var slowResponseRace = false
     /// Reads return an outdated offline snapshot instead of live state.
     var staleOfflineBalance = false
+    /// A balance read error is surfaced as a zero balance.
+    var balanceReadReturnsZero = false
+    /// A transactions fetch returns every row twice.
+    var transactionsDupOnFetch = false
+    /// A holdings read returns the pre-order snapshot.
+    var staleHoldingsAfterOrder = false
 
     static func from(_ defects: Set<DefectID>) -> BackendScenario {
         BackendScenario(
             retryDuplicate: defects.contains(.retryDuplicate),
             timeoutAsSuccess: defects.contains(.timeoutAsSuccess),
             slowResponseRace: defects.contains(.slowResponseRace),
-            staleOfflineBalance: defects.contains(.staleOfflineBalance)
+            staleOfflineBalance: defects.contains(.staleOfflineBalance),
+            balanceReadReturnsZero: defects.contains(.balanceReadReturnsZero),
+            transactionsDupOnFetch: defects.contains(.transactionsDupOnFetch),
+            staleHoldingsAfterOrder: defects.contains(.staleHoldingsAfterOrder)
         )
     }
 }

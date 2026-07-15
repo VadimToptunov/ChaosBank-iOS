@@ -63,7 +63,15 @@ final class ExchangeViewModel {
         return a
     }
 
-    var rate: Decimal { FXRates.rate(from: sell, to: get) }
+    private let cachedInitialRate = FXRates.rate(from: .EUR, to: .USD)
+
+    var rate: Decimal {
+        // `exchangeInverseRate`: apply the inverse (wrong-direction) rate.
+        if Defects.isActive(.exchangeInverseRate) { return FXRates.rate(from: get, to: sell) }
+        // `exchangeRateStaleAfterSwap`: keep the original EUR→USD rate after a swap.
+        if Defects.isActive(.exchangeRateStaleAfterSwap) { return cachedInitialRate }
+        return FXRates.rate(from: sell, to: get)
+    }
 
     /// Fee charged on the sold amount, in the sell currency.
     var fee: Money {
@@ -73,13 +81,16 @@ final class ExchangeViewModel {
     /// The amount the user is told they will receive — correct Decimal math.
     var youGet: Money {
         guard let amount else { return Money.zero(get) }
-        let net = amount - amount * FXRates.feeRate
-        return Money((net * rate).roundedMoney(), get)
+        // `youGetShowsGross`: display the pre-fee amount while the credit is net.
+        let base = Defects.isActive(.youGetShowsGross) ? amount : (amount - amount * FXRates.feeRate)
+        return Money((base * rate).roundedMoney(), get)
     }
 
     var canExecute: Bool {
         guard let a = amount else { return false }
-        return a > 0 && a <= sellBalance && sell != get
+        // `exchangeSameCurrencyAllowed`: allow sell == get.
+        let currenciesOK = sell != get || Defects.isActive(.exchangeSameCurrencyAllowed)
+        return a > 0 && a <= sellBalance && currenciesOK
     }
 
     /// The value actually credited to the receiving account / written to history.
@@ -89,9 +100,16 @@ final class ExchangeViewModel {
     /// value drifts away from what the user was shown.
     private func creditedValue() -> Decimal {
         guard let amount else { return 0 }
-        // `exchangeFeeNotApplied`: credit the gross amount, ignoring the fee that
-        // the UI displays.
-        let base = Defects.isActive(.exchangeFeeNotApplied) ? amount : (amount - amount * FXRates.feeRate)
+        // `exchangeFeeNotApplied`: credit the gross amount, ignoring the fee.
+        // `exchangeFeeDoubled`: subtract the fee twice.
+        let base: Decimal
+        if Defects.isActive(.exchangeFeeNotApplied) {
+            base = amount
+        } else if Defects.isActive(.exchangeFeeDoubled) {
+            base = amount - amount * FXRates.feeRate * 2
+        } else {
+            base = amount - amount * FXRates.feeRate
+        }
         if Defects.isActive(.roundingDrift) {
             let drifted = base.doubleValue * rate.doubleValue
             return Decimal(drifted)
@@ -110,7 +128,9 @@ final class ExchangeViewModel {
         isSubmitting = true
         defer { isSubmitting = false }
         do {
-            try await services.backend.exchange(sell: sell, get: get,
+            // `exchangeCreditsWrongAccount`: credit the sell account instead of get.
+            let creditTo = Defects.isActive(.exchangeCreditsWrongAccount) ? sell : get
+            try await services.backend.exchange(sell: sell, get: creditTo,
                                                 debit: amount, credited: creditedValue())
             services.bumpData()
             succeeded = true

@@ -200,6 +200,7 @@ enum A11y {
         static let frozenBadge = "card.frozenBadge"
         static let onlinePaymentsToggle = "card.onlinePaymentsToggle"
         static let limitField = "card.limitField"
+        static let limitError = "card.limitError"
         static let pinButton = "card.pinButton"
         static let orderPhysicalButton = "card.orderPhysicalButton"
     }

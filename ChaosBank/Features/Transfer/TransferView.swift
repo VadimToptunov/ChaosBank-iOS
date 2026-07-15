@@ -106,7 +106,8 @@ struct TransferView: View {
         .onChange(of: vm.succeeded) { _, done in
             guard done else { return }
             Task {
-                try? await Task.sleep(for: .seconds(1.4))
+                // `successToastTooBrief`: dismiss almost immediately.
+                try? await Task.sleep(for: Defects.isActive(.successToastTooBrief) ? .milliseconds(120) : .seconds(1.4))
                 dismiss()
             }
         }
@@ -122,7 +123,7 @@ struct TransferView: View {
 
             CardSurface {
                 VStack(spacing: 12) {
-                    confirmRow("To", vm.recipient)
+                    confirmRow("To", vm.confirmRecipientText)
                     Divider().overlay(Palette.line)
                     confirmRow("Amount", Money(vm.amount ?? 0, vm.fromCurrency).formatted)
                     if !vm.note.isEmpty {

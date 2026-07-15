@@ -14,8 +14,18 @@ struct AssetDetailView: View {
 
     private var asset: Asset? { SeedData.assets.first { $0.symbol == symbol } }
     private var quote: Quote? { services.market.quote(for: symbol) }
-    private var price: Decimal { quote?.price ?? asset?.basePrice ?? 0 }
-    private var changePct: Decimal { quote?.changePct ?? 0 }
+    private var price: Decimal {
+        let base = quote?.price ?? asset?.basePrice ?? 0
+        // `detailPriceOffset`: the detail price drifts from the market price.
+        return Defects.isActive(.detailPriceOffset) ? base + Decimal(string: "5")! : base
+    }
+    private var changePct: Decimal {
+        // `detailChangeWrongBase`: measure change vs the anchor base, not day open.
+        if Defects.isActive(.detailChangeWrongBase), let base = asset?.basePrice, base != 0 {
+            return (price - base) / base * 100
+        }
+        return quote?.changePct ?? 0
+    }
 
     var body: some View {
         ChaosBankScreen(title: symbol, a11y: A11y.Asset.root, showBadge: false) {
@@ -57,8 +67,13 @@ struct AssetDetailView: View {
         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
             StatTile(label: "Market cap", value: marketCap(asset), a11y: A11y.Asset.statMarketCap)
             StatTile(label: "Volume", value: volume(asset), a11y: A11y.Asset.statVolume)
-            StatTile(label: "Day high", value: "$" + MoneyFormat.price(quote?.dayHigh ?? price), a11y: A11y.Asset.statHigh)
-            StatTile(label: "Day low", value: "$" + MoneyFormat.price(quote?.dayLow ?? price), a11y: A11y.Asset.statLow)
+            // `detailStatHighLowSwapped`: the high and low values are swapped.
+            StatTile(label: "Day high",
+                     value: "$" + MoneyFormat.price((Defects.isActive(.detailStatHighLowSwapped) ? quote?.dayLow : quote?.dayHigh) ?? price),
+                     a11y: A11y.Asset.statHigh)
+            StatTile(label: "Day low",
+                     value: "$" + MoneyFormat.price((Defects.isActive(.detailStatHighLowSwapped) ? quote?.dayHigh : quote?.dayLow) ?? price),
+                     a11y: A11y.Asset.statLow)
         }
 
         HStack(spacing: 12) {
@@ -68,7 +83,9 @@ struct AssetDetailView: View {
             .accessibilityIdentifier(A11y.Asset.sellButton)
 
             PrimaryButton(title: "Buy", systemImage: "arrow.down.left") {
-                request = OrderRequest(symbol: symbol, side: .buy, capturedPrice: price)
+                // `buyButtonPlacesSell`: the Buy button starts a sell ticket.
+                let side: OrderSide = Defects.isActive(.buyButtonPlacesSell) ? .sell : .buy
+                request = OrderRequest(symbol: symbol, side: side, capturedPrice: price)
             }
             .accessibilityIdentifier(A11y.Asset.buyButton)
             // `wrongA11yLabel`: the Buy button announces itself as "Sell".

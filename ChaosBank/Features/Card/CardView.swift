@@ -20,6 +20,8 @@ struct CardView: View {
                     }
                     .tint(Palette.sand)
                     .accessibilityIdentifier(A11y.Card.freezeToggle)
+                    // `freezeToggleNoLabel`: strip the toggle's accessibility label.
+                    .accessibilityLabel(Defects.isActive(.freezeToggleNoLabel) ? Text(" ") : Text("Freeze card"))
 
                     Divider().overlay(Palette.line)
 
@@ -46,6 +48,14 @@ struct CardView: View {
                         }
                     }
                     .padding(.vertical, 8)
+
+                    if let limitError = vm.limitError {
+                        Text(limitError)
+                            .font(.appBody(12, weight: .medium))
+                            .foregroundStyle(Palette.loss)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .accessibilityIdentifier(A11y.Card.limitError)
+                    }
                 }
             }
 
@@ -61,7 +71,7 @@ struct CardView: View {
         .alert("Card PIN", isPresented: $showPIN) {
             Button("Done", role: .cancel) {}
         } message: {
-            Text("Your PIN is 4821")
+            Text("Your PIN is \(vm.pinText)")
         }
     }
 

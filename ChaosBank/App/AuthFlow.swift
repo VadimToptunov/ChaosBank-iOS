@@ -77,10 +77,17 @@ final class AuthFlow {
     // MARK: - Login
 
     func submitLogin() {
-        guard !username.trimmingCharacters(in: .whitespaces).isEmpty,
-              !password.isEmpty else {
-            loginError = "Enter a username and password"
-            return
+        // `loginAcceptsEmptyCreds`: skip the non-empty check.
+        if !Defects.isActive(.loginAcceptsEmptyCreds) {
+            guard !username.trimmingCharacters(in: .whitespaces).isEmpty,
+                  !password.isEmpty else {
+                loginError = "Enter a username and password"
+                return
+            }
+        }
+        // `credentialsInLog`: leak the credentials to the console.
+        if Defects.isActive(.credentialsInLog) {
+            print("[ChaosBank] login user=\(username) pass=\(password)")
         }
         loginError = nil
         startOTP()
@@ -96,7 +103,8 @@ final class AuthFlow {
     // MARK: - OTP
 
     private func startOTP() {
-        otpEntry = ""
+        // `otpAutoFillsCode`: the field is pre-filled with the real code.
+        otpEntry = Defects.isActive(.otpAutoFillsCode) ? mockOTP : ""
         otpError = nil
         otpAttempts = 0
         otpLocked = false
@@ -129,7 +137,8 @@ final class AuthFlow {
             return
         }
 
-        guard otpEntry == mockOTP else {
+        // `otpAcceptsAnyCode`: any entered code is treated as correct.
+        guard otpEntry == mockOTP || Defects.isActive(.otpAcceptsAnyCode) else {
             otpAttempts += 1
             if otpAttempts >= maxOTPAttempts { otpLocked = true }
             otpError = "Incorrect code (\(otpAttempts)/\(maxOTPAttempts))"
@@ -168,6 +177,10 @@ final class AuthFlow {
             return
         }
         storedPasscode = String(passcodeEntry.prefix(requiredPasscodeLength))
+        // `passcodeStoredPlaintext`: persist the passcode in UserDefaults.
+        if Defects.isActive(.passcodeStoredPlaintext) {
+            UserDefaults.standard.set(storedPasscode, forKey: "chaosbank.passcode")
+        }
         passcodeEntry = ""
         passcodeError = nil
         markUnlocked()
@@ -175,7 +188,8 @@ final class AuthFlow {
     }
 
     func submitPasscode() {
-        guard passcodeEntry == storedPasscode else {
+        // `passcodeAnyAccepted`: any entered passcode unlocks.
+        guard passcodeEntry == storedPasscode || Defects.isActive(.passcodeAnyAccepted) else {
             passcodeError = "Wrong passcode"
             passcodeEntry = ""
             return

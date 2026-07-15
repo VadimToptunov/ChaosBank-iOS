@@ -48,7 +48,8 @@ struct TransactionsView: View {
             )
         )
 
-        Text("\(vm.filtered.count) transactions")
+        // `transactionCountWrong`: report the visible count, not the filtered total.
+        Text("\(Defects.isActive(.transactionCountWrong) ? vm.visible.count : vm.filtered.count) transactions")
             .font(.appBody(13))
             .foregroundStyle(Palette.muted)
             .accessibilityIdentifier(A11y.Transactions.count)

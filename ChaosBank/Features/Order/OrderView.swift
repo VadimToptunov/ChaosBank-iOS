@@ -18,6 +18,7 @@ struct OrderView: View {
         }
         .task {
             if vm == nil { vm = OrderViewModel(request: request, services: services) }
+            await vm?.load()
         }
     }
 

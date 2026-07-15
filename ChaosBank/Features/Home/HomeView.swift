@@ -52,35 +52,38 @@ struct HomeView: View {
                 Text("Total balance")
                     .font(.appBody(13))
                     .foregroundStyle(Palette.muted)
-                Text(vm.totalBalance.formatted)
+                Text(vm.totalBalanceText)
                     .moneyStyle(34, weight: .bold)
                     .foregroundStyle(Palette.text)
                     .accessibilityIdentifier(A11y.Home.totalBalance)
 
                 HStack(spacing: 6) {
-                    Image(systemName: "arrow.up.right")
+                    Image(systemName: vm.todayChange.amount < 0 ? "arrow.down.right" : "arrow.up.right")
                         .font(.system(size: 12, weight: .bold))
                     Text("\(vm.todayChange.formattedSigned) · \(MoneyFormat.percent(vm.todayChangePercent)) today")
                         .moneyStyle(13, weight: .medium)
                 }
-                .foregroundStyle(Palette.gain)
+                .foregroundStyle(Palette.pnl(vm.todayChange.amount))
                 .accessibilityIdentifier(A11y.Home.todayChange)
             }
         }
 
-        // Account strip
+        // Account strip. `accountStripHidesGBP` drops the GBP card.
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 12) {
-                ForEach(vm.accounts) { account in
+                ForEach(vm.accounts.filter { !(Defects.isActive(.accountStripHidesGBP) && $0.currency == .GBP) }) { account in
                     accountCard(account, selected: vm.selectedCurrency)
                         .onTapGesture { vm.selectedCurrency = account.currency }
                 }
             }
         }
 
-        // Quick actions
+        // Quick actions. `quickActionTransferOpensExchange` wires Transfer to the
+        // Exchange sheet.
         HStack(spacing: 12) {
-            quickAction("Transfer", "arrow.left.arrow.right", A11y.Home.quickActionTransfer) { showTransfer = true }
+            quickAction("Transfer", "arrow.left.arrow.right", A11y.Home.quickActionTransfer) {
+                if Defects.isActive(.quickActionTransferOpensExchange) { showExchange = true } else { showTransfer = true }
+            }
             quickAction("Exchange", "arrow.2.squarepath", A11y.Home.quickActionExchange) { showExchange = true }
             quickAction("Add", "plus", A11y.Home.quickActionAddMoney) { showAddMoney = true }
             NavigationLink {
@@ -102,7 +105,7 @@ struct HomeView: View {
 
             CardSurface(padding: 8) {
                 VStack(spacing: 0) {
-                    ForEach(Array(vm.recent.enumerated()), id: \.element.id) { index, tx in
+                    ForEach(Array(vm.recent.enumerated()), id: \.offset) { index, tx in
                         TransactionRowView(tx: tx, a11y: A11y.Home.activityRow(tx.id))
                         if index < vm.recent.count - 1 {
                             Divider().overlay(Palette.line)

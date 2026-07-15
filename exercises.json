@@ -97,6 +97,312 @@
     "title" : "Total balance omits an account"
   },
   {
+    "category" : "money",
+    "condition" : "Balances round to the nearest cent.",
+    "defects" : [
+      "balanceFloorRounded"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Home",
+    "id" : "IOS-MON-06",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects balanceFloorRounded",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Total balance floored, not rounded"
+  },
+  {
+    "category" : "money",
+    "condition" : "The daily change sign matches the actual move.",
+    "defects" : [
+      "todayChangeSignFlipped"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Home",
+    "id" : "IOS-MON-07",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects todayChangeSignFlipped",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Today's change sign flipped"
+  },
+  {
+    "category" : "money",
+    "condition" : "A transfer debits the selected account.",
+    "defects" : [
+      "transferDebitsWrongAccount"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Transfer",
+    "id" : "IOS-MON-08",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects transferDebitsWrongAccount",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Transfer debits the wrong account"
+  },
+  {
+    "category" : "money",
+    "condition" : "Balance-after = balance − amount.",
+    "defects" : [
+      "balanceAfterAdds"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Transfer",
+    "id" : "IOS-MON-09",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects balanceAfterAdds",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "'Balance after' adds instead of subtracts"
+  },
+  {
+    "category" : "money",
+    "condition" : "The exact amount is transferred.",
+    "defects" : [
+      "transferRoundsUp"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Transfer",
+    "id" : "IOS-MON-10",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects transferRoundsUp",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Transfer amount rounded up"
+  },
+  {
+    "category" : "money",
+    "condition" : "Conversion uses the correct directional rate.",
+    "defects" : [
+      "exchangeInverseRate"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Exchange",
+    "id" : "IOS-MON-11",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects exchangeInverseRate",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Exchange uses the inverse rate"
+  },
+  {
+    "category" : "money",
+    "condition" : "The bought currency lands in its account.",
+    "defects" : [
+      "exchangeCreditsWrongAccount"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Exchange",
+    "id" : "IOS-MON-12",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects exchangeCreditsWrongAccount",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Exchange credits the wrong account"
+  },
+  {
+    "category" : "money",
+    "condition" : "The fee is charged once.",
+    "defects" : [
+      "exchangeFeeDoubled"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Exchange",
+    "id" : "IOS-MON-13",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects exchangeFeeDoubled",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Exchange fee charged twice"
+  },
+  {
+    "category" : "money",
+    "condition" : "'You get' shows the net, post-fee amount.",
+    "defects" : [
+      "youGetShowsGross"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Exchange",
+    "id" : "IOS-MON-14",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects youGetShowsGross",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "'You get' shows the pre-fee amount"
+  },
+  {
+    "category" : "money",
+    "condition" : "The percent change sign matches the price move.",
+    "defects" : [
+      "changePctSignFlipped"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Markets",
+    "id" : "IOS-MON-15",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects changePctSignFlipped",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Market % change sign flipped"
+  },
+  {
+    "category" : "money",
+    "condition" : "The detail price matches the market price.",
+    "defects" : [
+      "detailPriceOffset"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Asset detail",
+    "id" : "IOS-MON-16",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects detailPriceOffset",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Asset detail price is offset"
+  },
+  {
+    "category" : "money",
+    "condition" : "Percent change is measured against the day open.",
+    "defects" : [
+      "detailChangeWrongBase"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Asset detail",
+    "id" : "IOS-MON-17",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects detailChangeWrongBase",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Detail % uses base, not day open"
+  },
+  {
+    "category" : "money",
+    "condition" : "Estimated total = quantity × price.",
+    "defects" : [
+      "estTotalIgnoresQty"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Order",
+    "id" : "IOS-MON-18",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects estTotalIgnoresQty",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Order total ignores quantity"
+  },
+  {
+    "category" : "money",
+    "condition" : "A limit order executes at the limit price.",
+    "defects" : [
+      "limitExecutesAtMarket"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Order",
+    "id" : "IOS-MON-19",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects limitExecutesAtMarket",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Limit order executes at market"
+  },
+  {
+    "category" : "money",
+    "condition" : "Position value uses the live price.",
+    "defects" : [
+      "holdingValueUsesCost"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Portfolio",
+    "id" : "IOS-MON-20",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects holdingValueUsesCost",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Holding value uses cost, not price"
+  },
+  {
+    "category" : "money",
+    "condition" : "Invested value sums every holding.",
+    "defects" : [
+      "totalValueOmitsHolding"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Portfolio",
+    "id" : "IOS-MON-21",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects totalValueOmitsHolding",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Portfolio total omits a holding"
+  },
+  {
+    "category" : "money",
+    "condition" : "P&L percent keeps its sign.",
+    "defects" : [
+      "pnlPercentAbsOnly"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Portfolio",
+    "id" : "IOS-MON-22",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects pnlPercentAbsOnly",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "P&L % shown as absolute value"
+  },
+  {
     "category" : "validation",
     "condition" : "Limit sell below market warns; qty must be > 0.",
     "defects" : [
@@ -195,6 +501,132 @@
     "title" : "Transfer over balance allowed"
   },
   {
+    "category" : "validation",
+    "condition" : "Transfer amounts must be positive.",
+    "defects" : [
+      "transferNegativeCredits"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Transfer",
+    "id" : "IOS-VAL-06",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects transferNegativeCredits",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Negative transfer amount accepted"
+  },
+  {
+    "category" : "validation",
+    "condition" : "Sell and get currencies must differ.",
+    "defects" : [
+      "exchangeSameCurrencyAllowed"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Exchange",
+    "id" : "IOS-VAL-07",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects exchangeSameCurrencyAllowed",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Exchange to the same currency allowed"
+  },
+  {
+    "category" : "validation",
+    "condition" : "Search is case-insensitive.",
+    "defects" : [
+      "searchCaseSensitive"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Transactions",
+    "id" : "IOS-VAL-08",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects searchCaseSensitive",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Transaction search is case-sensitive"
+  },
+  {
+    "category" : "validation",
+    "condition" : "You cannot review a sell you can't cover.",
+    "defects" : [
+      "sellWithoutHoldingReviewable"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Order",
+    "id" : "IOS-VAL-09",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects sellWithoutHoldingReviewable",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Sell reviewable with no holding"
+  },
+  {
+    "category" : "validation",
+    "condition" : "The order ticket opens with a valid quantity.",
+    "defects" : [
+      "orderQtyDefaultsZero"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Order",
+    "id" : "IOS-VAL-10",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects orderQtyDefaultsZero",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Order quantity defaults to zero"
+  },
+  {
+    "category" : "validation",
+    "condition" : "Login requires a username and password.",
+    "defects" : [
+      "loginAcceptsEmptyCreds"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Auth",
+    "id" : "IOS-VAL-11",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects loginAcceptsEmptyCreds",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Login accepts empty credentials"
+  },
+  {
+    "category" : "validation",
+    "condition" : "The monthly limit must be positive.",
+    "defects" : [
+      "cardLimitAcceptsZero"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Card",
+    "id" : "IOS-VAL-12",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects cardLimitAcceptsZero",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Card monthly limit accepts zero"
+  },
+  {
     "category" : "localization",
     "condition" : "Amounts parse correctly under the active locale.",
     "defects" : [
@@ -232,6 +664,60 @@
     "launchArgument" : "-ChaosBankDefects dateTimezoneShift",
     "task" : "Open Transactions and assert a known transaction's day\/time matches the home timezone.",
     "title" : "Transaction date shifts by timezone"
+  },
+  {
+    "category" : "localization",
+    "condition" : "The currency symbol matches the selected currency.",
+    "defects" : [
+      "balanceWrongCurrencySymbol"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Home",
+    "id" : "IOS-LOC-03",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects balanceWrongCurrencySymbol",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Balance always shows the € symbol"
+  },
+  {
+    "category" : "localization",
+    "condition" : "Prices show two fraction digits.",
+    "defects" : [
+      "priceMissingDecimals"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Markets",
+    "id" : "IOS-LOC-04",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects priceMissingDecimals",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Prices shown without decimals"
+  },
+  {
+    "category" : "localization",
+    "condition" : "Search input is trimmed before matching.",
+    "defects" : [
+      "searchTrimsNothing"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Transactions",
+    "id" : "IOS-LOC-05",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects searchTrimsNothing",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Search doesn't trim whitespace"
   },
   {
     "category" : "state",
@@ -330,6 +816,222 @@
     "title" : "Filled order still shows pending"
   },
   {
+    "category" : "state",
+    "condition" : "Each quick action opens its own screen.",
+    "defects" : [
+      "quickActionTransferOpensExchange"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Home",
+    "id" : "IOS-STA-06",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects quickActionTransferOpensExchange",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Transfer action opens Exchange"
+  },
+  {
+    "category" : "state",
+    "condition" : "Recent activity shows the last four items.",
+    "defects" : [
+      "recentActivityShowsTwo"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Home",
+    "id" : "IOS-STA-07",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects recentActivityShowsTwo",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Recent activity shows too few rows"
+  },
+  {
+    "category" : "state",
+    "condition" : "The rate recomputes when the pair changes.",
+    "defects" : [
+      "exchangeRateStaleAfterSwap"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Exchange",
+    "id" : "IOS-STA-08",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects exchangeRateStaleAfterSwap",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Rate stale after swapping direction"
+  },
+  {
+    "category" : "state",
+    "condition" : "A filter shows only its own category.",
+    "defects" : [
+      "filterOutLeaksIn"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Transactions",
+    "id" : "IOS-STA-09",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects filterOutLeaksIn",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Money-out filter leaks money-in rows"
+  },
+  {
+    "category" : "state",
+    "condition" : "Search matches title and category.",
+    "defects" : [
+      "searchIgnoresCategory"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Transactions",
+    "id" : "IOS-STA-10",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects searchIgnoresCategory",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Search ignores the category field"
+  },
+  {
+    "category" : "state",
+    "condition" : "Each segment shows only its asset kind.",
+    "defects" : [
+      "cryptoShownInStocks"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Markets",
+    "id" : "IOS-STA-11",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects cryptoShownInStocks",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Crypto appears in the Stocks segment"
+  },
+  {
+    "category" : "state",
+    "condition" : "The watchlist shows only watched symbols.",
+    "defects" : [
+      "watchlistShowsAll"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Markets",
+    "id" : "IOS-STA-12",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects watchlistShowsAll",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Watchlist shows every asset"
+  },
+  {
+    "category" : "state",
+    "condition" : "Tapping a row opens that row's asset.",
+    "defects" : [
+      "assetRowOpensWrongDetail"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Markets",
+    "id" : "IOS-STA-13",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects assetRowOpensWrongDetail",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Tapping an asset opens the wrong one"
+  },
+  {
+    "category" : "state",
+    "condition" : "The Buy button starts a buy order.",
+    "defects" : [
+      "buyButtonPlacesSell"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Asset detail",
+    "id" : "IOS-STA-14",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects buyButtonPlacesSell",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Buy opens a Sell order ticket"
+  },
+  {
+    "category" : "state",
+    "condition" : "The buy side buys.",
+    "defects" : [
+      "buySellSwapped"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Order",
+    "id" : "IOS-STA-15",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects buySellSwapped",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Buy side actually sells"
+  },
+  {
+    "category" : "state",
+    "condition" : "Toggle state persists and reads back correctly.",
+    "defects" : [
+      "onlinePaymentsInverted"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Card",
+    "id" : "IOS-STA-16",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects onlinePaymentsInverted",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Online-payments toggle reads inverted"
+  },
+  {
+    "category" : "state",
+    "condition" : "The confirmation shows the entered recipient.",
+    "defects" : [
+      "transferConfirmWrongRecipient"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Transfer",
+    "id" : "IOS-STA-17",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects transferConfirmWrongRecipient",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Confirm sheet shows wrong recipient"
+  },
+  {
     "category" : "concurrency",
     "condition" : "Confirm is idempotent; one tap = one transaction.",
     "defects" : [
@@ -407,6 +1109,24 @@
     "title" : "Rapid double-tap exchanges twice"
   },
   {
+    "category" : "concurrency",
+    "condition" : "A stale refresh never overwrites a newer one.",
+    "defects" : [
+      "homeRefreshRace"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Home",
+    "id" : "IOS-CON-05",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects homeRefreshRace",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Overlapping refreshes clobber the dashboard"
+  },
+  {
     "category" : "performance",
     "condition" : "Long lists render lazily and stay smooth.",
     "defects" : [
@@ -481,6 +1201,42 @@
     "title" : "History re-sorts on every render"
   },
   {
+    "category" : "performance",
+    "condition" : "Sparklines use a small point budget.",
+    "defects" : [
+      "sparklineHeavyPoints"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Markets",
+    "id" : "IOS-PERF-05",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects sparklineHeavyPoints",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Sparklines compute thousands of points"
+  },
+  {
+    "category" : "performance",
+    "condition" : "Grouping is not redone wastefully.",
+    "defects" : [
+      "transactionsRegroupHeavy"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Transactions",
+    "id" : "IOS-PERF-06",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects transactionsRegroupHeavy",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "History regroups expensively each render"
+  },
+  {
     "category" : "ui",
     "condition" : "A disabled-looking control is actually non-interactive.",
     "defects" : [
@@ -500,6 +1256,25 @@
   },
   {
     "category" : "ui",
+    "condition" : "Resend is blocked until the cooldown elapses.",
+    "defects" : [
+      "otpResendNoCooldown"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Resend fires during cooldown.",
+    "expectedClean" : "Resend blocked during cooldown.",
+    "feature" : "Auth",
+    "id" : "IOS-UI-02",
+    "keyLocators" : [
+      "auth.otpResend",
+      "auth.otpExpiry"
+    ],
+    "launchArgument" : "-ChaosBankDefects otpResendNoCooldown",
+    "task" : "On the OTP screen, assert Resend is disabled until the cooldown elapses.",
+    "title" : "OTP resend ignores the cooldown"
+  },
+  {
+    "category" : "ui",
     "condition" : "A successful action shows a confirmation toast.",
     "defects" : [
       "successToastMissing"
@@ -508,7 +1283,7 @@
     "expectedBuggy" : "No confirmation toast.",
     "expectedClean" : "Confirmation toast shown.",
     "feature" : "Transfer",
-    "id" : "IOS-UI-02",
+    "id" : "IOS-UI-03",
     "keyLocators" : [
       "transfer.confirmButton",
       "transfer.successToast"
@@ -516,6 +1291,150 @@
     "launchArgument" : "-ChaosBankDefects successToastMissing",
     "task" : "Complete a transfer; assert the success toast appears.",
     "title" : "No success toast after a transfer"
+  },
+  {
+    "category" : "ui",
+    "condition" : "All accounts appear in the strip.",
+    "defects" : [
+      "accountStripHidesGBP"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Home",
+    "id" : "IOS-UI-04",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects accountStripHidesGBP",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "GBP account card hidden"
+  },
+  {
+    "category" : "ui",
+    "condition" : "Outgoing amounts show a leading minus.",
+    "defects" : [
+      "outgoingSignHidden"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Transactions",
+    "id" : "IOS-UI-05",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects outgoingSignHidden",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Outgoing amounts shown without a minus"
+  },
+  {
+    "category" : "ui",
+    "condition" : "The count reflects the filtered total.",
+    "defects" : [
+      "transactionCountWrong"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Transactions",
+    "id" : "IOS-UI-06",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects transactionCountWrong",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Transaction count label is wrong"
+  },
+  {
+    "category" : "ui",
+    "condition" : "High ≥ low in the stats grid.",
+    "defects" : [
+      "detailStatHighLowSwapped"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Asset detail",
+    "id" : "IOS-UI-07",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects detailStatHighLowSwapped",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Day high\/low stats swapped"
+  },
+  {
+    "category" : "ui",
+    "condition" : "The stepper changes quantity by one.",
+    "defects" : [
+      "qtyIncrementByTwo"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Order",
+    "id" : "IOS-UI-08",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects qtyIncrementByTwo",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Quantity stepper increments by two"
+  },
+  {
+    "category" : "ui",
+    "condition" : "The displayed expiry is in the future.",
+    "defects" : [
+      "cardExpiryInPast"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Card",
+    "id" : "IOS-UI-09",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects cardExpiryInPast",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Card expiry shown in the past"
+  },
+  {
+    "category" : "ui",
+    "condition" : "The OTP field starts empty.",
+    "defects" : [
+      "otpAutoFillsCode"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Auth",
+    "id" : "IOS-UI-10",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects otpAutoFillsCode",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "OTP field pre-filled with the real code"
+  },
+  {
+    "category" : "ui",
+    "condition" : "Confirmation stays visible long enough to read.",
+    "defects" : [
+      "successToastTooBrief"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Transfer",
+    "id" : "IOS-UI-11",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects successToastTooBrief",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Success toast flashes too briefly"
   },
   {
     "category" : "accessibility",
@@ -573,23 +1492,40 @@
     "title" : "Buy button is labelled 'Sell'"
   },
   {
-    "category" : "ui",
-    "condition" : "Resend is blocked until the cooldown elapses.",
+    "category" : "accessibility",
+    "condition" : "List rows expose a meaningful label.",
     "defects" : [
-      "otpResendNoCooldown"
+      "marketRowNoLabel"
     ],
     "difficulty" : "middle",
-    "expectedBuggy" : "Resend fires during cooldown.",
-    "expectedClean" : "Resend blocked during cooldown.",
-    "feature" : "Auth",
-    "id" : "IOS-UI-03",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Markets",
+    "id" : "IOS-A11Y-04",
     "keyLocators" : [
-      "auth.otpResend",
-      "auth.otpExpiry"
+
     ],
-    "launchArgument" : "-ChaosBankDefects otpResendNoCooldown",
-    "task" : "On the OTP screen, assert Resend is disabled until the cooldown elapses.",
-    "title" : "OTP resend ignores the cooldown"
+    "launchArgument" : "-ChaosBankDefects marketRowNoLabel",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Market rows expose no accessibility label"
+  },
+  {
+    "category" : "accessibility",
+    "condition" : "Controls expose a meaningful label.",
+    "defects" : [
+      "freezeToggleNoLabel"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Card",
+    "id" : "IOS-A11Y-05",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects freezeToggleNoLabel",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Freeze toggle has no accessibility label"
   },
   {
     "category" : "security",
@@ -760,6 +1696,96 @@
     "title" : "OTP code written to the console log"
   },
   {
+    "category" : "security",
+    "condition" : "The PIN is masked until explicitly revealed.",
+    "defects" : [
+      "pinShownPlaintext"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Card",
+    "id" : "IOS-SEC-10",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects pinShownPlaintext",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "PIN shown in plaintext"
+  },
+  {
+    "category" : "security",
+    "condition" : "Only the correct OTP is accepted.",
+    "defects" : [
+      "otpAcceptsAnyCode"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Auth",
+    "id" : "IOS-SEC-11",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects otpAcceptsAnyCode",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "OTP accepts any 6-digit code"
+  },
+  {
+    "category" : "security",
+    "condition" : "Only the stored passcode unlocks.",
+    "defects" : [
+      "passcodeAnyAccepted"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Auth",
+    "id" : "IOS-SEC-12",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects passcodeAnyAccepted",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Passcode entry accepts any code"
+  },
+  {
+    "category" : "security",
+    "condition" : "The passcode is never persisted in plaintext.",
+    "defects" : [
+      "passcodeStoredPlaintext"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Auth",
+    "id" : "IOS-SEC-13",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects passcodeStoredPlaintext",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Passcode stored in UserDefaults"
+  },
+  {
+    "category" : "security",
+    "condition" : "Credentials are never logged.",
+    "defects" : [
+      "credentialsInLog"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Auth",
+    "id" : "IOS-SEC-14",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects credentialsInLog",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Login credentials written to the console"
+  },
+  {
     "category" : "network",
     "condition" : "Retries are idempotent; a retried request never double-posts.",
     "defects" : [
@@ -836,5 +1862,59 @@
     "launchArgument" : "-ChaosBankDefects staleOfflineBalance",
     "task" : "Mutate a balance and refresh; assert reads reflect the change.",
     "title" : "Offline cache shows an outdated balance"
+  },
+  {
+    "category" : "network",
+    "condition" : "A read error is surfaced, not shown as a zero balance.",
+    "defects" : [
+      "balanceReadReturnsZero"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Home \/ Network",
+    "id" : "IOS-NET-05",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects balanceReadReturnsZero",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Balance read returns zero on error"
+  },
+  {
+    "category" : "network",
+    "condition" : "A fetch returns each row once.",
+    "defects" : [
+      "transactionsDupOnFetch"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Transactions \/ Network",
+    "id" : "IOS-NET-06",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects transactionsDupOnFetch",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Every transaction fetched twice"
+  },
+  {
+    "category" : "network",
+    "condition" : "Reads reflect the latest holdings.",
+    "defects" : [
+      "staleHoldingsAfterOrder"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Requirement violated.",
+    "expectedClean" : "Behaves per the requirement.",
+    "feature" : "Portfolio \/ Network",
+    "id" : "IOS-NET-07",
+    "keyLocators" : [
+
+    ],
+    "launchArgument" : "-ChaosBankDefects staleHoldingsAfterOrder",
+    "task" : "Reproduce the defect and write a stable test that fails only when active.",
+    "title" : "Holdings read is stale after an order"
   }
 ]

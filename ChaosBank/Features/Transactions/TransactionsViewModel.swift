@@ -62,14 +62,22 @@ final class TransactionsViewModel {
         let source = Defects.isActive(.transactionsSortEveryRender)
             ? all.sorted { $0.date > $1.date }
             : all
+        // `searchTrimsNothing`: don't trim the query before matching.
+        let query = Defects.isActive(.searchTrimsNothing) ? search : search.trimmingCharacters(in: .whitespaces)
         return source.filter { tx in
-            // `filterLeaksCategory`: the "Money in" filter leaks money-out rows.
+            // `filterLeaksCategory` / `filterOutLeaksIn`: a filter leaks the other category.
             let categoryOK = filter.matches(tx)
                 || (Defects.isActive(.filterLeaksCategory) && filter == .moneyIn)
+                || (Defects.isActive(.filterOutLeaksIn) && filter == .moneyOut)
             guard categoryOK else { return false }
-            guard !search.isEmpty else { return true }
-            let q = search.lowercased()
-            return tx.title.lowercased().contains(q) || tx.category.lowercased().contains(q)
+            guard !query.isEmpty else { return true }
+            // `searchCaseSensitive`: don't fold case. `searchIgnoresCategory`: match title only.
+            let cs = Defects.isActive(.searchCaseSensitive)
+            let q = cs ? query : query.lowercased()
+            let title = cs ? tx.title : tx.title.lowercased()
+            let category = cs ? tx.category : tx.category.lowercased()
+            if Defects.isActive(.searchIgnoresCategory) { return title.contains(q) }
+            return title.contains(q) || category.contains(q)
         }
     }
 
@@ -98,9 +106,22 @@ final class TransactionsViewModel {
 
     /// Visible rows grouped by calendar day, preserving order.
     var grouped: [(key: String, rows: [Transaction])] {
-        var result: [(key: String, rows: [Transaction])] = []
+        let rows = visible
         let shifted = Defects.isActive(.dateTimezoneShift)
-        for tx in visible {
+        // `transactionsRegroupHeavy`: rebuild groups with an O(n²) scan each render.
+        if Defects.isActive(.transactionsRegroupHeavy) {
+            var result: [(key: String, rows: [Transaction])] = []
+            for tx in rows {
+                let key = TxFormat.dayHeader(tx.date, shifted: shifted)
+                let sameDay = rows.filter { TxFormat.dayHeader($0.date, shifted: shifted) == key }
+                if !result.contains(where: { $0.key == key }) {
+                    result.append((key: key, rows: sameDay))
+                }
+            }
+            return result
+        }
+        var result: [(key: String, rows: [Transaction])] = []
+        for tx in rows {
             let key = TxFormat.dayHeader(tx.date, shifted: shifted)
             if let idx = result.firstIndex(where: { $0.key == key }) {
                 result[idx].rows.append(tx)

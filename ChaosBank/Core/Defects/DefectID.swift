@@ -12,56 +12,106 @@ import Foundation
 /// arguments (`-ChaosBankDefects roundingDrift,doubleCharge`) so they must stay
 /// stable across builds.
 nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
-    // Money / logic
+    // MARK: Money / logic
     case roundingDrift
     case pnlSign
     case exchangeFeeNotApplied
     case pnlPercentVsValue
     case homeTotalOmitsAccount
+    case balanceFloorRounded
+    case todayChangeSignFlipped
+    case transferDebitsWrongAccount
+    case balanceAfterAdds
+    case transferRoundsUp
+    case exchangeInverseRate
+    case exchangeCreditsWrongAccount
+    case exchangeFeeDoubled
+    case youGetShowsGross
+    case changePctSignFlipped
+    case detailPriceOffset
+    case detailChangeWrongBase
+    case estTotalIgnoresQty
+    case limitExecutesAtMarket
+    case holdingValueUsesCost
+    case totalValueOmitsHolding
+    case pnlPercentAbsOnly
 
-    // Validation
+    // MARK: Validation
     case limitValidation
     case zeroAmountAccepted
     case whitespaceRecipient
     case passcodeWeakAccepted
     case amountExceedsBalanceAllowed
+    case transferNegativeCredits
+    case exchangeSameCurrencyAllowed
+    case searchCaseSensitive
+    case sellWithoutHoldingReviewable
+    case orderQtyDefaultsZero
+    case loginAcceptsEmptyCreds
+    case cardLimitAcceptsZero
 
-    // Localization
+    // MARK: Localization
     case localeParse
     case dateTimezoneShift
+    case balanceWrongCurrencySymbol
+    case priceMissingDecimals
+    case searchTrimsNothing
 
-    // State / navigation
+    // MARK: State / navigation
     case staleBalance
     case paginationDup
     case cardToggleInvert
     case filterLeaksCategory
     case orderStuckPending
+    case quickActionTransferOpensExchange
+    case recentActivityShowsTwo
+    case exchangeRateStaleAfterSwap
+    case filterOutLeaksIn
+    case searchIgnoresCategory
+    case cryptoShownInStocks
+    case watchlistShowsAll
+    case assetRowOpensWrongDetail
+    case buyButtonPlacesSell
+    case buySellSwapped
+    case onlinePaymentsInverted
+    case transferConfirmWrongRecipient
 
-    // Concurrency / races
+    // MARK: Concurrency / races
     case doubleCharge
     case livePriceRace
     case orderDoubleSubmit
     case exchangeDoubleSubmit
+    case homeRefreshRace
 
-    // Performance
+    // MARK: Performance
     case transactionsHeavyList
     case mainThreadStall
     case feedPollsTooOften
     case transactionsSortEveryRender
+    case sparklineHeavyPoints
+    case transactionsRegroupHeavy
 
-    // UI / layout
+    // MARK: UI / layout
     case disabledButtonTappable
+    case otpResendNoCooldown
     case successToastMissing
+    case accountStripHidesGBP
+    case outgoingSignHidden
+    case transactionCountWrong
+    case detailStatHighLowSwapped
+    case qtyIncrementByTwo
+    case cardExpiryInPast
+    case otpAutoFillsCode
+    case successToastTooBrief
 
-    // Accessibility
+    // MARK: Accessibility
     case duplicateAssetA11yId
     case missingA11yLabel
     case wrongA11yLabel
+    case marketRowNoLabel
+    case freezeToggleNoLabel
 
-    // UI / layout (auth)
-    case otpResendNoCooldown
-
-    // Security / privacy
+    // MARK: Security / privacy
     case authBypass
     case noPrivacyBlur
     case otpAcceptsExpired
@@ -71,10 +121,18 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case cardNumberFullyVisible
     case cardCvvVisible
     case otpCodeInLog
+    case pinShownPlaintext
+    case otpAcceptsAnyCode
+    case passcodeAnyAccepted
+    case passcodeStoredPlaintext
+    case credentialsInLog
 
-    // Network (scenario-driven backend)
+    // MARK: Network (scenario-driven backend)
     case retryDuplicate
     case slowResponseRace
     case timeoutAsSuccess
     case staleOfflineBalance
+    case balanceReadReturnsZero
+    case transactionsDupOnFetch
+    case staleHoldingsAfterOrder
 }

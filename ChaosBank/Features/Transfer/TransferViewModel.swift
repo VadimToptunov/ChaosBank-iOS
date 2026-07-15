@@ -41,7 +41,16 @@ final class TransferViewModel {
     }
 
     var balanceAfter: Money? {
-        (amount ?? parsedAmount).map { Money(fromBalance - $0, fromCurrency) }
+        // `balanceAfterAdds`: the preview adds the amount instead of subtracting.
+        (amount ?? parsedAmount).map {
+            Money(Defects.isActive(.balanceAfterAdds) ? fromBalance + $0 : fromBalance - $0, fromCurrency)
+        }
+    }
+
+    /// Recipient shown on the confirmation sheet. `transferConfirmWrongRecipient`
+    /// shows a different name than the one entered.
+    var confirmRecipientText: String {
+        Defects.isActive(.transferConfirmWrongRecipient) ? "ACME Holdings Ltd" : effectiveRecipient
     }
 
     /// Recipient passes validation.
@@ -67,8 +76,10 @@ final class TransferViewModel {
         if a > fromBalance && !Defects.isActive(.amountExceedsBalanceAllowed) {
             return false
         }
+        // `transferNegativeCredits`: a negative amount is accepted.
+        if a < 0 { return Defects.isActive(.transferNegativeCredits) }
         // Correct: amount must be strictly positive. The `zeroAmountAccepted`
-        // defect allows a zero (or, combined with parsing, non-positive) amount.
+        // defect allows a zero amount.
         if Defects.isActive(.zeroAmountAccepted) {
             return a >= 0
         }
@@ -81,7 +92,7 @@ final class TransferViewModel {
     /// is ignored, so a rapid double-tap on Confirm still sends exactly once.
     /// The `doubleCharge` defect removes that guard, so two taps send twice.
     func confirmTransfer() async {
-        guard let amount = parsedAmount else { return }
+        guard let parsed = parsedAmount else { return }
 
         if !Defects.isActive(.doubleCharge) {
             guard !isSubmitting else { return }
@@ -90,8 +101,19 @@ final class TransferViewModel {
         defer { isSubmitting = false }
         errorMessage = nil
 
+        // `transferRoundsUp`: round the amount up to the next whole unit.
+        var amount = parsed
+        if Defects.isActive(.transferRoundsUp) {
+            var up = Decimal()
+            var input = parsed
+            NSDecimalRound(&up, &input, 0, .up)
+            amount = up
+        }
+        // `transferDebitsWrongAccount`: debit USD instead of the chosen account.
+        let debitFrom = Defects.isActive(.transferDebitsWrongAccount) ? .USD : fromCurrency
+
         do {
-            try await services.backend.transfer(from: fromCurrency, amount: amount,
+            try await services.backend.transfer(from: debitFrom, amount: amount,
                                                 recipient: effectiveRecipient, note: note,
                                                 idempotencyKey: idempotencyKey)
             services.bumpData()

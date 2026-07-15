@@ -32,8 +32,10 @@ actor MockBackend {
 
     /// Idempotency ledger: key → the transaction that key produced.
     private var processedKeys: [String: Transaction] = [:]
-    /// Immutable offline snapshot captured at init, used by staleOfflineBalance.
+    /// Immutable offline snapshots captured at init, used by staleOfflineBalance /
+    /// staleHoldingsAfterOrder.
     private let offlineAccounts: [Currency: Account]
+    private let offlineHoldings: [String: Holding]
 
     /// The account used as trading cash.
     private let cashCurrency: Currency = .USD
@@ -45,7 +47,9 @@ actor MockBackend {
         self.accountsByCurrency = seeded
         self.offlineAccounts = seeded
         self.transactions = SeedData.transactions.sorted { $0.date > $1.date }
-        self.holdings = Dictionary(uniqueKeysWithValues: SeedData.holdings.map { ($0.symbol, $0) })
+        let seededHoldings = Dictionary(uniqueKeysWithValues: SeedData.holdings.map { ($0.symbol, $0) })
+        self.holdings = seededHoldings
+        self.offlineHoldings = seededHoldings
         self.orders = []
         self.assets = Dictionary(uniqueKeysWithValues: SeedData.assets.map { ($0.symbol, $0) })
     }
@@ -69,23 +73,32 @@ actor MockBackend {
     func fetchAccounts() async -> [Account] {
         await delay()
         let source = scenario.staleOfflineBalance ? offlineAccounts : accountsByCurrency
-        return Currency.allCases.compactMap { source[$0] }
+        return Currency.allCases.compactMap { source[$0] }.map(zeroedIfNeeded)
     }
 
     func fetchAccount(_ currency: Currency, extraDelay: Duration = .zero) async -> Account? {
         await delay(extra: extraDelay)
         let source = scenario.staleOfflineBalance ? offlineAccounts : accountsByCurrency
-        return source[currency]
+        return source[currency].map(zeroedIfNeeded)
+    }
+
+    /// `balanceReadReturnsZero`: a read error surfaces as a zero balance.
+    private func zeroedIfNeeded(_ account: Account) -> Account {
+        guard scenario.balanceReadReturnsZero else { return account }
+        return Account(name: account.name, currency: account.currency, balance: 0)
     }
 
     func fetchTransactions() async -> [Transaction] {
         await delay()
-        return transactions
+        // `transactionsDupOnFetch`: every row is returned twice.
+        return scenario.transactionsDupOnFetch ? transactions.flatMap { [$0, $0] } : transactions
     }
 
     func fetchHoldings() async -> [Holding] {
         await delay()
-        return SeedData.assets.compactMap { holdings[$0.symbol] }
+        // `staleHoldingsAfterOrder`: serve the pre-order snapshot.
+        let source = scenario.staleHoldingsAfterOrder ? offlineHoldings : holdings
+        return SeedData.assets.compactMap { source[$0.symbol] }
     }
 
     func fetchOrders() async -> [Order] {
