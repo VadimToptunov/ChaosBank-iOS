@@ -19,13 +19,51 @@ nonisolated struct BuildConfig: Sendable {
 
     var seedBadge: String { String(format: "%02d", seed) }
 
-    /// Resolves the active build from launch arguments / environment.
+    /// The profile baked into this build **configuration**.
     ///
-    /// Precedence:
+    /// This is how a distributable "flaky build" is produced without duplicating
+    /// targets: one target, one binary, and a per-configuration compile flag read
+    /// in exactly this one place (never scattered through the app). Add a build
+    /// configuration that sets `SWIFT_ACTIVE_COMPILATION_CONDITIONS` and a matching
+    /// case here to introduce a new baked profile.
+    static var bakedDefaultProfile: String? {
+        #if CHAOSBANK_PROFILE_UI
+        return "ui"
+        #elseif CHAOSBANK_PROFILE_VALIDATION
+        return "validation"
+        #elseif CHAOSBANK_PROFILE_ACCESSIBILITY
+        return "accessibility"
+        #elseif CHAOSBANK_PROFILE_STATE
+        return "state"
+        #elseif CHAOSBANK_PROFILE_LOCALIZATION
+        return "localization"
+        #elseif CHAOSBANK_PROFILE_SECURITY
+        return "security"
+        #elseif CHAOSBANK_PROFILE_NETWORK
+        return "network"
+        #elseif CHAOSBANK_PROFILE_FLAKY
+        return "flaky"
+        #elseif CHAOSBANK_PROFILE_BEGINNER
+        return "beginner"
+        #elseif CHAOSBANK_PROFILE_MIDDLE
+        return "middle"
+        #elseif CHAOSBANK_PROFILE_SENIOR
+        return "senior"
+        #elseif CHAOSBANK_PROFILE_ALL
+        return "all"
+        #else
+        return nil
+        #endif
+    }
+
+    /// Resolves the active build from launch arguments / environment / build config.
+    ///
+    /// Precedence (highest first):
     ///   1. `-ChaosBankDefects a,b,c` — explicit defect list (label "custom").
-    ///   2. `-bugProfile <id>` / `CHAOSBANK_PROFILE` — a named profile.
+    ///   2. `-ChaosBankProfile <id>` / `CHAOSBANK_PROFILE` — a named profile.
     ///   3. `-ChaosBankSeed <n>` / `CHAOSBANK_SEED` — numeric seed mapping.
-    ///   4. clean.
+    ///   4. `bakedDefaultProfile` — the profile baked into this build configuration.
+    ///   5. clean.
     ///
     /// A `-ChaosBankSeed` may still override a profile's RNG seed when both are set.
     static func resolve(
@@ -38,7 +76,11 @@ nonisolated struct BuildConfig: Sendable {
             return nil
         }()
 
-        let profileID = defaults.string(forKey: "ChaosBankProfile") ?? environment["CHAOSBANK_PROFILE"]
+        // Runtime override wins; otherwise fall back to the profile baked into the
+        // build configuration.
+        let profileID = defaults.string(forKey: "ChaosBankProfile")
+            ?? environment["CHAOSBANK_PROFILE"]
+            ?? bakedDefaultProfile
 
         var seed = explicitSeed ?? 0
         var defects: Set<DefectID> = []

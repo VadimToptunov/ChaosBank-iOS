@@ -93,6 +93,29 @@ triple-tap the build badge).
 -ChaosBankShowWebLogin 1         # auto-open the web login sheet
 ```
 
+### Build configurations (distributable per-defect builds)
+
+Launch arguments configure a build at *run time* (great for dev and CI). To ship a
+**fixed, standalone build that already contains a bug set** — the way you'd ship
+prod/debug/dev — use an Xcode **build configuration**, not a separate target:
+
+- One target, one codebase. Debug/Release stay `clean` (dev/prod).
+- A configuration (e.g. **Flaky**) sets `SWIFT_ACTIVE_COMPILATION_CONDITIONS`
+  (`CHAOSBANK_PROFILE_FLAKY`) and a distinct `PRODUCT_BUNDLE_IDENTIFIER`
+  (`…ChaosBank.flaky`, so it installs alongside prod).
+- `BuildConfig.bakedDefaultProfile` reads that flag in **one place** and becomes the
+  lowest-precedence default (launch args still override it).
+
+```bash
+# Build/run/archive the flaky build — it defaults to the flaky profile on device
+xcodebuild -project ChaosBank.xcodeproj -scheme ChaosBank -configuration Flaky \
+  -destination 'platform=iOS Simulator,name=iPhone 17' build
+```
+
+Adding another baked build is mechanical: clone the `Flaky` configuration, set its
+compile flag + bundle id, and add a matching case to `bakedDefaultProfile`. No
+duplicated targets, no `#if` scattered through the app.
+
 ---
 
 ## Defect catalog (104 defects, 10 categories)
