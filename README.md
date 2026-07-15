@@ -112,9 +112,15 @@ xcodebuild -project ChaosBank.xcodeproj -scheme ChaosBank -configuration Flaky \
   -destination 'platform=iOS Simulator,name=iPhone 17' build
 ```
 
-Adding another baked build is mechanical: clone the `Flaky` configuration, set its
-compile flag + bundle id, and add a matching case to `bakedDefaultProfile`. No
-duplicated targets, no `#if` scattered through the app.
+There is a build configuration **and a shared scheme** per profile — `Flaky`, `UI`,
+`Validation`, `Accessibility`, `State`, `Localization`, `Security`, `Network`,
+`Beginner`, `Middle`, `Senior`, `All` — so you can switch the baked build from the
+Xcode scheme selector in one click (`ChaosBank-Security`, …). `Debug`/`Release`
+(scheme `ChaosBank`) stay clean and host the unit tests.
+
+Adding another baked build is mechanical: clone a configuration, set its compile
+flag + bundle id, add a matching case to `bakedDefaultProfile`, and drop in a
+scheme. No duplicated targets, no `#if` scattered through the app.
 
 ---
 
