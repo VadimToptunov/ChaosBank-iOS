@@ -281,17 +281,21 @@ xcrun simctl launch <device> VadimToptunov.ChaosBank -ChaosBankProfile flaky
 
 A unit-test target (`ChaosBankTests`, XCTest) covers the correct baseline and the
 regression pattern — the same assertion passes on `clean` and fails when a defect
-is active. 40 tests across the catalog (integrity, profiles, exercises), money &
-rounding, locale parsing, the mock backend & network scenarios, the seeded price
-feed, the auth ladder, and view-model defects.
+is active. **103 tests** across the catalog (integrity, profiles, exercises), money
+& rounding, locale parsing, the mock backend & network scenarios, the seeded price
+feed, the auth ladder, and every view model (Home, Transfer, Exchange,
+Transactions, Order, Portfolio, Card + TokenStore).
 
 ```bash
 xcodebuild test -project ChaosBank.xcodeproj -scheme ChaosBank \
-  -destination 'platform=iOS Simulator,name=iPhone 17'
+  -destination 'platform=iOS Simulator,name=iPhone 17' -enableCodeCoverage YES
 ```
 
+**Coverage.** The testable logic layer (Core, Models, view models, backend) sits at
+~88%. Total line coverage is lower because roughly two-thirds of the code is SwiftUI
+`View` bodies, which unit tests do not execute — covering those needs UI tests, and
 UI tests are intentionally left to the reference suites (see Roadmap) so the app
-stays the neutral target.
+stays a neutral target.
 
 ## Roadmap
 
