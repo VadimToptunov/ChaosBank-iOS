@@ -131,12 +131,20 @@ struct SectionHeader: View {
                 .foregroundStyle(Palette.text)
             Spacer()
             if let trailing {
-                Button(action: { trailingAction?() }) {
+                // Only wrap in a Button when there's an action. A Button here would
+                // swallow taps when the whole header is placed inside a NavigationLink.
+                if let trailingAction {
+                    Button(action: trailingAction) {
+                        Text(trailing)
+                            .font(.appBody(14, weight: .semibold))
+                            .foregroundStyle(Palette.sand)
+                    }
+                    .accessibilityIdentifier(trailingA11y ?? "")
+                } else {
                     Text(trailing)
                         .font(.appBody(14, weight: .semibold))
                         .foregroundStyle(Palette.sand)
                 }
-                .accessibilityIdentifier(trailingA11y ?? "")
             }
         }
     }

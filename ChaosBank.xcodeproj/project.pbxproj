@@ -8,6 +8,7 @@
 
 /* Begin PBXFileReference section */
 		F3B841A6300568A3000AFF41 /* ChaosBank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChaosBank.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB0000000000000000000002 /* ChaosBankTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChaosBankTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +17,22 @@
 			path = ChaosBank;
 			sourceTree = "<group>";
 		};
+		AB0000000000000000000003 /* ChaosBankTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ChaosBankTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F3B841A3300568A3000AFF41 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB0000000000000000000005 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +46,7 @@
 			isa = PBXGroup;
 			children = (
 				F3B841A8300568A3000AFF41 /* ChaosBank */,
+				AB0000000000000000000003 /* ChaosBankTests */,
 				F3B841A7300568A3000AFF41 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				F3B841A6300568A3000AFF41 /* ChaosBank.app */,
+				AB0000000000000000000002 /* ChaosBankTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +85,29 @@
 			productReference = F3B841A6300568A3000AFF41 /* ChaosBank.app */;
 			productType = "com.apple.product-type.application";
 		};
+		AB0000000000000000000001 /* ChaosBankTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AB0000000000000000000009 /* Build configuration list for PBXNativeTarget "ChaosBankTests" */;
+			buildPhases = (
+				AB0000000000000000000004 /* Sources */,
+				AB0000000000000000000005 /* Frameworks */,
+				AB0000000000000000000006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AB0000000000000000000007 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AB0000000000000000000003 /* ChaosBankTests */,
+			);
+			name = ChaosBankTests;
+			packageProductDependencies = (
+			);
+			productName = ChaosBankTests;
+			productReference = AB0000000000000000000002 /* ChaosBankTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +120,10 @@
 				TargetAttributes = {
 					F3B841A5300568A3000AFF41 = {
 						CreatedOnToolsVersion = 26.6;
+					};
+					AB0000000000000000000001 = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = F3B841A5300568A3000AFF41;
 					};
 				};
 			};
@@ -100,12 +142,20 @@
 			projectRoot = "";
 			targets = (
 				F3B841A5300568A3000AFF41 /* ChaosBank */,
+				AB0000000000000000000001 /* ChaosBankTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		F3B841A4300568A3000AFF41 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB0000000000000000000006 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +172,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AB0000000000000000000004 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AB0000000000000000000007 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F3B841A5300568A3000AFF41 /* ChaosBank */;
+			targetProxy = AB0000000000000000000008 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXContainerItemProxy section */
+		AB0000000000000000000008 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F3B8419E300568A3000AFF41 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F3B841A5300568A3000AFF41;
+			remoteInfo = ChaosBank;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin XCBuildConfiguration section */
 		F3B841AF300568A4000AFF41 /* Debug */ = {
@@ -306,6 +381,46 @@
 			};
 			name = Release;
 		};
+		AB000000000000000000000A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = VadimToptunov.ChaosBankTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ChaosBank.app/ChaosBank";
+			};
+			name = Debug;
+		};
+		AB000000000000000000000B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = VadimToptunov.ChaosBankTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ChaosBank.app/ChaosBank";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -323,6 +438,15 @@
 			buildConfigurations = (
 				F3B841B2300568A4000AFF41 /* Debug */,
 				F3B841B3300568A4000AFF41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AB0000000000000000000009 /* Build configuration list for PBXNativeTarget "ChaosBankTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB000000000000000000000A /* Debug */,
+				AB000000000000000000000B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -248,6 +248,22 @@ xcrun simctl launch <device> VadimToptunov.ChaosBank -ChaosBankProfile flaky
 
 ---
 
+## Tests
+
+A unit-test target (`ChaosBankTests`, XCTest) covers the correct baseline and the
+regression pattern — the same assertion passes on `clean` and fails when a defect
+is active. 40 tests across the catalog (integrity, profiles, exercises), money &
+rounding, locale parsing, the mock backend & network scenarios, the seeded price
+feed, the auth ladder, and view-model defects.
+
+```bash
+xcodebuild test -project ChaosBank.xcodeproj -scheme ChaosBank \
+  -destination 'platform=iOS Simulator,name=iPhone 17'
+```
+
+UI tests are intentionally left to the reference suites (see Roadmap) so the app
+stays the neutral target.
+
 ## Roadmap
 
 - Reference test suites in parallel folders (XCUITest / Swift Testing / KassiOS /
@@ -257,4 +273,4 @@ xcrun simctl launch <device> VadimToptunov.ChaosBank -ChaosBankProfile flaky
 
 ## License
 
-TBD — add a license before publishing.
+[MIT](LICENSE) © 2026 Vadim Toptunov.
