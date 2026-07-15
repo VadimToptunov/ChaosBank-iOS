@@ -1,0 +1,840 @@
+[
+  {
+    "category" : "money",
+    "condition" : "Displayed value and stored value are identical, correctly rounded (Decimal).",
+    "defects" : [
+      "roundingDrift"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Stored amount drifts (Double rounding).",
+    "expectedClean" : "Stored amount == displayed amount.",
+    "feature" : "Exchange \/ Order",
+    "id" : "IOS-MON-01",
+    "keyLocators" : [
+      "exchange.youGet",
+      "exchange.executeButton",
+      "exchange.successToast"
+    ],
+    "launchArgument" : "-ChaosBankDefects roundingDrift",
+    "task" : "Exchange EUR→USD and assert the credited history amount equals the displayed 'You get'.",
+    "title" : "Conversion rounds wrong into history"
+  },
+  {
+    "category" : "money",
+    "condition" : "P&L sign matches actual gain\/loss.",
+    "defects" : [
+      "pnlSign"
+    ],
+    "difficulty" : "junior",
+    "expectedBuggy" : "Loss shows positive \/ gain color.",
+    "expectedClean" : "Loss shows negative \/ loss color.",
+    "feature" : "Portfolio",
+    "id" : "IOS-MON-02",
+    "keyLocators" : [
+      "portfolio.holding.TSLA.pnl",
+      "portfolio.pnl"
+    ],
+    "launchArgument" : "-ChaosBankDefects pnlSign",
+    "task" : "Open Portfolio and assert TSLA's P&L renders as a loss (negative, red).",
+    "title" : "Loss displayed as gain"
+  },
+  {
+    "category" : "money",
+    "condition" : "The credited amount reflects the displayed fee.",
+    "defects" : [
+      "exchangeFeeNotApplied"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Fee ignored — credited amount is higher than shown.",
+    "expectedClean" : "Credited amount reflects the displayed fee.",
+    "feature" : "Exchange",
+    "id" : "IOS-MON-03",
+    "keyLocators" : [
+      "exchange.fee",
+      "exchange.youGet",
+      "exchange.executeButton"
+    ],
+    "launchArgument" : "-ChaosBankDefects exchangeFeeNotApplied",
+    "task" : "Exchange and assert the credited amount matches the fee-deducted 'You get'.",
+    "title" : "Exchange ignores the fee it displays"
+  },
+  {
+    "category" : "money",
+    "condition" : "P&L percent is measured against cost basis.",
+    "defects" : [
+      "pnlPercentVsValue"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Percent measured against market value.",
+    "expectedClean" : "Percent measured against cost basis.",
+    "feature" : "Portfolio",
+    "id" : "IOS-MON-04",
+    "keyLocators" : [
+      "portfolio.pnl",
+      "portfolio.totalValue"
+    ],
+    "launchArgument" : "-ChaosBankDefects pnlPercentVsValue",
+    "task" : "Assert portfolio P&L % equals P&L ÷ cost basis.",
+    "title" : "P&L % divides by market value, not cost"
+  },
+  {
+    "category" : "money",
+    "condition" : "Total balance sums every account.",
+    "defects" : [
+      "homeTotalOmitsAccount"
+    ],
+    "difficulty" : "junior",
+    "expectedBuggy" : "GBP account omitted from the total.",
+    "expectedClean" : "Total = EUR + USD + GBP.",
+    "feature" : "Home",
+    "id" : "IOS-MON-05",
+    "keyLocators" : [
+      "home.totalBalance",
+      "home.account.GBP"
+    ],
+    "launchArgument" : "-ChaosBankDefects homeTotalOmitsAccount",
+    "task" : "Assert Home total equals the sum of all three accounts.",
+    "title" : "Total balance omits an account"
+  },
+  {
+    "category" : "validation",
+    "condition" : "Limit sell below market warns; qty must be > 0.",
+    "defects" : [
+      "limitValidation"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Zero qty accepted; no warning.",
+    "expectedClean" : "Zero qty blocked; below-market limit sell warns.",
+    "feature" : "Order",
+    "id" : "IOS-VAL-01",
+    "keyLocators" : [
+      "order.qtyStepper.value",
+      "order.reviewButton",
+      "order.warning"
+    ],
+    "launchArgument" : "-ChaosBankDefects limitValidation",
+    "task" : "Set qty to 0 and assert Review is disabled; place a below-market limit sell and assert a warning shows.",
+    "title" : "Bad limit orders accepted silently"
+  },
+  {
+    "category" : "validation",
+    "condition" : "Continue requires an amount greater than zero.",
+    "defects" : [
+      "zeroAmountAccepted"
+    ],
+    "difficulty" : "junior",
+    "expectedBuggy" : "Continue enabled at amount 0.",
+    "expectedClean" : "Continue disabled at amount 0.",
+    "feature" : "Transfer",
+    "id" : "IOS-VAL-02",
+    "keyLocators" : [
+      "transfer.amountField",
+      "transfer.continueButton"
+    ],
+    "launchArgument" : "-ChaosBankDefects zeroAmountAccepted",
+    "task" : "Enter recipient and amount 0; assert Continue is disabled.",
+    "title" : "Zero-amount transfer allowed"
+  },
+  {
+    "category" : "validation",
+    "condition" : "Leading\/trailing whitespace is trimmed before validation.",
+    "defects" : [
+      "whitespaceRecipient"
+    ],
+    "difficulty" : "junior",
+    "expectedBuggy" : "Spaces accepted as a valid recipient.",
+    "expectedClean" : "Whitespace trimmed → recipient empty → disabled.",
+    "feature" : "Transfer",
+    "id" : "IOS-VAL-03",
+    "keyLocators" : [
+      "transfer.recipientField",
+      "transfer.continueButton"
+    ],
+    "launchArgument" : "-ChaosBankDefects whitespaceRecipient",
+    "task" : "Enter a spaces-only recipient; assert Continue stays disabled.",
+    "title" : "Recipient whitespace not trimmed"
+  },
+  {
+    "category" : "validation",
+    "condition" : "The app passcode must be the full required length.",
+    "defects" : [
+      "passcodeWeakAccepted"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Accepts 4 digits.",
+    "expectedClean" : "Requires 6 digits.",
+    "feature" : "Auth",
+    "id" : "IOS-VAL-04",
+    "keyLocators" : [
+      "auth.passcodeField",
+      "auth.passcodeSubmit",
+      "auth.passcodeError"
+    ],
+    "launchArgument" : "-ChaosBankDefects passcodeWeakAccepted",
+    "task" : "During passcode setup, assert a 4-digit passcode is rejected (6 required).",
+    "title" : "Short passcode accepted"
+  },
+  {
+    "category" : "validation",
+    "condition" : "Continue is blocked when the amount exceeds the balance.",
+    "defects" : [
+      "amountExceedsBalanceAllowed"
+    ],
+    "difficulty" : "junior",
+    "expectedBuggy" : "Continue enabled beyond the balance.",
+    "expectedClean" : "Over-balance amount blocks Continue.",
+    "feature" : "Transfer",
+    "id" : "IOS-VAL-05",
+    "keyLocators" : [
+      "transfer.amountField",
+      "transfer.continueButton",
+      "transfer.balanceAfter"
+    ],
+    "launchArgument" : "-ChaosBankDefects amountExceedsBalanceAllowed",
+    "task" : "Enter an amount above the balance; assert Continue is disabled.",
+    "title" : "Transfer over balance allowed"
+  },
+  {
+    "category" : "localization",
+    "condition" : "Amounts parse correctly under the active locale.",
+    "defects" : [
+      "localeParse"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Collapses toward 1.0005.",
+    "expectedClean" : "Parses to 1000.50.",
+    "feature" : "Exchange \/ Transfer",
+    "id" : "IOS-LOC-01",
+    "keyLocators" : [
+      "transfer.amountField",
+      "transfer.balanceAfter",
+      "exchange.amountField"
+    ],
+    "launchArgument" : "-ChaosBankDefects localeParse",
+    "task" : "Type '1,000.50' into an amount field under en_US; assert it parses to 1000.50.",
+    "title" : "1,000.50 parsed as 1.00050"
+  },
+  {
+    "category" : "localization",
+    "condition" : "Dates render in a stable, correct timezone.",
+    "defects" : [
+      "dateTimezoneShift"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Dates shifted to a far-off timezone.",
+    "expectedClean" : "Dates in the app's home timezone.",
+    "feature" : "Transactions",
+    "id" : "IOS-LOC-02",
+    "keyLocators" : [
+      "transactions.list",
+      "transactions.row.t01"
+    ],
+    "launchArgument" : "-ChaosBankDefects dateTimezoneShift",
+    "task" : "Open Transactions and assert a known transaction's day\/time matches the home timezone.",
+    "title" : "Transaction date shifts by timezone"
+  },
+  {
+    "category" : "state",
+    "condition" : "Balance reflects latest state after any mutation.",
+    "defects" : [
+      "staleBalance"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Home keeps showing the pre-transfer balance.",
+    "expectedClean" : "Balance refreshes after the transfer.",
+    "feature" : "Home",
+    "id" : "IOS-STA-01",
+    "keyLocators" : [
+      "home.totalBalance",
+      "home.quickAction.transfer",
+      "transfer.confirmButton"
+    ],
+    "launchArgument" : "-ChaosBankDefects staleBalance",
+    "task" : "Note the Home balance, make a transfer, return to Home; assert the balance decreased.",
+    "title" : "Dashboard shows pre-transfer balance"
+  },
+  {
+    "category" : "state",
+    "condition" : "Each transaction appears once.",
+    "defects" : [
+      "paginationDup"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "A boundary transaction appears twice.",
+    "expectedClean" : "No duplicates after Load more.",
+    "feature" : "Transactions",
+    "id" : "IOS-STA-02",
+    "keyLocators" : [
+      "transactions.loadMore",
+      "transactions.list"
+    ],
+    "launchArgument" : "-ChaosBankDefects paginationDup",
+    "task" : "Tap Load more and assert each transaction id appears exactly once.",
+    "title" : "Transaction duplicated after Load more"
+  },
+  {
+    "category" : "state",
+    "condition" : "Toggle state persists and reads back correctly.",
+    "defects" : [
+      "cardToggleInvert"
+    ],
+    "difficulty" : "junior",
+    "expectedBuggy" : "Freeze reads back inverted.",
+    "expectedClean" : "Freeze state reads back correctly.",
+    "feature" : "Card",
+    "id" : "IOS-STA-03",
+    "keyLocators" : [
+      "card.freezeToggle",
+      "card.frozenBadge"
+    ],
+    "launchArgument" : "-ChaosBankDefects cardToggleInvert",
+    "task" : "Turn on Freeze; assert the FROZEN badge appears.",
+    "title" : "Freeze toggle reads back inverted"
+  },
+  {
+    "category" : "state",
+    "condition" : "A filter shows only its own category.",
+    "defects" : [
+      "filterLeaksCategory"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Money-out rows leak through.",
+    "expectedClean" : "Filter shows only money-in rows.",
+    "feature" : "Transactions",
+    "id" : "IOS-STA-04",
+    "keyLocators" : [
+      "transactions.filter.in",
+      "transactions.list"
+    ],
+    "launchArgument" : "-ChaosBankDefects filterLeaksCategory",
+    "task" : "Select the Money-in filter; assert every visible row is money-in.",
+    "title" : "Money-in filter leaks money-out rows"
+  },
+  {
+    "category" : "state",
+    "condition" : "A filled order reports filled, not pending.",
+    "defects" : [
+      "orderStuckPending"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Order stuck showing pending.",
+    "expectedClean" : "Order reports filled.",
+    "feature" : "Order",
+    "id" : "IOS-STA-05",
+    "keyLocators" : [
+      "order.placeButton",
+      "order.statusToast"
+    ],
+    "launchArgument" : "-ChaosBankDefects orderStuckPending",
+    "task" : "Place a market order; assert the status reports filled.",
+    "title" : "Filled order still shows pending"
+  },
+  {
+    "category" : "concurrency",
+    "condition" : "Confirm is idempotent; one tap = one transaction.",
+    "defects" : [
+      "doubleCharge"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Two transactions (double charge).",
+    "expectedClean" : "Idempotent — one transaction.",
+    "feature" : "Transfer",
+    "id" : "IOS-CON-01",
+    "keyLocators" : [
+      "transfer.confirmButton",
+      "home.totalBalance"
+    ],
+    "launchArgument" : "-ChaosBankDefects doubleCharge",
+    "task" : "Rapidly double-tap Confirm; assert exactly one transaction \/ one debit.",
+    "title" : "Rapid double-tap sends twice"
+  },
+  {
+    "category" : "concurrency",
+    "condition" : "Confirmation price equals the price acted on.",
+    "defects" : [
+      "livePriceRace"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Order re-reads live price → differs.",
+    "expectedClean" : "Order price == tapped price.",
+    "feature" : "Markets \/ Order",
+    "id" : "IOS-CON-02",
+    "keyLocators" : [
+      "asset.price",
+      "asset.buyButton",
+      "order.refPrice"
+    ],
+    "launchArgument" : "-ChaosBankDefects livePriceRace",
+    "task" : "Read the asset price, tap Buy, and assert the order's reference price equals it.",
+    "title" : "Order price ≠ tapped price"
+  },
+  {
+    "category" : "concurrency",
+    "condition" : "Place is idempotent; one tap = one order.",
+    "defects" : [
+      "orderDoubleSubmit"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Two orders placed.",
+    "expectedClean" : "Idempotent — one order.",
+    "feature" : "Order",
+    "id" : "IOS-CON-03",
+    "keyLocators" : [
+      "order.placeButton",
+      "portfolio.holding.AAPL"
+    ],
+    "launchArgument" : "-ChaosBankDefects orderDoubleSubmit",
+    "task" : "Double-tap Place order; assert only one order\/holding change occurs.",
+    "title" : "Rapid double-tap places two orders"
+  },
+  {
+    "category" : "concurrency",
+    "condition" : "Execute is idempotent; one tap = one exchange.",
+    "defects" : [
+      "exchangeDoubleSubmit"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Two exchanges executed.",
+    "expectedClean" : "Idempotent — one exchange.",
+    "feature" : "Exchange",
+    "id" : "IOS-CON-04",
+    "keyLocators" : [
+      "exchange.executeButton",
+      "home.account.USD"
+    ],
+    "launchArgument" : "-ChaosBankDefects exchangeDoubleSubmit",
+    "task" : "Double-tap Exchange; assert only one exchange executes.",
+    "title" : "Rapid double-tap exchanges twice"
+  },
+  {
+    "category" : "performance",
+    "condition" : "Long lists render lazily and stay smooth.",
+    "defects" : [
+      "transactionsHeavyList"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Whole huge list rendered at once → hitches.",
+    "expectedClean" : "Lazy, paginated, smooth.",
+    "feature" : "Transactions",
+    "id" : "IOS-PERF-01",
+    "keyLocators" : [
+      "transactions.list",
+      "transactions.loadMore"
+    ],
+    "launchArgument" : "-ChaosBankDefects transactionsHeavyList",
+    "task" : "Open Transactions and assert scrolling stays responsive \/ paginated.",
+    "title" : "History renders a huge non-lazy list"
+  },
+  {
+    "category" : "performance",
+    "condition" : "Work stays off the main thread; the UI never hangs.",
+    "defects" : [
+      "mainThreadStall"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "UI blocks ~1.2s on open.",
+    "expectedClean" : "No main-thread hang on open.",
+    "feature" : "Portfolio",
+    "id" : "IOS-PERF-02",
+    "keyLocators" : [
+      "portfolio.root",
+      "portfolio.totalValue"
+    ],
+    "launchArgument" : "-ChaosBankDefects mainThreadStall",
+    "task" : "Open Portfolio and assert the tab becomes responsive within a small budget.",
+    "title" : "Portfolio blocks the main thread on open"
+  },
+  {
+    "category" : "performance",
+    "condition" : "The live feed polls at a sane interval.",
+    "defects" : [
+      "feedPollsTooOften"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Polls ~10× too often.",
+    "expectedClean" : "Polls at a sane interval (~3s).",
+    "feature" : "Markets",
+    "id" : "IOS-PERF-03",
+    "keyLocators" : [
+      "markets.liveBadge"
+    ],
+    "launchArgument" : "-ChaosBankDefects feedPollsTooOften",
+    "task" : "In live mode, assert the quote endpoint isn't polled excessively.",
+    "title" : "Live feed polls 10× too often"
+  },
+  {
+    "category" : "performance",
+    "condition" : "Expensive work is not redone on every render.",
+    "defects" : [
+      "transactionsSortEveryRender"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Whole list re-sorted on every render.",
+    "expectedClean" : "Sort computed once.",
+    "feature" : "Transactions",
+    "id" : "IOS-PERF-04",
+    "keyLocators" : [
+      "transactions.list"
+    ],
+    "launchArgument" : "-ChaosBankDefects transactionsSortEveryRender",
+    "task" : "Profile Transactions rendering; assert the list isn't re-sorted each render.",
+    "title" : "History re-sorts on every render"
+  },
+  {
+    "category" : "ui",
+    "condition" : "A disabled-looking control is actually non-interactive.",
+    "defects" : [
+      "disabledButtonTappable"
+    ],
+    "difficulty" : "junior",
+    "expectedBuggy" : "Button looks disabled but is hittable.",
+    "expectedClean" : "Disabled-looking button is non-interactive.",
+    "feature" : "Transfer",
+    "id" : "IOS-UI-01",
+    "keyLocators" : [
+      "transfer.continueButton"
+    ],
+    "launchArgument" : "-ChaosBankDefects disabledButtonTappable",
+    "task" : "With an invalid form, assert Continue reports isEnabled == false.",
+    "title" : "Button looks disabled but still fires"
+  },
+  {
+    "category" : "ui",
+    "condition" : "A successful action shows a confirmation toast.",
+    "defects" : [
+      "successToastMissing"
+    ],
+    "difficulty" : "junior",
+    "expectedBuggy" : "No confirmation toast.",
+    "expectedClean" : "Confirmation toast shown.",
+    "feature" : "Transfer",
+    "id" : "IOS-UI-02",
+    "keyLocators" : [
+      "transfer.confirmButton",
+      "transfer.successToast"
+    ],
+    "launchArgument" : "-ChaosBankDefects successToastMissing",
+    "task" : "Complete a transfer; assert the success toast appears.",
+    "title" : "No success toast after a transfer"
+  },
+  {
+    "category" : "accessibility",
+    "condition" : "Every element has a unique, stable accessibility identifier.",
+    "defects" : [
+      "duplicateAssetA11yId"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "NVDA collides onto AAPL's identifier.",
+    "expectedClean" : "Every row has a unique identifier.",
+    "feature" : "Markets",
+    "id" : "IOS-A11Y-01",
+    "keyLocators" : [
+      "markets.asset.AAPL",
+      "markets.asset.NVDA"
+    ],
+    "launchArgument" : "-ChaosBankDefects duplicateAssetA11yId",
+    "task" : "In Markets, assert each asset identifier matches exactly one element.",
+    "title" : "Two market rows share one identifier"
+  },
+  {
+    "category" : "accessibility",
+    "condition" : "Every control exposes a meaningful accessibility label.",
+    "defects" : [
+      "missingA11yLabel"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Label is empty.",
+    "expectedClean" : "Label is 'Place order'.",
+    "feature" : "Order",
+    "id" : "IOS-A11Y-02",
+    "keyLocators" : [
+      "order.placeButton"
+    ],
+    "launchArgument" : "-ChaosBankDefects missingA11yLabel",
+    "task" : "Assert the Place-order button exposes a non-empty accessibility label.",
+    "title" : "Place-order button has no accessibility label"
+  },
+  {
+    "category" : "accessibility",
+    "condition" : "A control's accessibility label matches its action.",
+    "defects" : [
+      "wrongA11yLabel"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Label says 'Sell'.",
+    "expectedClean" : "Label matches the action ('Buy').",
+    "feature" : "Asset detail",
+    "id" : "IOS-A11Y-03",
+    "keyLocators" : [
+      "asset.buyButton"
+    ],
+    "launchArgument" : "-ChaosBankDefects wrongA11yLabel",
+    "task" : "Assert the Buy button's accessibility label reads 'Buy'.",
+    "title" : "Buy button is labelled 'Sell'"
+  },
+  {
+    "category" : "ui",
+    "condition" : "Resend is blocked until the cooldown elapses.",
+    "defects" : [
+      "otpResendNoCooldown"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Resend fires during cooldown.",
+    "expectedClean" : "Resend blocked during cooldown.",
+    "feature" : "Auth",
+    "id" : "IOS-UI-03",
+    "keyLocators" : [
+      "auth.otpResend",
+      "auth.otpExpiry"
+    ],
+    "launchArgument" : "-ChaosBankDefects otpResendNoCooldown",
+    "task" : "On the OTP screen, assert Resend is disabled until the cooldown elapses.",
+    "title" : "OTP resend ignores the cooldown"
+  },
+  {
+    "category" : "security",
+    "condition" : "Sensitive screens always require the gate.",
+    "defects" : [
+      "authBypass"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "App stays unlocked after backgrounding.",
+    "expectedClean" : "Background re-locks to passcode entry.",
+    "feature" : "Auth",
+    "id" : "IOS-SEC-01",
+    "keyLocators" : [
+      "auth.passcode",
+      "tabBar.home"
+    ],
+    "launchArgument" : "-ChaosBankDefects authBypass",
+    "task" : "Unlock, background then foreground the app; assert re-auth is required.",
+    "title" : "Gate skipped after backgrounding"
+  },
+  {
+    "category" : "security",
+    "condition" : "Sensitive screens are obscured when the app is inactive.",
+    "defects" : [
+      "noPrivacyBlur"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Balances\/card leak into the switcher.",
+    "expectedClean" : "Sensitive content is covered when inactive.",
+    "feature" : "Card \/ Auth",
+    "id" : "IOS-SEC-02",
+    "keyLocators" : [
+      "privacy.cover"
+    ],
+    "launchArgument" : "-ChaosBankDefects noPrivacyBlur",
+    "task" : "Send the app to the inactive\/switcher state; assert the privacy cover appears.",
+    "title" : "Sensitive data visible in app switcher"
+  },
+  {
+    "category" : "security",
+    "condition" : "An expired one-time code is rejected.",
+    "defects" : [
+      "otpAcceptsExpired"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Expired code accepted.",
+    "expectedClean" : "Expired code rejected.",
+    "feature" : "Auth",
+    "id" : "IOS-SEC-03",
+    "keyLocators" : [
+      "auth.otpField",
+      "auth.otpError",
+      "auth.otpExpiry"
+    ],
+    "launchArgument" : "-ChaosBankDefects otpAcceptsExpired",
+    "task" : "Let the OTP expire (>20s), enter the code; assert it is rejected.",
+    "title" : "Expired OTP still accepted"
+  },
+  {
+    "category" : "security",
+    "condition" : "Too many wrong codes locks the OTP step.",
+    "defects" : [
+      "otpNoLockout"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "No lockout — brute-forceable.",
+    "expectedClean" : "Locks after 3 wrong attempts.",
+    "feature" : "Auth",
+    "id" : "IOS-SEC-04",
+    "keyLocators" : [
+      "auth.otpField",
+      "auth.otpError"
+    ],
+    "launchArgument" : "-ChaosBankDefects otpNoLockout",
+    "task" : "Enter a wrong code 3×; assert the OTP step locks.",
+    "title" : "No lockout after repeated wrong OTP"
+  },
+  {
+    "category" : "security",
+    "condition" : "An idle session re-locks after the timeout.",
+    "defects" : [
+      "sessionTimeoutDisabled"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Session never times out.",
+    "expectedClean" : "Idle session re-locks.",
+    "feature" : "Auth",
+    "id" : "IOS-SEC-05",
+    "keyLocators" : [
+      "auth.passcode",
+      "tabBar.home"
+    ],
+    "launchArgument" : "-ChaosBankDefects sessionTimeoutDisabled",
+    "task" : "Leave the app idle past the timeout; assert it re-locks.",
+    "title" : "Session never times out"
+  },
+  {
+    "category" : "security",
+    "condition" : "Secrets live in the Keychain, never in UserDefaults.",
+    "defects" : [
+      "tokenInUserDefaults"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Token written to UserDefaults.",
+    "expectedClean" : "Token in Keychain only.",
+    "feature" : "Auth",
+    "id" : "IOS-SEC-06",
+    "keyLocators" : [
+      "dev.tokenStorage"
+    ],
+    "launchArgument" : "-ChaosBankDefects tokenInUserDefaults",
+    "task" : "After login, inspect storage; assert the session token is NOT in UserDefaults.",
+    "title" : "Session token stored in UserDefaults"
+  },
+  {
+    "category" : "security",
+    "condition" : "The card PAN is masked except the last 4 digits.",
+    "defects" : [
+      "cardNumberFullyVisible"
+    ],
+    "difficulty" : "junior",
+    "expectedBuggy" : "Full PAN visible.",
+    "expectedClean" : "Masked PAN.",
+    "feature" : "Card",
+    "id" : "IOS-SEC-07",
+    "keyLocators" : [
+      "card.number"
+    ],
+    "launchArgument" : "-ChaosBankDefects cardNumberFullyVisible",
+    "task" : "Assert the card number is masked except the last four digits.",
+    "title" : "Full card number shown unmasked"
+  },
+  {
+    "category" : "security",
+    "condition" : "The CVV is never displayed on screen.",
+    "defects" : [
+      "cardCvvVisible"
+    ],
+    "difficulty" : "junior",
+    "expectedBuggy" : "CVV printed on the card.",
+    "expectedClean" : "CVV never displayed.",
+    "feature" : "Card",
+    "id" : "IOS-SEC-08",
+    "keyLocators" : [
+      "card.cvv",
+      "card.visual"
+    ],
+    "launchArgument" : "-ChaosBankDefects cardCvvVisible",
+    "task" : "Assert no CVV is shown on the card face.",
+    "title" : "CVV shown on the card face"
+  },
+  {
+    "category" : "security",
+    "condition" : "Secrets are never logged.",
+    "defects" : [
+      "otpCodeInLog"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "OTP code written to the console.",
+    "expectedClean" : "No secret in logs.",
+    "feature" : "Auth",
+    "id" : "IOS-SEC-09",
+    "keyLocators" : [
+      "auth.otpField"
+    ],
+    "launchArgument" : "-ChaosBankDefects otpCodeInLog",
+    "task" : "Inspect the console during OTP; assert the code is never logged.",
+    "title" : "OTP code written to the console log"
+  },
+  {
+    "category" : "network",
+    "condition" : "Retries are idempotent; a retried request never double-posts.",
+    "defects" : [
+      "retryDuplicate"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Retry double-posts the payment.",
+    "expectedClean" : "Retry is idempotent (same key).",
+    "feature" : "Transfer \/ Network",
+    "id" : "IOS-NET-01",
+    "keyLocators" : [
+      "transfer.retryButton",
+      "transfer.confirmButton",
+      "home.totalBalance"
+    ],
+    "launchArgument" : "-ChaosBankDefects retryDuplicate",
+    "task" : "Trigger a timeout, tap Retry; assert only one transaction\/debit results.",
+    "title" : "Retry after slow response duplicates the payment"
+  },
+  {
+    "category" : "network",
+    "condition" : "An out-of-order\/late response never clobbers newer data.",
+    "defects" : [
+      "slowResponseRace"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Stale response clobbers the fresh balance.",
+    "expectedClean" : "Stale late response is dropped.",
+    "feature" : "Markets \/ Network",
+    "id" : "IOS-NET-02",
+    "keyLocators" : [
+      "exchange.sellCurrency",
+      "exchange.amountField"
+    ],
+    "launchArgument" : "-ChaosBankDefects slowResponseRace",
+    "task" : "Switch the sell currency quickly; assert the balance shows the newest currency.",
+    "title" : "Stale response overwrites fresh state"
+  },
+  {
+    "category" : "network",
+    "condition" : "A failed\/timed-out request is surfaced as an error, not success.",
+    "defects" : [
+      "timeoutAsSuccess"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Timeout shown as success.",
+    "expectedClean" : "Timeout surfaced as an error.",
+    "feature" : "Transfer \/ Network",
+    "id" : "IOS-NET-03",
+    "keyLocators" : [
+      "transfer.confirmButton",
+      "transfer.successToast",
+      "transfer.error"
+    ],
+    "launchArgument" : "-ChaosBankDefects timeoutAsSuccess",
+    "task" : "Make a transfer that times out; assert an error (not success) is shown.",
+    "title" : "Timeout shown as a successful transfer"
+  },
+  {
+    "category" : "network",
+    "condition" : "A stale cache is refreshed or clearly marked as stale.",
+    "defects" : [
+      "staleOfflineBalance"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Reads keep serving a stale snapshot.",
+    "expectedClean" : "Reads reflect the latest state.",
+    "feature" : "Home \/ Network",
+    "id" : "IOS-NET-04",
+    "keyLocators" : [
+      "home.totalBalance",
+      "home.account.EUR"
+    ],
+    "launchArgument" : "-ChaosBankDefects staleOfflineBalance",
+    "task" : "Mutate a balance and refresh; assert reads reflect the change.",
+    "title" : "Offline cache shows an outdated balance"
+  }
+]
