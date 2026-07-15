@@ -99,10 +99,11 @@ Launch arguments configure a build at *run time* (great for dev and CI). To ship
 **fixed, standalone build that already contains a bug set** — the way you'd ship
 prod/debug/dev — use an Xcode **build configuration**, not a separate target:
 
-- One target, one codebase. Debug/Release stay `clean` (dev/prod).
-- A configuration (e.g. **Flaky**) sets `SWIFT_ACTIVE_COMPILATION_CONDITIONS`
-  (`CHAOSBANK_PROFILE_FLAKY`) and a distinct `PRODUCT_BUNDLE_IDENTIFIER`
-  (`…ChaosBank.flaky`, so it installs alongside prod).
+- One target, one codebase. `Debug` (debug) and `Release` (prod) stay `clean`.
+- A configuration (e.g. **Flaky**) is Debug-based (testable/debuggable), sets
+  `SWIFT_ACTIVE_COMPILATION_CONDITIONS` (`CHAOSBANK_PROFILE_FLAKY`), a distinct
+  `PRODUCT_BUNDLE_IDENTIFIER` (`…ChaosBank.flaky`) and display name
+  (**ChaosBank Flaky**), so it installs alongside prod with its own icon label.
 - `BuildConfig.bakedDefaultProfile` reads that flag in **one place** and becomes the
   lowest-precedence default (launch args still override it).
 
