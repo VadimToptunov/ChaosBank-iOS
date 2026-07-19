@@ -100,6 +100,13 @@ struct TransferView: View {
                         .accessibilityIdentifier(A11y.Transfer.error)
                 }
 
+                if vm.kycBlocked {
+                    Text("⚠︎ Verify your identity (KYC) to send over €1,000.")
+                        .font(.appBody(13, weight: .medium))
+                        .foregroundStyle(Palette.loss)
+                        .accessibilityIdentifier(A11y.Transfer.kycNotice)
+                }
+
                 // `disabledButtonTappable` defect: the button looks disabled when
                 // the form is invalid but is still interactive.
                 let fakeDisabled = Defects.isActive(.disabledButtonTappable)

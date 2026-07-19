@@ -2145,5 +2145,25 @@
     "launchArgument" : "-ChaosBankDefects templatePrefillsWrongAmount",
     "task" : "On Transfer, tap the Rent template and assert the amount field prefills its saved value (1200.00).",
     "title" : "Payment template prefills the wrong amount"
+  },
+  {
+    "category" : "security",
+    "condition" : "A large transfer is blocked until identity (KYC) is verified.",
+    "defects" : [
+      "kycBypassAllowsTransfer"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Unverified user can still send a large transfer.",
+    "expectedClean" : "Large transfer blocked until KYC is verified.",
+    "feature" : "Transfer \/ KYC",
+    "id" : "IOS-SEC-17",
+    "keyLocators" : [
+      "dev.kycToggle",
+      "transfer.continueButton",
+      "transfer.kycNotice"
+    ],
+    "launchArgument" : "-ChaosBankDefects kycBypassAllowsTransfer",
+    "task" : "Turn KYC off (dev menu), enter a €2000 transfer, and assert Continue stays disabled.",
+    "title" : "Unverified KYC still sends large transfers"
   }
 ]

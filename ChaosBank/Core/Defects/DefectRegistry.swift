@@ -424,6 +424,10 @@ nonisolated enum DefectRegistry {
                feature: "Auth", category: .security, severity: .critical,
                violates: "Biometrics are a fast re-entry only; they never skip initial login/OTP/passcode.",
                flakiness: .deterministic),
+        Defect(id: .kycBypassAllowsTransfer, title: "Unverified KYC still sends large transfers",
+               feature: "Transfer / KYC", category: .security, severity: .critical,
+               violates: "A large transfer is blocked until identity (KYC) is verified.",
+               flakiness: .deterministic),
 
         // MARK: - Batch: network
         Defect(id: .balanceReadReturnsZero, title: "Balance read returns zero on error",

@@ -69,8 +69,15 @@ final class TransferViewModel {
         Defects.isActive(.whitespaceRecipient) ? recipient : recipient.trimmingCharacters(in: .whitespaces)
     }
 
+    /// True when an unverified user is blocked from a large transfer (see KycGate).
+    var kycBlocked: Bool {
+        !KycGate.allowsTransfer(parsedAmount ?? 0, verified: services.kyc.verified)
+    }
+
     var canContinue: Bool {
         guard recipientValid, let a = parsedAmount else { return false }
+        // Large transfers require a verified identity; `kycBypassAllowsTransfer` skips it.
+        if !KycGate.allowsTransfer(a, verified: services.kyc.verified) { return false }
         // Correct: the amount must not exceed the balance. The
         // `amountExceedsBalanceAllowed` defect skips this client-side check.
         if a > fromBalance && !Defects.isActive(.amountExceedsBalanceAllowed) {

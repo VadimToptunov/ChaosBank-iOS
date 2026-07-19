@@ -334,6 +334,11 @@ nonisolated enum Exercises {
             expectedClean: "Template prefills its exact saved amount.",
             expectedBuggy: "Prefilled amount is wrong (e.g. ×10).",
             locators: ["transfer.template.t1", "transfer.amountField"]),
+        .kycBypassAllowsTransfer: Spec(difficulty: "senior",
+            task: "Turn KYC off (dev menu), enter a €2000 transfer, and assert Continue stays disabled.",
+            expectedClean: "Large transfer blocked until KYC is verified.",
+            expectedBuggy: "Unverified user can still send a large transfer.",
+            locators: ["dev.kycToggle", "transfer.continueButton", "transfer.kycNotice"]),
     ]
 
     static let all: [Exercise] = {

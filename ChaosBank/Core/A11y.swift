@@ -56,6 +56,7 @@ enum A11y {
         static let networkCondition = "dev.networkCondition"
         static func networkConditionOption(_ kind: String) -> String { "dev.networkCondition.\(kind)" }
         static let rtlToggle = "dev.rtlToggle"
+        static let kycToggle = "dev.kycToggle"
         static let localeSelector = "dev.localeSelector"
         static let localeSample = "dev.localeSample"
         static let localeCurrencySample = "dev.localeCurrencySample"
@@ -136,6 +137,7 @@ enum A11y {
         static let error = "transfer.error"
         static let templatesRow = "transfer.templatesRow"
         static func template(_ id: String) -> String { "transfer.template.\(id)" }
+        static let kycNotice = "transfer.kycNotice"
     }
 
     enum Exchange {

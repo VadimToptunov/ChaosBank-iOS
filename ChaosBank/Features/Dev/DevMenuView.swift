@@ -121,6 +121,15 @@ struct DevMenuView: View {
 
                     section("Security") {
                         CardSurface {
+                            Toggle(isOn: Binding(get: { services.kyc.verified },
+                                                 set: { services.kyc.applyVerified($0) })) {
+                                Text("KYC verified")
+                                    .font(.appBody(15, weight: .medium)).foregroundStyle(Palette.text)
+                            }
+                            .tint(Palette.sand)
+                            .accessibilityIdentifier(A11y.Dev.kycToggle)
+                        }
+                        CardSurface {
                             HStack {
                                 Text("Session token storage")
                                     .font(.appBody(13)).foregroundStyle(Palette.muted)
