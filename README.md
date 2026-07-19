@@ -127,13 +127,15 @@ scheme. No duplicated targets, no `#if` scattered through the app.
 
 ---
 
-## Defect catalog (104 defects, 10 categories)
+## Defect catalog (106 defects, 10 categories)
 
 Every defect ships **OFF** in the `clean` profile. Counts by category: money 22,
-state 17, security 14, validation 12, ui 11, network 7, performance 6,
-concurrency 5, localization 5, accessibility 5. The **complete, machine-readable
-list** is in [`exercises.json`](exercises.json) (one exercise per defect); the
-table below is a representative selection.
+state 17, security 14, validation 12, ui 12, network 8, performance 6,
+concurrency 5, localization 5, accessibility 5. The latest additions are the first
+**reliability stressors** (`flakyAnimation`, `offlineBannerMissing`) — see
+[`ROADMAP.md`](ROADMAP.md). The **complete, machine-readable list** is in
+[`exercises.json`](exercises.json) (one exercise per defect); the table below is a
+representative selection.
 
 | Category | Defect | What it breaks |
 |---|---|---|
@@ -181,6 +183,8 @@ table below is a representative selection.
 | | `mainThreadStall` | Portfolio blocks the main thread on open |
 | | `feedPollsTooOften` | live feed polls 10× too often |
 | | `transactionsSortEveryRender` | history re-sorts on every render |
+| **Reliability** ⭑ | `flakyAnimation` | ticker flash settle-time jitters → wait-for-idle flakes |
+| | `offlineBannerMissing` | offline, but no banner — cached data served silently |
 
 ---
 
@@ -285,8 +289,8 @@ xcrun simctl launch <device> VadimToptunov.ChaosBank -ChaosBankProfile flaky
 A unit-test target (`ChaosBankTests`, XCTest) covers the correct baseline and the
 regression pattern — the same assertion passes on `clean` and fails when a defect
 is active. **161 tests** across the catalog (integrity, profiles, exercises), money
-& rounding, locale parsing, the mock backend & every network scenario/error path,
-the seeded price feed, the auth ladder, and every view model (Home, Transfer,
+& rounding, locale parsing, the mock backend & every network scenario/error path
+(including offline mode), the seeded price feed, the auth ladder, and every view model (Home, Transfer,
 Exchange, Transactions, Order, Portfolio, Card + TokenStore).
 
 ```bash

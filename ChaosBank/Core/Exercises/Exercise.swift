@@ -274,6 +274,16 @@ nonisolated enum Exercises {
             expectedClean: "No secret in logs.",
             expectedBuggy: "OTP code written to the console.",
             locators: ["auth.otpField"]),
+        .flakyAnimation: Spec(difficulty: "senior",
+            task: "Open Markets in live mode and assert a price cell settles to its neutral colour within a bounded time on every tick.",
+            expectedClean: "Flash animation settles within a stable, bounded duration.",
+            expectedBuggy: "Settle time jitters per tick — a wait-for-idle step flakes.",
+            locators: ["markets.asset.AAPL.price", "markets.liveBadge"]),
+        .offlineBannerMissing: Spec(difficulty: "middle",
+            task: "Enable offline mode (dev menu) and assert the offline banner is shown on the current screen.",
+            expectedClean: "Offline banner visible while offline.",
+            expectedBuggy: "No banner — the app serves cached data silently.",
+            locators: ["dev.offlineToggle", "net.offlineBanner"]),
     ]
 
     static let all: [Exercise] = {

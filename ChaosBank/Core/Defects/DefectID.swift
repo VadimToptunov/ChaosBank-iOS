@@ -103,6 +103,7 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case cardExpiryInPast
     case otpAutoFillsCode
     case successToastTooBrief
+    case flakyAnimation
 
     // MARK: Accessibility
     case duplicateAssetA11yId
@@ -135,4 +136,5 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case balanceReadReturnsZero
     case transactionsDupOnFetch
     case staleHoldingsAfterOrder
+    case offlineBannerMissing
 }

@@ -1916,5 +1916,43 @@
     "launchArgument" : "-ChaosBankDefects staleHoldingsAfterOrder",
     "task" : "Reproduce the defect and write a stable test that fails only when active.",
     "title" : "Holdings read is stale after an order"
+  },
+  {
+    "category" : "ui",
+    "condition" : "Value-change animations complete within a stable, bounded time.",
+    "defects" : [
+      "flakyAnimation"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Settle time jitters per tick — a wait-for-idle step flakes.",
+    "expectedClean" : "Flash animation settles within a stable, bounded duration.",
+    "feature" : "Markets",
+    "id" : "IOS-UI-12",
+    "keyLocators" : [
+      "markets.asset.AAPL.price",
+      "markets.liveBadge"
+    ],
+    "launchArgument" : "-ChaosBankDefects flakyAnimation",
+    "task" : "Open Markets in live mode and assert a price cell settles to its neutral colour within a bounded time on every tick.",
+    "title" : "Ticker flash animation is unstable"
+  },
+  {
+    "category" : "network",
+    "condition" : "When offline, the UI clearly indicates it and serves cached data.",
+    "defects" : [
+      "offlineBannerMissing"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "No banner — the app serves cached data silently.",
+    "expectedClean" : "Offline banner visible while offline.",
+    "feature" : "App \/ Network",
+    "id" : "IOS-NET-08",
+    "keyLocators" : [
+      "dev.offlineToggle",
+      "net.offlineBanner"
+    ],
+    "launchArgument" : "-ChaosBankDefects offlineBannerMissing",
+    "task" : "Enable offline mode (dev menu) and assert the offline banner is shown on the current screen.",
+    "title" : "No offline indicator while offline"
   }
 ]

@@ -60,6 +60,22 @@ struct DevMenuView: View {
                             .font(.appBody(11)).foregroundStyle(Palette.muted)
                     }
 
+                    section("Network") {
+                        CardSurface {
+                            Toggle(isOn: Binding(get: { services.offline },
+                                                 set: { services.setOffline($0) })) {
+                                Text("Offline mode")
+                                    .font(.appBody(15, weight: .medium)).foregroundStyle(Palette.text)
+                            }
+                            .tint(Palette.sand)
+                            .accessibilityIdentifier(A11y.Dev.offlineToggle)
+                        }
+                        Text(services.offline
+                             ? "Reads serve cached data; writes fail."
+                             : "Online — live reads and writes.")
+                            .font(.appBody(11)).foregroundStyle(Palette.muted)
+                    }
+
                     section("Security") {
                         CardSurface {
                             HStack {

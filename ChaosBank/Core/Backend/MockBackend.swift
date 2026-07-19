@@ -16,6 +16,7 @@ enum BackendError: Error, Equatable {
     case unknownAsset
     case insufficientHolding
     case timeout
+    case offline
 }
 
 actor MockBackend {
@@ -29,6 +30,8 @@ actor MockBackend {
     let latency: Duration
     private var sequence = 0
     private var scenario: BackendScenario
+    /// Offline mode (dev-menu / reliability cluster): reads serve cached data, writes fail.
+    private var offline = false
 
     /// Idempotency ledger: key → the transaction that key produced.
     private var processedKeys: [String: Transaction] = [:]
@@ -56,6 +59,14 @@ actor MockBackend {
 
     func setScenario(_ scenario: BackendScenario) {
         self.scenario = scenario
+    }
+
+    func setOffline(_ value: Bool) {
+        offline = value
+    }
+
+    private func requireOnline() throws {
+        if offline { throw BackendError.offline }
     }
 
     private func delay(extra: Duration = .zero) async {
@@ -116,6 +127,7 @@ actor MockBackend {
     func transfer(from currency: Currency, amount: Decimal, recipient: String, note: String,
                   idempotencyKey: String) async throws -> Transaction {
         await delay()
+        try requireOnline()
 
         // Idempotent replay: a retry with the same key returns the original
         // transaction without re-posting — unless the `retryDuplicate` scenario
@@ -150,6 +162,7 @@ actor MockBackend {
     @discardableResult
     func deposit(to currency: Currency, amount: Decimal, title: String = "Add money") async throws -> Transaction {
         await delay()
+        try requireOnline()
         guard amount > 0 else { throw BackendError.invalidAmount }
         guard var account = accountsByCurrency[currency] else { throw BackendError.unknownAccount }
         account.balance += amount
@@ -167,6 +180,7 @@ actor MockBackend {
     @discardableResult
     func exchange(sell: Currency, get: Currency, debit: Decimal, credited: Decimal) async throws -> Transaction {
         await delay()
+        try requireOnline()
         guard debit > 0 else { throw BackendError.invalidAmount }
         guard var from = accountsByCurrency[sell] else { throw BackendError.unknownAccount }
         guard var to = accountsByCurrency[get] else { throw BackendError.unknownAccount }
@@ -192,6 +206,7 @@ actor MockBackend {
     @discardableResult
     func placeOrder(_ order: Order) async throws -> Order {
         await delay()
+        try requireOnline()
         guard assets[order.symbol] != nil else { throw BackendError.unknownAsset }
         guard order.quantity > 0 else { throw BackendError.invalidAmount }
         guard var cash = accountsByCurrency[cashCurrency] else { throw BackendError.unknownAccount }

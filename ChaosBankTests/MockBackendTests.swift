@@ -15,6 +15,34 @@ final class MockBackendTests: XCTestCase {
         MockBackend(latency: .milliseconds(1), scenario: scenario)
     }
 
+    func testOfflineWritesThrowOffline() async {
+        let b = backend()
+        await b.setOffline(true)
+        do {
+            try await b.transfer(from: .EUR, amount: Decimal(10), recipient: "A", note: "", idempotencyKey: "k")
+            XCTFail("offline write should throw")
+        } catch let error as BackendError {
+            XCTAssertEqual(error, .offline)
+        } catch {
+            XCTFail("unexpected error \(error)")
+        }
+    }
+
+    func testOfflineReadsStillServeCachedData() async {
+        let b = backend()
+        await b.setOffline(true)
+        let accounts = await b.fetchAccounts()
+        XCTAssertEqual(accounts.count, 3)
+    }
+
+    func testBackOnlineRestoresWrites() async throws {
+        let b = backend()
+        await b.setOffline(true)
+        await b.setOffline(false)
+        let tx = try await b.transfer(from: .EUR, amount: Decimal(10), recipient: "A", note: "", idempotencyKey: "k")
+        XCTAssertEqual(tx.amount, Decimal(-10))
+    }
+
     func testTransferDebitsExactly() async throws {
         let b = backend()
         let before = await b.fetchAccount(.EUR)!.balance

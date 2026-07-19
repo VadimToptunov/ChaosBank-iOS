@@ -360,6 +360,9 @@ nonisolated enum DefectRegistry {
         Defect(id: .successToastTooBrief, title: "Success toast flashes too briefly",
                feature: "Transfer", category: .ui, severity: .minor,
                violates: "Confirmation stays visible long enough to read.", flakiness: .deterministic),
+        Defect(id: .flakyAnimation, title: "Ticker flash animation is unstable",
+               feature: "Markets", category: .ui, severity: .minor,
+               violates: "Value-change animations complete within a stable, bounded time.", flakiness: .raceCondition),
 
         // MARK: - Batch: accessibility
         Defect(id: .marketRowNoLabel, title: "Market rows expose no accessibility label",
@@ -396,6 +399,9 @@ nonisolated enum DefectRegistry {
         Defect(id: .staleHoldingsAfterOrder, title: "Holdings read is stale after an order",
                feature: "Portfolio / Network", category: .network, severity: .major,
                violates: "Reads reflect the latest holdings.", flakiness: .deterministic),
+        Defect(id: .offlineBannerMissing, title: "No offline indicator while offline",
+               feature: "App / Network", category: .network, severity: .major,
+               violates: "When offline, the UI clearly indicates it and serves cached data.", flakiness: .deterministic),
     ]
 
     static func defect(_ id: DefectID) -> Defect {

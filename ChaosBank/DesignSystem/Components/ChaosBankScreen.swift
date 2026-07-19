@@ -16,9 +16,23 @@ struct ChaosBankScreen<Content: View>: View {
     var spacing: CGFloat = 20
     @ViewBuilder var content: () -> Content
 
+    @Environment(AppServices.self) private var services
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: spacing) {
+                // Offline indicator. `offlineBannerMissing` suppresses it — the app
+                // serves cached data silently, so the user can't tell they're offline.
+                if services.offline && !Defects.isActive(.offlineBannerMissing) {
+                    Text("⚠︎ You're offline — showing cached data")
+                        .font(.appBody(13, weight: .semibold))
+                        .foregroundStyle(Palette.bg)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+                        .background(Palette.loss)
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        .accessibilityIdentifier(A11y.Net.offlineBanner)
+                }
                 content()
             }
             .padding(20)

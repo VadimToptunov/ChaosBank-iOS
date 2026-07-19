@@ -27,7 +27,13 @@ struct LiveTickerText: View {
             .onChange(of: text) {
                 guard !reduceMotion else { color = Palette.text; return }
                 color = Palette.tick(direction)
-                withAnimation(.easeOut(duration: 0.6)) { color = Palette.text }
+                // `flakyAnimation`: the settle duration jitters per tick — sometimes
+                // near-instant, sometimes very long — so a "wait for the flash to
+                // clear" step flakes.
+                let duration: Double = Defects.isActive(.flakyAnimation)
+                    ? (StableHash.of(text) % 2 == 0 ? 0.02 : 2.6)
+                    : 0.6
+                withAnimation(.easeOut(duration: duration)) { color = Palette.text }
             }
     }
 }

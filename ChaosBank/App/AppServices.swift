@@ -23,6 +23,8 @@ final class AppServices {
     private(set) var dataVersion = 0
     /// Increments when the active profile / defect set changes at runtime.
     private(set) var configVersion = 0
+    /// Offline network mode (reliability cluster). Reads serve cached data; writes fail.
+    private(set) var offline = false
 
     init(config: BuildConfig) {
         self.config = config
@@ -33,6 +35,11 @@ final class AppServices {
     func setPriceSource(_ kind: PriceSourceKind) {
         config.priceSource = kind
         market.setSource(kind)
+    }
+
+    func setOffline(_ value: Bool) {
+        offline = value
+        Task { await backend.setOffline(value) }
     }
 
     private func syncScenario() {

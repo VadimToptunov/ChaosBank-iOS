@@ -26,6 +26,10 @@ enum A11y {
         static let badge = "build.badge"
     }
 
+    enum Net {
+        static let offlineBanner = "net.offlineBanner"
+    }
+
     enum Dev {
         static let menu = "dev.menu"
         static let close = "dev.close"
@@ -34,6 +38,7 @@ enum A11y {
         static func defectToggle(_ id: DefectID) -> String { "dev.defect.\(id.rawValue)" }
         static let priceSource = "dev.priceSource"
         static func priceSourceOption(_ kind: String) -> String { "dev.priceSource.\(kind)" }
+        static let offlineToggle = "dev.offlineToggle"
         static let tokenStorage = "dev.tokenStorage"
         static let exercises = "dev.exercises"
         static let exercisesList = "dev.exercises.list"
