@@ -330,6 +330,9 @@ nonisolated enum DefectRegistry {
         Defect(id: .homeRefreshRace, title: "Overlapping refreshes clobber the dashboard",
                feature: "Home", category: .concurrency, severity: .major,
                violates: "A stale refresh never overwrites a newer one.", flakiness: .raceCondition),
+        Defect(id: .syncLostUpdate, title: "Concurrent increments lose updates",
+               feature: "Sync", category: .concurrency, severity: .major,
+               violates: "Concurrent read-modify-write increments are atomic; none are lost.", flakiness: .raceCondition),
 
         // MARK: - Batch: performance
         Defect(id: .sparklineHeavyPoints, title: "Sparklines compute thousands of points",

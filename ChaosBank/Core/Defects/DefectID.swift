@@ -83,6 +83,7 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case orderDoubleSubmit
     case exchangeDoubleSubmit
     case homeRefreshRace
+    case syncLostUpdate
 
     // MARK: Performance
     case transactionsHeavyList

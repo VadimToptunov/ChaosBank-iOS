@@ -42,6 +42,22 @@ struct DevMenuView: View {
                     }
                     .accessibilityIdentifier(A11y.Dev.exercises)
 
+                    NavigationLink {
+                        SyncView()
+                    } label: {
+                        HStack {
+                            Label("Sync playground", systemImage: "arrow.triangle.2.circlepath")
+                                .font(.appBody(15, weight: .semibold)).foregroundStyle(Palette.text)
+                            Spacer()
+                            Text("race").font(.appMono(13)).foregroundStyle(Palette.muted)
+                            Image(systemName: "chevron.right").font(.system(size: 12)).foregroundStyle(Palette.muted)
+                        }
+                        .padding(14)
+                        .background(Palette.surface)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    }
+                    .accessibilityIdentifier(A11y.Dev.sync)
+
                     section("Price data") {
                         SegmentBar(
                             items: PriceSourceKind.allCases.map {

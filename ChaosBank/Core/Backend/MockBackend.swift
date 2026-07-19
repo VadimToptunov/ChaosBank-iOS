@@ -133,6 +133,17 @@ actor MockBackend {
         return orders
     }
 
+    // MARK: - Sync playground (reliability cluster)
+
+    /// A shared counter with an atomic increment (correct) plus separate read/write
+    /// primitives (for the lost-update race).
+    private var syncCounter = 0
+
+    func syncValue() async -> Int { await delay(); return syncCounter }
+    func syncSet(_ value: Int) async { await delay(); syncCounter = value }
+    func syncIncrement() async { await delay(); syncCounter += 1 }
+    func syncReset() { syncCounter = 0 }
+
     // MARK: - Mutations
 
     /// Money out from the chosen account to an external recipient. Correct,

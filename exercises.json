@@ -1973,5 +1973,25 @@
     "launchArgument" : "-ChaosBankDefects paginationNeverEnds",
     "task" : "Tap Load more repeatedly and assert pagination terminates once every matching row is shown.",
     "title" : "Pagination never ends"
+  },
+  {
+    "category" : "concurrency",
+    "condition" : "Concurrent read-modify-write increments are atomic; none are lost.",
+    "defects" : [
+      "syncLostUpdate"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Increments are lost to a race; counter < start + N.",
+    "expectedClean" : "Concurrent increments are atomic; counter == start + N.",
+    "feature" : "Sync",
+    "id" : "IOS-CON-06",
+    "keyLocators" : [
+      "dev.sync",
+      "sync.runButton",
+      "sync.counter"
+    ],
+    "launchArgument" : "-ChaosBankDefects syncLostUpdate",
+    "task" : "On the dev-menu Sync playground, run the concurrent +1 batch and assert the counter equals start + N.",
+    "title" : "Concurrent increments lose updates"
   }
 ]

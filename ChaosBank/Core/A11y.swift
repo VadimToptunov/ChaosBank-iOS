@@ -30,6 +30,14 @@ enum A11y {
         static let offlineBanner = "net.offlineBanner"
     }
 
+    enum Sync {
+        static let root = "sync.root"
+        static let counter = "sync.counter"
+        static let runButton = "sync.runButton"
+        static let resetButton = "sync.resetButton"
+        static let expected = "sync.expected"
+    }
+
     enum Dev {
         static let menu = "dev.menu"
         static let close = "dev.close"
@@ -43,6 +51,7 @@ enum A11y {
         static let tokenStorage = "dev.tokenStorage"
         static let exercises = "dev.exercises"
         static let exercisesList = "dev.exercises.list"
+        static let sync = "dev.sync"
         static func exercise(_ id: String) -> String { "dev.exercise.\(id)" }
         static func exerciseApply(_ id: String) -> String { "dev.exercise.\(id).apply" }
     }

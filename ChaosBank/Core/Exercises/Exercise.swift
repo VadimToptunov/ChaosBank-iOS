@@ -289,6 +289,11 @@ nonisolated enum Exercises {
             expectedClean: "Load more stops when the list is exhausted.",
             expectedBuggy: "Load more never stops — the list grows forever.",
             locators: ["transactions.loadMore", "transactions.list"]),
+        .syncLostUpdate: Spec(difficulty: "senior",
+            task: "On the dev-menu Sync playground, run the concurrent +1 batch and assert the counter equals start + N.",
+            expectedClean: "Concurrent increments are atomic; counter == start + N.",
+            expectedBuggy: "Increments are lost to a race; counter < start + N.",
+            locators: ["dev.sync", "sync.runButton", "sync.counter"]),
     ]
 
     static let all: [Exercise] = {
