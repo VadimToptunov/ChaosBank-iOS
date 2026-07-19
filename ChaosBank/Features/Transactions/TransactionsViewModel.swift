@@ -97,11 +97,33 @@ final class TransactionsViewModel {
         return rows
     }
 
-    var canLoadMore: Bool { pageSize * pagesLoaded < filtered.count }
+    // `paginationNeverEnds`: there's always "more" — a scroll-to-end loop never terminates.
+    var canLoadMore: Bool {
+        if Defects.isActive(.paginationNeverEnds) { return true }
+        return pageSize * pagesLoaded < filtered.count
+    }
+
+    private var syntheticSeq = 0
 
     func loadMore() {
         guard canLoadMore else { return }
         pagesLoaded += 1
+        // Keep the tail perpetually ahead so the list can never catch up.
+        if Defects.isActive(.paginationNeverEnds) { all += endlessBatch(count: pageSize) }
+    }
+
+    private func endlessBatch(count: Int) -> [Transaction] {
+        let titles = ["Coffee", "Groceries", "Taxi", "Subscription", "Refund", "Salary"]
+        let categories = ["Dining", "Groceries", "Transport", "Digital", "Shopping", "Income"]
+        return (0..<count).map { _ in
+            let i = syntheticSeq
+            syntheticSeq += 1
+            let sign: Decimal = i % 5 == 0 ? 1 : -1
+            return Transaction(id: "pag-\(i)", title: "\(titles[i % titles.count]) #\(i)",
+                               category: categories[i % categories.count],
+                               date: SeedData.daysAgo(11 + i / 40),
+                               amount: sign * Decimal(i % 90 + 1), currency: .EUR)
+        }
     }
 
     /// Visible rows grouped by calendar day, preserving order.

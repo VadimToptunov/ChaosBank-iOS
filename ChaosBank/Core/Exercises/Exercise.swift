@@ -284,6 +284,11 @@ nonisolated enum Exercises {
             expectedClean: "Offline banner visible while offline.",
             expectedBuggy: "No banner — the app serves cached data silently.",
             locators: ["dev.offlineToggle", "net.offlineBanner"]),
+        .paginationNeverEnds: Spec(difficulty: "middle",
+            task: "Tap Load more repeatedly and assert pagination terminates once every matching row is shown.",
+            expectedClean: "Load more stops when the list is exhausted.",
+            expectedBuggy: "Load more never stops — the list grows forever.",
+            locators: ["transactions.loadMore", "transactions.list"]),
     ]
 
     static let all: [Exercise] = {

@@ -60,6 +60,7 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     // MARK: State / navigation
     case staleBalance
     case paginationDup
+    case paginationNeverEnds
     case cardToggleInvert
     case filterLeaksCategory
     case orderStuckPending

@@ -22,6 +22,20 @@ final class TransactionsViewModelTests: XCTestCase {
         return m
     }
 
+    func testCleanPaginationTerminates() async {
+        let m = await make()
+        for _ in 0..<10 { m.loadMore() }
+        XCTAssertFalse(m.canLoadMore)
+    }
+
+    func testPaginationNeverEndsDefect() async {
+        let m = await make([.paginationNeverEnds])
+        let start = m.visible.count
+        for _ in 0..<20 { m.loadMore() }
+        XCTAssertTrue(m.canLoadMore)
+        XCTAssertGreaterThan(m.visible.count, start)
+    }
+
     func testFilters() async {
         let m = await make()
         m.filter = .moneyIn

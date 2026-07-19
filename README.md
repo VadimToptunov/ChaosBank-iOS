@@ -127,13 +127,13 @@ scheme. No duplicated targets, no `#if` scattered through the app.
 
 ---
 
-## Defect catalog (106 defects, 10 categories)
+## Defect catalog (107 defects, 10 categories)
 
 Every defect ships **OFF** in the `clean` profile. Counts by category: money 22,
-state 17, security 14, validation 12, ui 12, network 8, performance 6,
+state 18, security 14, validation 12, ui 12, network 8, performance 6,
 concurrency 5, localization 5, accessibility 5. The latest additions are the first
-**reliability stressors** (`flakyAnimation`, `offlineBannerMissing`) — see
-[`ROADMAP.md`](ROADMAP.md). The **complete, machine-readable list** is in
+**reliability stressors** (`flakyAnimation`, `offlineBannerMissing`,
+`paginationNeverEnds`) — see [`ROADMAP.md`](ROADMAP.md). The **complete, machine-readable list** is in
 [`exercises.json`](exercises.json) (one exercise per defect); the table below is a
 representative selection.
 
@@ -153,6 +153,7 @@ representative selection.
 | | `dateTimezoneShift` | transaction dates shifted by timezone |
 | **State** | `staleBalance` | dashboard shows the pre-transfer balance |
 | | `paginationDup` | a transaction duplicated after Load more |
+| | `paginationNeverEnds` ⭑ | "Load more" never terminates → scroll-to-end loops forever |
 | | `cardToggleInvert` | freeze toggle reads back inverted |
 | | `filterLeaksCategory` | Money-in filter leaks money-out rows |
 | | `orderStuckPending` | a filled order still shows pending |
@@ -288,7 +289,7 @@ xcrun simctl launch <device> VadimToptunov.ChaosBank -ChaosBankProfile flaky
 
 A unit-test target (`ChaosBankTests`, XCTest) covers the correct baseline and the
 regression pattern — the same assertion passes on `clean` and fails when a defect
-is active. **161 tests** across the catalog (integrity, profiles, exercises), money
+is active. **166 tests** across the catalog (integrity, profiles, exercises), money
 & rounding, locale parsing, the mock backend & every network scenario/error path
 (including offline mode), the seeded price feed, the auth ladder, and every view model (Home, Transfer,
 Exchange, Transactions, Order, Portfolio, Card + TokenStore).

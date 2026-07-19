@@ -1954,5 +1954,24 @@
     "launchArgument" : "-ChaosBankDefects offlineBannerMissing",
     "task" : "Enable offline mode (dev menu) and assert the offline banner is shown on the current screen.",
     "title" : "No offline indicator while offline"
+  },
+  {
+    "category" : "state",
+    "condition" : "Pagination terminates once every matching row is shown.",
+    "defects" : [
+      "paginationNeverEnds"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Load more never stops — the list grows forever.",
+    "expectedClean" : "Load more stops when the list is exhausted.",
+    "feature" : "Transactions",
+    "id" : "IOS-STA-03",
+    "keyLocators" : [
+      "transactions.loadMore",
+      "transactions.list"
+    ],
+    "launchArgument" : "-ChaosBankDefects paginationNeverEnds",
+    "task" : "Tap Load more repeatedly and assert pagination terminates once every matching row is shown.",
+    "title" : "Pagination never ends"
   }
 ]
