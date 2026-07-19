@@ -51,6 +51,9 @@ struct TransactionRowView: View {
     let tx: Transaction
     var a11y: String
 
+    @Environment(AppServices.self) private var services
+    @Environment(\.layoutDirection) private var ambient
+
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: TxFormat.icon(for: tx.category))
@@ -81,5 +84,8 @@ struct TransactionRowView: View {
         .padding(.horizontal, 8)
         .contentShape(Rectangle())
         .accessibilityIdentifier(a11y)
+        // `rtlBreaksLayout`: under RTL this row is forced back to LTR, so it fails to mirror.
+        .environment(\.layoutDirection,
+                     LocaleSettings.forcesLtrRow(rtl: services.locale.rtl) ? .leftToRight : ambient)
     }
 }

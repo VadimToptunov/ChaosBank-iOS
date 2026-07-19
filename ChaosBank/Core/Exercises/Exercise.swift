@@ -314,6 +314,11 @@ nonisolated enum Exercises {
             expectedClean: "Biometrics only re-enter from the passcode stage.",
             expectedBuggy: "Biometrics unlock straight from login — the ladder is skipped.",
             locators: ["auth.biometricButton", "auth.passcode"]),
+        .rtlBreaksLayout: Spec(difficulty: "middle",
+            task: "Enable RTL (dev menu), open Transactions, and assert the rows mirror correctly.",
+            expectedClean: "Rows mirror under RTL (start/end).",
+            expectedBuggy: "A row stays left-to-right — hard-coded left/right doesn't mirror.",
+            locators: ["dev.rtlToggle", "transactions.list"]),
     ]
 
     static let all: [Exercise] = {

@@ -53,6 +53,7 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     // MARK: Localization
     case localeParse
     case dateTimezoneShift
+    case rtlBreaksLayout
     case balanceWrongCurrencySymbol
     case priceMissingDecimals
     case searchTrimsNothing

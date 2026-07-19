@@ -92,6 +92,20 @@ struct DevMenuView: View {
                             .font(.appBody(11)).foregroundStyle(Palette.muted)
                     }
 
+                    section("Localization") {
+                        CardSurface {
+                            Toggle(isOn: Binding(get: { services.locale.rtl },
+                                                 set: { services.locale.enableRtl($0) })) {
+                                Text("RTL layout")
+                                    .font(.appBody(15, weight: .medium)).foregroundStyle(Palette.text)
+                            }
+                            .tint(Palette.sand)
+                            .accessibilityIdentifier(A11y.Dev.rtlToggle)
+                        }
+                        Text("Mirror the app right-to-left (Arabic/Hebrew).")
+                            .font(.appBody(11)).foregroundStyle(Palette.muted)
+                    }
+
                     section("Security") {
                         CardSurface {
                             HStack {

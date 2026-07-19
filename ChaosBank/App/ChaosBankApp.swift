@@ -26,6 +26,7 @@ struct ChaosBankApp: App {
                 .environment(services)
                 .environment(auth)
                 .environment(router)
+                .environment(\.layoutDirection, services.locale.rtl ? .rightToLeft : .leftToRight)
                 .preferredColorScheme(.dark)
                 .tint(Palette.sand)
                 .task { services.startFeed() }

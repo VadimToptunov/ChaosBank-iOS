@@ -55,6 +55,7 @@ enum A11y {
         static func priceSourceOption(_ kind: String) -> String { "dev.priceSource.\(kind)" }
         static let networkCondition = "dev.networkCondition"
         static func networkConditionOption(_ kind: String) -> String { "dev.networkCondition.\(kind)" }
+        static let rtlToggle = "dev.rtlToggle"
         static let tokenStorage = "dev.tokenStorage"
         static let exercises = "dev.exercises"
         static let exercisesList = "dev.exercises.list"

@@ -19,6 +19,7 @@ final class AppServices {
     let backend: MockBackend
     let market: MarketStore
     let notifications = NotificationStore()
+    let locale = LocaleSettings()
 
     /// Increments after every successful mutation.
     private(set) var dataVersion = 0

@@ -61,6 +61,10 @@ nonisolated enum DefectRegistry {
                feature: "Transactions", category: .localization, severity: .minor,
                violates: "Dates render in a stable, correct timezone.",
                flakiness: .deterministic),
+        Defect(id: .rtlBreaksLayout, title: "Row doesn't mirror under RTL",
+               feature: "Transactions", category: .localization, severity: .major,
+               violates: "Under a right-to-left layout, rows mirror correctly (start/end, not hard-coded left/right).",
+               flakiness: .deterministic),
 
         Defect(id: .staleBalance, title: "Dashboard shows pre-transfer balance",
                feature: "Home", category: .state, severity: .major,

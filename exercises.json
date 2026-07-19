@@ -2069,5 +2069,24 @@
     "launchArgument" : "-ChaosBankDefects biometricUnlocksFromAnyStage",
     "task" : "From a fresh launch (login stage) assert a biometric unlock does NOT skip login\/OTP\/passcode.",
     "title" : "Biometrics bypass the auth ladder"
+  },
+  {
+    "category" : "localization",
+    "condition" : "Under a right-to-left layout, rows mirror correctly (start\/end, not hard-coded left\/right).",
+    "defects" : [
+      "rtlBreaksLayout"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "A row stays left-to-right — hard-coded left\/right doesn't mirror.",
+    "expectedClean" : "Rows mirror under RTL (start\/end).",
+    "feature" : "Transactions",
+    "id" : "IOS-LOC-03",
+    "keyLocators" : [
+      "dev.rtlToggle",
+      "transactions.list"
+    ],
+    "launchArgument" : "-ChaosBankDefects rtlBreaksLayout",
+    "task" : "Enable RTL (dev menu), open Transactions, and assert the rows mirror correctly.",
+    "title" : "Row doesn't mirror under RTL"
   }
 ]
