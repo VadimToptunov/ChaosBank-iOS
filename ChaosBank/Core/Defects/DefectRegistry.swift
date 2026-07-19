@@ -395,6 +395,10 @@ nonisolated enum DefectRegistry {
         Defect(id: .credentialsInLog, title: "Login credentials written to the console",
                feature: "Auth", category: .security, severity: .critical,
                violates: "Credentials are never logged.", flakiness: .deterministic),
+        Defect(id: .deepLinkSkipsAuth, title: "Deep link opens a screen without auth",
+               feature: "Deep links", category: .security, severity: .critical,
+               violates: "A deep link still requires the auth gate before showing content.",
+               flakiness: .deterministic),
 
         // MARK: - Batch: network
         Defect(id: .balanceReadReturnsZero, title: "Balance read returns zero on error",

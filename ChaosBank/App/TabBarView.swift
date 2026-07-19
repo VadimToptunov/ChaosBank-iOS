@@ -6,6 +6,7 @@
 import SwiftUI
 
 struct TabBarView: View {
+    @Environment(DeepLinkRouter.self) private var router
     @State private var selection = LaunchOptions.current.initialTab
 
     var body: some View {
@@ -40,5 +41,8 @@ struct TabBarView: View {
         }
         .tint(Palette.sand)
         .accessibilityIdentifier(A11y.TabBar.root)
+        .onChange(of: router.tab) { _, tab in
+            if let tab { selection = tab }
+        }
     }
 }

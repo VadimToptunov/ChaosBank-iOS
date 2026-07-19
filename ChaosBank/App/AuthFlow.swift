@@ -206,6 +206,13 @@ final class AuthFlow {
         stage = .unlocked
     }
 
+    /// Unlock without any authentication — used ONLY by the `deepLinkSkipsAuth` defect
+    /// when a deep link arrives (see ChaosBankApp).
+    func forceUnlock() {
+        markUnlocked()
+        stage = .unlocked
+    }
+
     // MARK: - Session / lifecycle
 
     func keepAlive() { lastActiveAt = Date() }

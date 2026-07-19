@@ -294,6 +294,11 @@ nonisolated enum Exercises {
             expectedClean: "Concurrent increments are atomic; counter == start + N.",
             expectedBuggy: "Increments are lost to a race; counter < start + N.",
             locators: ["dev.sync", "sync.runButton", "sync.counter"]),
+        .deepLinkSkipsAuth: Spec(difficulty: "senior",
+            task: "Cold-launch a deep link (e.g. chaosbank://markets) while locked and assert the auth gate is still shown.",
+            expectedClean: "Deep links land on the auth gate until unlocked.",
+            expectedBuggy: "Deep link opens the target screen without any auth.",
+            locators: ["auth.passcode", "tabBar.markets"]),
     ]
 
     static let all: [Exercise] = {

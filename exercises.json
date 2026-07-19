@@ -1993,5 +1993,24 @@
     "launchArgument" : "-ChaosBankDefects syncLostUpdate",
     "task" : "On the dev-menu Sync playground, run the concurrent +1 batch and assert the counter equals start + N.",
     "title" : "Concurrent increments lose updates"
+  },
+  {
+    "category" : "security",
+    "condition" : "A deep link still requires the auth gate before showing content.",
+    "defects" : [
+      "deepLinkSkipsAuth"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Deep link opens the target screen without any auth.",
+    "expectedClean" : "Deep links land on the auth gate until unlocked.",
+    "feature" : "Deep links",
+    "id" : "IOS-SEC-15",
+    "keyLocators" : [
+      "auth.passcode",
+      "tabBar.markets"
+    ],
+    "launchArgument" : "-ChaosBankDefects deepLinkSkipsAuth",
+    "task" : "Cold-launch a deep link (e.g. chaosbank://markets) while locked and assert the auth gate is still shown.",
+    "title" : "Deep link opens a screen without auth"
   }
 ]

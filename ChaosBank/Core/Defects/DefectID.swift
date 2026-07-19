@@ -129,6 +129,7 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case passcodeAnyAccepted
     case passcodeStoredPlaintext
     case credentialsInLog
+    case deepLinkSkipsAuth
 
     // MARK: Network (scenario-driven backend)
     case retryDuplicate
