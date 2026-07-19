@@ -56,6 +56,8 @@ enum A11y {
         static let networkCondition = "dev.networkCondition"
         static func networkConditionOption(_ kind: String) -> String { "dev.networkCondition.\(kind)" }
         static let rtlToggle = "dev.rtlToggle"
+        static let localeSelector = "dev.localeSelector"
+        static let localeSample = "dev.localeSample"
         static let tokenStorage = "dev.tokenStorage"
         static let exercises = "dev.exercises"
         static let exercisesList = "dev.exercises.list"

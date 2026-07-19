@@ -14,8 +14,10 @@ import Observation
 @Observable
 final class LocaleSettings {
     private(set) var rtl = false
+    private(set) var locale: LocaleId = .enUS
 
     func enableRtl(_ value: Bool) { rtl = value }
+    func selectLocale(_ value: LocaleId) { locale = value }
 
     /// Whether a row should be (incorrectly) forced left-to-right: only when the app
     /// is RTL and the defect is active. Unit-tested.

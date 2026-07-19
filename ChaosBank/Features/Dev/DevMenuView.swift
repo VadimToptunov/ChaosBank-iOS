@@ -104,6 +104,16 @@ struct DevMenuView: View {
                         }
                         Text("Mirror the app right-to-left (Arabic/Hebrew).")
                             .font(.appBody(11)).foregroundStyle(Palette.muted)
+
+                        SegmentBar(
+                            items: LocaleId.allCases.map { SegmentItem(id: $0.rawValue, title: $0.title, a11y: "dev.locale.\($0.rawValue)") },
+                            selection: Binding(get: { services.locale.locale.rawValue },
+                                               set: { services.locale.selectLocale(LocaleId(rawValue: $0) ?? .enUS) })
+                        )
+                        .accessibilityIdentifier(A11y.Dev.localeSelector)
+                        Text("Sample: \(LocaleFormat.grouped(Decimal(string: "1234567.89")!, locale: services.locale.locale))")
+                            .font(.appMono(11)).foregroundStyle(Palette.muted)
+                            .accessibilityIdentifier(A11y.Dev.localeSample)
                     }
 
                     section("Security") {

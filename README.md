@@ -127,11 +127,11 @@ scheme. No duplicated targets, no `#if` scattered through the app.
 
 ---
 
-## Defect catalog (113 defects, 10 categories)
+## Defect catalog (114 defects, 10 categories)
 
 Every defect ships **OFF** in the `clean` profile. Counts by category: money 22,
 state 20, security 16, validation 12, ui 12, network 8, performance 6,
-concurrency 6, localization 6, accessibility 5. The latest additions are the first
+concurrency 6, localization 7, accessibility 5. The latest additions are the first
 **reliability stressors** — a dev-menu network-state selector
 (normal / offline / slow / flaky), unstable animations, and never-ending pagination.
 See [`ROADMAP.md`](ROADMAP.md). The **complete, machine-readable list** is in
@@ -153,6 +153,7 @@ representative selection.
 | **Localization** | `localeParse` | `1,000.50` parsed as `1.0005` |
 | | `dateTimezoneShift` | transaction dates shifted by timezone |
 | | `rtlBreaksLayout` ⭑ | a transaction row does not mirror under RTL |
+| | `numberGroupingIgnoresLocale` ⭑ | grouping/decimal separators ignore the selected locale |
 | **State** | `staleBalance` | dashboard shows the pre-transfer balance |
 | | `paginationDup` | a transaction duplicated after Load more |
 | | `paginationNeverEnds` ⭑ | "Load more" never terminates → scroll-to-end loops forever |
@@ -296,7 +297,7 @@ xcrun simctl launch <device> VadimToptunov.ChaosBank -ChaosBankProfile flaky
 
 A unit-test target (`ChaosBankTests`, XCTest) covers the correct baseline and the
 regression pattern — the same assertion passes on `clean` and fails when a defect
-is active. **186 tests** across the catalog (integrity, profiles, exercises), money
+is active. **190 tests** across the catalog (integrity, profiles, exercises), money
 & rounding, locale parsing, the mock backend & every network scenario/error path
 (including offline mode), the seeded price feed, the auth ladder, and every view model (Home, Transfer,
 Exchange, Transactions, Order, Portfolio, Card + TokenStore).

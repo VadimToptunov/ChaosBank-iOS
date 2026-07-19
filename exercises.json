@@ -2088,5 +2088,24 @@
     "launchArgument" : "-ChaosBankDefects rtlBreaksLayout",
     "task" : "Enable RTL (dev menu), open Transactions, and assert the rows mirror correctly.",
     "title" : "Row doesn't mirror under RTL"
+  },
+  {
+    "category" : "localization",
+    "condition" : "Grouping and decimal separators follow the selected locale (e.g. 1.234,56 in de-DE).",
+    "defects" : [
+      "numberGroupingIgnoresLocale"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Grouping is stuck on en-US regardless of locale.",
+    "expectedClean" : "Grouping follows the locale (de-DE → 1.234.567,89).",
+    "feature" : "Localization",
+    "id" : "IOS-LOC-04",
+    "keyLocators" : [
+      "dev.localeSelector",
+      "dev.localeSample"
+    ],
+    "launchArgument" : "-ChaosBankDefects numberGroupingIgnoresLocale",
+    "task" : "Select the de-DE locale (dev menu) and assert the sample number groups as 1.234.567,89.",
+    "title" : "Number grouping ignores the locale"
   }
 ]

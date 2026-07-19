@@ -65,6 +65,10 @@ nonisolated enum DefectRegistry {
                feature: "Transactions", category: .localization, severity: .major,
                violates: "Under a right-to-left layout, rows mirror correctly (start/end, not hard-coded left/right).",
                flakiness: .deterministic),
+        Defect(id: .numberGroupingIgnoresLocale, title: "Number grouping ignores the locale",
+               feature: "Localization", category: .localization, severity: .major,
+               violates: "Grouping and decimal separators follow the selected locale (e.g. 1.234,56 in de-DE).",
+               flakiness: .deterministic),
 
         Defect(id: .staleBalance, title: "Dashboard shows pre-transfer balance",
                feature: "Home", category: .state, severity: .major,

@@ -319,6 +319,11 @@ nonisolated enum Exercises {
             expectedClean: "Rows mirror under RTL (start/end).",
             expectedBuggy: "A row stays left-to-right — hard-coded left/right doesn't mirror.",
             locators: ["dev.rtlToggle", "transactions.list"]),
+        .numberGroupingIgnoresLocale: Spec(difficulty: "middle",
+            task: "Select the de-DE locale (dev menu) and assert the sample number groups as 1.234.567,89.",
+            expectedClean: "Grouping follows the locale (de-DE → 1.234.567,89).",
+            expectedBuggy: "Grouping is stuck on en-US regardless of locale.",
+            locators: ["dev.localeSelector", "dev.localeSample"]),
     ]
 
     static let all: [Exercise] = {
