@@ -23,8 +23,10 @@ final class AppServices {
     private(set) var dataVersion = 0
     /// Increments when the active profile / defect set changes at runtime.
     private(set) var configVersion = 0
-    /// Offline network mode (reliability cluster). Reads serve cached data; writes fail.
-    private(set) var offline = false
+    /// Simulated network environment (reliability cluster), chosen from the dev menu.
+    private(set) var networkCondition: NetworkCondition = .normal
+    /// True while cached data is served and writes fail.
+    var offline: Bool { networkCondition == .offline }
 
     init(config: BuildConfig) {
         self.config = config
@@ -37,9 +39,13 @@ final class AppServices {
         market.setSource(kind)
     }
 
+    func setNetworkCondition(_ value: NetworkCondition) {
+        networkCondition = value
+        Task { await backend.setCondition(value) }
+    }
+
     func setOffline(_ value: Bool) {
-        offline = value
-        Task { await backend.setOffline(value) }
+        setNetworkCondition(value ? .offline : .normal)
     }
 
     private func syncScenario() {

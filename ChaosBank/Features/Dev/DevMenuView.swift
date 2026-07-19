@@ -61,18 +61,18 @@ struct DevMenuView: View {
                     }
 
                     section("Network") {
-                        CardSurface {
-                            Toggle(isOn: Binding(get: { services.offline },
-                                                 set: { services.setOffline($0) })) {
-                                Text("Offline mode")
-                                    .font(.appBody(15, weight: .medium)).foregroundStyle(Palette.text)
-                            }
-                            .tint(Palette.sand)
-                            .accessibilityIdentifier(A11y.Dev.offlineToggle)
-                        }
-                        Text(services.offline
-                             ? "Reads serve cached data; writes fail."
-                             : "Online — live reads and writes.")
+                        SegmentBar(
+                            items: NetworkCondition.allCases.map {
+                                SegmentItem(id: $0.rawValue, title: $0.title,
+                                            a11y: A11y.Dev.networkConditionOption($0.rawValue))
+                            },
+                            selection: Binding(
+                                get: { services.networkCondition.rawValue },
+                                set: { services.setNetworkCondition(NetworkCondition(rawValue: $0) ?? .normal) }
+                            )
+                        )
+                        .accessibilityIdentifier(A11y.Dev.networkCondition)
+                        Text(networkHint(services.networkCondition))
                             .font(.appBody(11)).foregroundStyle(Palette.muted)
                     }
 
@@ -185,6 +185,15 @@ struct DevMenuView: View {
                     }
                 }
             }
+        }
+    }
+
+    private func networkHint(_ condition: NetworkCondition) -> String {
+        switch condition {
+        case .offline: return "Reads serve cached data; writes fail."
+        case .slow: return "Every call gets a large extra latency."
+        case .flaky: return "Writes fail transiently at random."
+        case .normal: return "Online — live reads and writes."
         }
     }
 

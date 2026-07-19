@@ -30,8 +30,9 @@ actor MockBackend {
     let latency: Duration
     private var sequence = 0
     private var scenario: BackendScenario
-    /// Offline mode (dev-menu / reliability cluster): reads serve cached data, writes fail.
-    private var offline = false
+    /// Simulated network environment (dev-menu / reliability cluster).
+    private var condition: NetworkCondition = .normal
+    private var flakySeq: UInt64 = 0
 
     /// Idempotency ledger: key → the transaction that key produced.
     private var processedKeys: [String: Transaction] = [:]
@@ -61,16 +62,31 @@ actor MockBackend {
         self.scenario = scenario
     }
 
-    func setOffline(_ value: Bool) {
-        offline = value
+    func setCondition(_ value: NetworkCondition) {
+        condition = value
     }
 
+    /// Convenience for the offline-only path (kept for existing callers/tests).
+    func setOffline(_ value: Bool) {
+        condition = value ? .offline : .normal
+    }
+
+    /// Offline blocks writes.
     private func requireOnline() throws {
-        if offline { throw BackendError.offline }
+        if condition == .offline { throw BackendError.offline }
+    }
+
+    /// `flaky` fails writes transiently; the sequence is seeded so it reproduces.
+    private func failIfFlaky() throws {
+        guard condition == .flaky else { return }
+        var rng = SeededRNG(seed: flakySeq)
+        flakySeq += 1
+        if Double.random(in: 0..<1, using: &rng) < 0.5 { throw BackendError.timeout }
     }
 
     private func delay(extra: Duration = .zero) async {
         try? await Task.sleep(for: latency)
+        if condition == .slow { try? await Task.sleep(for: .seconds(3)) }
         if extra != .zero { try? await Task.sleep(for: extra) }
     }
 
@@ -128,6 +144,7 @@ actor MockBackend {
                   idempotencyKey: String) async throws -> Transaction {
         await delay()
         try requireOnline()
+        try failIfFlaky()
 
         // Idempotent replay: a retry with the same key returns the original
         // transaction without re-posting — unless the `retryDuplicate` scenario
@@ -163,6 +180,7 @@ actor MockBackend {
     func deposit(to currency: Currency, amount: Decimal, title: String = "Add money") async throws -> Transaction {
         await delay()
         try requireOnline()
+        try failIfFlaky()
         guard amount > 0 else { throw BackendError.invalidAmount }
         guard var account = accountsByCurrency[currency] else { throw BackendError.unknownAccount }
         account.balance += amount
@@ -181,6 +199,7 @@ actor MockBackend {
     func exchange(sell: Currency, get: Currency, debit: Decimal, credited: Decimal) async throws -> Transaction {
         await delay()
         try requireOnline()
+        try failIfFlaky()
         guard debit > 0 else { throw BackendError.invalidAmount }
         guard var from = accountsByCurrency[sell] else { throw BackendError.unknownAccount }
         guard var to = accountsByCurrency[get] else { throw BackendError.unknownAccount }
@@ -207,6 +226,7 @@ actor MockBackend {
     func placeOrder(_ order: Order) async throws -> Order {
         await delay()
         try requireOnline()
+        try failIfFlaky()
         guard assets[order.symbol] != nil else { throw BackendError.unknownAsset }
         guard order.quantity > 0 else { throw BackendError.invalidAmount }
         guard var cash = accountsByCurrency[cashCurrency] else { throw BackendError.unknownAccount }

@@ -43,6 +43,31 @@ final class MockBackendTests: XCTestCase {
         XCTAssertEqual(tx.amount, Decimal(-10))
     }
 
+    func testFlakyConditionFailsSomeWrites() async {
+        let b = backend()
+        await b.setCondition(.flaky)
+        var ok = 0, failed = 0
+        for _ in 0..<12 {
+            do { _ = try await b.deposit(to: .EUR, amount: Decimal(1)); ok += 1 }
+            catch { failed += 1 }
+        }
+        XCTAssertGreaterThan(failed, 0, "expected some failures under flaky")
+        XCTAssertGreaterThan(ok, 0, "expected some successes under flaky")
+    }
+
+    func testNormalConditionNeverFails() async throws {
+        let b = backend()
+        await b.setCondition(.normal)
+        for _ in 0..<12 { _ = try await b.deposit(to: .EUR, amount: Decimal(1)) }
+    }
+
+    func testNetworkConditionFromParsesNames() {
+        XCTAssertEqual(NetworkCondition.from("slow"), .slow)
+        XCTAssertEqual(NetworkCondition.from("OFFLINE"), .offline)
+        XCTAssertEqual(NetworkCondition.from(nil), .normal)
+        XCTAssertEqual(NetworkCondition.from("nope"), .normal)
+    }
+
     func testTransferDebitsExactly() async throws {
         let b = backend()
         let before = await b.fetchAccount(.EUR)!.balance
