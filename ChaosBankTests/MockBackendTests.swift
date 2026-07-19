@@ -68,6 +68,19 @@ final class MockBackendTests: XCTestCase {
         XCTAssertEqual(NetworkCondition.from("nope"), .normal)
     }
 
+    func testNetworkConditionTitles() {
+        XCTAssertEqual(NetworkCondition.allCases.map(\.title),
+                       ["Normal", "Offline", "Slow", "Flaky"])
+    }
+
+    func testSlowConditionAddsLatency() async {
+        let b = backend()
+        await b.setCondition(.slow)
+        let start = Date()
+        _ = await b.fetchAccounts()
+        XCTAssertGreaterThan(Date().timeIntervalSince(start), 2.5)
+    }
+
     func testTransferDebitsExactly() async throws {
         let b = backend()
         let before = await b.fetchAccount(.EUR)!.balance

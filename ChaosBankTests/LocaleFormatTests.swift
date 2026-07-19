@@ -52,4 +52,14 @@ final class LocaleFormatTests: XCTestCase {
         XCTAssertTrue(LocaleFormat.money(amount, currencyCode: "EUR", locale: .deDE)
             .trimmingCharacters(in: .whitespaces).hasPrefix("€"))
     }
+
+    func testLocaleIdTitlesAndLocalesCoverEveryCase() {
+        Defects.configure(BuildConfig(seed: 0, activeDefects: [], label: "clean"))
+        XCTAssertEqual(LocaleId.allCases.map(\.title), ["en-US", "de-DE", "ar"])
+        // Exercise every foundationLocale (incl. ar) through both formatters.
+        for id in LocaleId.allCases {
+            XCTAssertFalse(LocaleFormat.grouped(value, locale: id).isEmpty)
+            XCTAssertFalse(LocaleFormat.money(Decimal(string: "1234.56")!, currencyCode: "EUR", locale: id).isEmpty)
+        }
+    }
 }
