@@ -30,6 +30,14 @@ enum A11y {
         static let offlineBanner = "net.offlineBanner"
     }
 
+    enum Loans {
+        static let root = "loans.root"
+        static let apr = "loans.apr"
+        static let monthly = "loans.monthly"
+        static let total = "loans.total"
+        static let cardButton = "card.loanButton"
+    }
+
     enum Notifications {
         static let root = "notifications.root"
         static let bell = "home.notificationsBell"

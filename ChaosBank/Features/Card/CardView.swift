@@ -81,6 +81,18 @@ struct CardView: View {
             }
             .accessibilityIdentifier(A11y.Card.virtualButton)
 
+            NavigationLink {
+                LoansView()
+            } label: {
+                Label("Explore a loan", systemImage: "banknote")
+                    .font(.appBody(16, weight: .semibold)).foregroundStyle(Palette.text)
+                    .frame(maxWidth: .infinity).padding(.vertical, 15)
+                    .background(Palette.surface2)
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Palette.line, lineWidth: 1))
+            }
+            .accessibilityIdentifier(A11y.Loans.cardButton)
+
             PrimaryButton(title: "Order physical card", systemImage: "creditcard") {
             }
             .accessibilityIdentifier(A11y.Card.orderPhysicalButton)

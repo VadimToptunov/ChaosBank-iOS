@@ -344,6 +344,11 @@ nonisolated enum Exercises {
             expectedClean: "Virtual card shows a distinct number.",
             expectedBuggy: "Virtual card leaks the real card PAN.",
             locators: ["card.virtualButton", "card.virtualNumber", "card.number"]),
+        .loanAprUnderstated: Spec(difficulty: "senior",
+            task: "On the loan screen, assert the monthly payment matches the advertised APR (7.9%).",
+            expectedClean: "Payment computed at the advertised APR.",
+            expectedBuggy: "Payment reflects a higher rate than the advertised APR.",
+            locators: ["loans.apr", "loans.monthly", "loans.total"]),
     ]
 
     static let all: [Exercise] = {

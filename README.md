@@ -127,9 +127,9 @@ scheme. No duplicated targets, no `#if` scattered through the app.
 
 ---
 
-## Defect catalog (118 defects, 10 categories)
+## Defect catalog (119 defects, 10 categories)
 
-Every defect ships **OFF** in the `clean` profile. Counts by category: money 22,
+Every defect ships **OFF** in the `clean` profile. Counts by category: money 23,
 state 21, security 18, validation 12, ui 12, network 8, performance 6,
 concurrency 6, localization 8, accessibility 5. The latest additions are the first
 **reliability stressors** — a dev-menu network-state selector
@@ -141,6 +141,7 @@ representative selection.
 | Category | Defect | What it breaks |
 |---|---|---|
 | **Money** | `roundingDrift` | stored amount drifts from displayed (Double vs Decimal) |
+| | `loanAprUnderstated` ⭑ | loan payment uses a higher rate than the advertised APR |
 | | `pnlSign` | a loss renders as a gain |
 | | `exchangeFeeNotApplied` | credited amount ignores the displayed fee |
 | | `pnlPercentVsValue` | P&L % divides by market value, not cost |
@@ -301,7 +302,7 @@ xcrun simctl launch <device> VadimToptunov.ChaosBank -ChaosBankProfile flaky
 
 A unit-test target (`ChaosBankTests`, XCTest) covers the correct baseline and the
 regression pattern — the same assertion passes on `clean` and fails when a defect
-is active. **201 tests** across the catalog (integrity, profiles, exercises), money
+is active. **205 tests** across the catalog (integrity, profiles, exercises), money
 & rounding, locale parsing, the mock backend & every network scenario/error path
 (including offline mode), the seeded price feed, the auth ladder, and every view model (Home, Transfer,
 Exchange, Transactions, Order, Portfolio, Card + TokenStore).

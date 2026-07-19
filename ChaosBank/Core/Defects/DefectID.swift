@@ -27,6 +27,7 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case exchangeCreditsWrongAccount
     case exchangeFeeDoubled
     case youGetShowsGross
+    case loanAprUnderstated
     case changePctSignFlipped
     case detailPriceOffset
     case detailChangeWrongBase
