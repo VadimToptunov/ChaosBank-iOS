@@ -324,6 +324,11 @@ nonisolated enum Exercises {
             expectedClean: "Grouping follows the locale (de-DE → 1.234.567,89).",
             expectedBuggy: "Grouping is stuck on en-US regardless of locale.",
             locators: ["dev.localeSelector", "dev.localeSample"]),
+        .currencySymbolPlacementIgnoresLocale: Spec(difficulty: "middle",
+            task: "Select de-DE and assert the currency symbol follows the amount (e.g. 1.234,56 €), not before it.",
+            expectedClean: "Symbol placed per locale (after in de-DE, before in en-US).",
+            expectedBuggy: "Symbol always placed before the amount (en-US style).",
+            locators: ["dev.localeSelector", "dev.localeCurrencySample"]),
     ]
 
     static let all: [Exercise] = {

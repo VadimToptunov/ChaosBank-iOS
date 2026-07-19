@@ -55,6 +55,7 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case dateTimezoneShift
     case rtlBreaksLayout
     case numberGroupingIgnoresLocale
+    case currencySymbolPlacementIgnoresLocale
     case balanceWrongCurrencySymbol
     case priceMissingDecimals
     case searchTrimsNothing

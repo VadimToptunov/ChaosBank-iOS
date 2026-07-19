@@ -69,6 +69,10 @@ nonisolated enum DefectRegistry {
                feature: "Localization", category: .localization, severity: .major,
                violates: "Grouping and decimal separators follow the selected locale (e.g. 1.234,56 in de-DE).",
                flakiness: .deterministic),
+        Defect(id: .currencySymbolPlacementIgnoresLocale, title: "Currency symbol placed wrong for the locale",
+               feature: "Localization", category: .localization, severity: .major,
+               violates: "The currency symbol sits where the locale expects (before in en-US, after in de-DE).",
+               flakiness: .deterministic),
 
         Defect(id: .staleBalance, title: "Dashboard shows pre-transfer balance",
                feature: "Home", category: .state, severity: .major,

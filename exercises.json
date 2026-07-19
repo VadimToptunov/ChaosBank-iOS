@@ -2107,5 +2107,24 @@
     "launchArgument" : "-ChaosBankDefects numberGroupingIgnoresLocale",
     "task" : "Select the de-DE locale (dev menu) and assert the sample number groups as 1.234.567,89.",
     "title" : "Number grouping ignores the locale"
+  },
+  {
+    "category" : "localization",
+    "condition" : "The currency symbol sits where the locale expects (before in en-US, after in de-DE).",
+    "defects" : [
+      "currencySymbolPlacementIgnoresLocale"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Symbol always placed before the amount (en-US style).",
+    "expectedClean" : "Symbol placed per locale (after in de-DE, before in en-US).",
+    "feature" : "Localization",
+    "id" : "IOS-LOC-05",
+    "keyLocators" : [
+      "dev.localeSelector",
+      "dev.localeCurrencySample"
+    ],
+    "launchArgument" : "-ChaosBankDefects currencySymbolPlacementIgnoresLocale",
+    "task" : "Select de-DE and assert the currency symbol follows the amount (e.g. 1.234,56 €), not before it.",
+    "title" : "Currency symbol placed wrong for the locale"
   }
 ]

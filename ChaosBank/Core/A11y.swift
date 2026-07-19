@@ -58,6 +58,7 @@ enum A11y {
         static let rtlToggle = "dev.rtlToggle"
         static let localeSelector = "dev.localeSelector"
         static let localeSample = "dev.localeSample"
+        static let localeCurrencySample = "dev.localeCurrencySample"
         static let tokenStorage = "dev.tokenStorage"
         static let exercises = "dev.exercises"
         static let exercisesList = "dev.exercises.list"

@@ -111,9 +111,12 @@ struct DevMenuView: View {
                                                set: { services.locale.selectLocale(LocaleId(rawValue: $0) ?? .enUS) })
                         )
                         .accessibilityIdentifier(A11y.Dev.localeSelector)
-                        Text("Sample: \(LocaleFormat.grouped(Decimal(string: "1234567.89")!, locale: services.locale.locale))")
+                        Text("Number: \(LocaleFormat.grouped(Decimal(string: "1234567.89")!, locale: services.locale.locale))")
                             .font(.appMono(11)).foregroundStyle(Palette.muted)
                             .accessibilityIdentifier(A11y.Dev.localeSample)
+                        Text("Currency: \(LocaleFormat.money(Decimal(string: "1234.56")!, currencyCode: "EUR", locale: services.locale.locale))")
+                            .font(.appMono(11)).foregroundStyle(Palette.muted)
+                            .accessibilityIdentifier(A11y.Dev.localeCurrencySample)
                     }
 
                     section("Security") {

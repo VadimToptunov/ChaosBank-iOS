@@ -45,4 +45,17 @@ enum LocaleFormat {
         f.maximumFractionDigits = 2
         return f.string(from: value as NSDecimalNumber) ?? ""
     }
+
+    /// Locale-aware currency formatting. `currencySymbolPlacementIgnoresLocale` always
+    /// uses en-US placement (symbol before the amount) regardless of the locale.
+    static func money(_ value: Decimal, currencyCode: String, locale: LocaleId) -> String {
+        let effective = Defects.isActive(.currencySymbolPlacementIgnoresLocale)
+            ? Locale(identifier: "en_US")
+            : locale.foundationLocale
+        let f = NumberFormatter()
+        f.numberStyle = .currency
+        f.locale = effective
+        f.currencyCode = currencyCode
+        return f.string(from: value as NSDecimalNumber) ?? ""
+    }
 }

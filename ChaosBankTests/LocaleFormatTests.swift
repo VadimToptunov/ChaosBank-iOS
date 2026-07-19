@@ -36,4 +36,20 @@ final class LocaleFormatTests: XCTestCase {
         XCTAssertEqual(LocaleId.from(nil), .enUS)
         XCTAssertEqual(LocaleId.from("nope"), .enUS)
     }
+
+    func testMoneySymbolPlacementFollowsLocale() {
+        Defects.configure(BuildConfig(seed: 0, activeDefects: [], label: "clean"))
+        let amount = Decimal(string: "1234.56")!
+        XCTAssertTrue(LocaleFormat.money(amount, currencyCode: "EUR", locale: .enUS)
+            .trimmingCharacters(in: .whitespaces).hasPrefix("€"))
+        XCTAssertTrue(LocaleFormat.money(amount, currencyCode: "EUR", locale: .deDE)
+            .trimmingCharacters(in: .whitespaces).hasSuffix("€"))
+    }
+
+    func testCurrencyPlacementDefectAlwaysEnUsStyle() {
+        Defects.configure(BuildConfig(seed: 0, activeDefects: [.currencySymbolPlacementIgnoresLocale], label: "t"))
+        let amount = Decimal(string: "1234.56")!
+        XCTAssertTrue(LocaleFormat.money(amount, currencyCode: "EUR", locale: .deDE)
+            .trimmingCharacters(in: .whitespaces).hasPrefix("€"))
+    }
 }
