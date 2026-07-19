@@ -309,6 +309,11 @@ nonisolated enum Exercises {
             expectedClean: "Notification opens its stated destination.",
             expectedBuggy: "Notification opens a different screen.",
             locators: ["home.notificationsBell", "notifications.root"]),
+        .biometricUnlocksFromAnyStage: Spec(difficulty: "senior",
+            task: "From a fresh launch (login stage) assert a biometric unlock does NOT skip login/OTP/passcode.",
+            expectedClean: "Biometrics only re-enter from the passcode stage.",
+            expectedBuggy: "Biometrics unlock straight from login — the ladder is skipped.",
+            locators: ["auth.biometricButton", "auth.passcode"]),
     ]
 
     static let all: [Exercise] = {

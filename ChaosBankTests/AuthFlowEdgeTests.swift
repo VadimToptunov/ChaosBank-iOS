@@ -107,6 +107,20 @@ final class AuthFlowEdgeTests: XCTestCase {
         XCTAssertTrue(f.isUnlocked)
     }
 
+    func testBiometricFromLoginDoesNotUnlock() {
+        configure([])
+        let f = AuthFlow()
+        f.unlockWithBiometrics()
+        XCTAssertFalse(f.isUnlocked)
+    }
+
+    func testBiometricUnlocksFromAnyStageBypassesLadder() {
+        configure([.biometricUnlocksFromAnyStage])
+        let f = AuthFlow()
+        f.unlockWithBiometrics()
+        XCTAssertTrue(f.isUnlocked)
+    }
+
     func testPasscodeStoredPlaintextDefect() {
         configure([.passcodeStoredPlaintext])
         let f = AuthFlow()

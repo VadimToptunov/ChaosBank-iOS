@@ -405,6 +405,10 @@ nonisolated enum DefectRegistry {
                feature: "Deep links", category: .security, severity: .critical,
                violates: "A deep link still requires the auth gate before showing content.",
                flakiness: .deterministic),
+        Defect(id: .biometricUnlocksFromAnyStage, title: "Biometrics bypass the auth ladder",
+               feature: "Auth", category: .security, severity: .critical,
+               violates: "Biometrics are a fast re-entry only; they never skip initial login/OTP/passcode.",
+               flakiness: .deterministic),
 
         // MARK: - Batch: network
         Defect(id: .balanceReadReturnsZero, title: "Balance read returns zero on error",

@@ -201,7 +201,9 @@ final class AuthFlow {
     }
 
     func unlockWithBiometrics() {
-        // Mock Face ID: always succeeds in the sandbox.
+        // Biometrics are a fast RE-ENTRY only (after a session exists). From a fresh
+        // login they must not bypass the ladder — unless `biometricUnlocksFromAnyStage`.
+        guard stage == .passcodeEntry || Defects.isActive(.biometricUnlocksFromAnyStage) else { return }
         markUnlocked()
         stage = .unlocked
     }
