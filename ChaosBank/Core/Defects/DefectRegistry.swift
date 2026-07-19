@@ -325,6 +325,12 @@ nonisolated enum DefectRegistry {
         Defect(id: .transferConfirmWrongRecipient, title: "Confirm sheet shows wrong recipient",
                feature: "Transfer", category: .state, severity: .major,
                violates: "The confirmation shows the entered recipient.", flakiness: .deterministic),
+        Defect(id: .notificationBadgeStale, title: "Notification badge stays stale",
+               feature: "Notifications", category: .state, severity: .minor,
+               violates: "The unread badge reflects the actual unread count.", flakiness: .deterministic),
+        Defect(id: .notificationOpensWrongScreen, title: "Notification opens the wrong screen",
+               feature: "Notifications", category: .state, severity: .major,
+               violates: "Tapping a notification opens the destination it names.", flakiness: .deterministic),
 
         // MARK: - Batch: concurrency
         Defect(id: .homeRefreshRace, title: "Overlapping refreshes clobber the dashboard",

@@ -127,10 +127,10 @@ scheme. No duplicated targets, no `#if` scattered through the app.
 
 ---
 
-## Defect catalog (109 defects, 10 categories)
+## Defect catalog (111 defects, 10 categories)
 
 Every defect ships **OFF** in the `clean` profile. Counts by category: money 22,
-state 18, security 15, validation 12, ui 12, network 8, performance 6,
+state 20, security 15, validation 12, ui 12, network 8, performance 6,
 concurrency 6, localization 5, accessibility 5. The latest additions are the first
 **reliability stressors** — a dev-menu network-state selector
 (normal / offline / slow / flaky), unstable animations, and never-ending pagination.
@@ -158,6 +158,8 @@ representative selection.
 | | `cardToggleInvert` | freeze toggle reads back inverted |
 | | `filterLeaksCategory` | Money-in filter leaks money-out rows |
 | | `orderStuckPending` | a filled order still shows pending |
+| | `notificationBadgeStale` ⭑ | unread badge stays after reading notifications |
+| | `notificationOpensWrongScreen` ⭑ | tapping a notification opens the wrong screen |
 | **Concurrency** | `doubleCharge` | rapid double-tap sends the transfer twice |
 | | `livePriceRace` | order price ≠ the tapped price |
 | | `orderDoubleSubmit` | rapid double-tap places two orders |
@@ -292,7 +294,7 @@ xcrun simctl launch <device> VadimToptunov.ChaosBank -ChaosBankProfile flaky
 
 A unit-test target (`ChaosBankTests`, XCTest) covers the correct baseline and the
 regression pattern — the same assertion passes on `clean` and fails when a defect
-is active. **177 tests** across the catalog (integrity, profiles, exercises), money
+is active. **181 tests** across the catalog (integrity, profiles, exercises), money
 & rounding, locale parsing, the mock backend & every network scenario/error path
 (including offline mode), the seeded price feed, the auth ladder, and every view model (Home, Transfer,
 Exchange, Transactions, Order, Portfolio, Card + TokenStore).

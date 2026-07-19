@@ -11,6 +11,7 @@ struct HomeView: View {
     @State private var showTransfer = false
     @State private var showExchange = false
     @State private var showAddMoney = false
+    @State private var showNotifications = false
 
     var body: some View {
         ChaosBankScreen(title: "Home", a11y: A11y.Home.root) {
@@ -28,11 +29,32 @@ struct HomeView: View {
         .sheet(isPresented: $showTransfer) { TransferView() }
         .sheet(isPresented: $showExchange) { ExchangeView() }
         .sheet(isPresented: $showAddMoney) { AddMoneyView() }
+        .sheet(isPresented: $showNotifications) { NotificationsView() }
     }
 
     @ViewBuilder
     private func content(_ vm: HomeViewModel) -> some View {
         @Bindable var vm = vm
+
+        // Notifications bell + unread badge (Platform cluster).
+        HStack {
+            Spacer()
+            Button { showNotifications = true } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "bell.fill").foregroundStyle(Palette.sand)
+                    if services.notifications.unreadCount > 0 {
+                        Text("\(services.notifications.unreadCount)")
+                            .font(.appMono(12, weight: .bold))
+                            .foregroundStyle(Palette.bg)
+                            .padding(.horizontal, 7).padding(.vertical, 2)
+                            .background(Palette.loss)
+                            .clipShape(Capsule())
+                            .accessibilityIdentifier(A11y.Notifications.badge)
+                    }
+                }
+            }
+            .accessibilityIdentifier(A11y.Notifications.bell)
+        }
 
         // Balance card
         CardSurface {

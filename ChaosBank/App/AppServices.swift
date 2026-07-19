@@ -18,6 +18,7 @@ final class AppServices {
     private(set) var config: BuildConfig
     let backend: MockBackend
     let market: MarketStore
+    let notifications = NotificationStore()
 
     /// Increments after every successful mutation.
     private(set) var dataVersion = 0

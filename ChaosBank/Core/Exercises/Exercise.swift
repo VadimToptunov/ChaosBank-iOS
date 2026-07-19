@@ -299,6 +299,16 @@ nonisolated enum Exercises {
             expectedClean: "Deep links land on the auth gate until unlocked.",
             expectedBuggy: "Deep link opens the target screen without any auth.",
             locators: ["auth.passcode", "tabBar.markets"]),
+        .notificationBadgeStale: Spec(difficulty: "middle",
+            task: "Open the notification centre from Home, dismiss it, and assert the unread badge cleared.",
+            expectedClean: "Badge reflects the unread count (0 after reading).",
+            expectedBuggy: "Badge stays at the original count after reading.",
+            locators: ["home.notificationsBell", "home.notificationsBadge"]),
+        .notificationOpensWrongScreen: Spec(difficulty: "middle",
+            task: "Tap a notification and assert it opens the destination it names.",
+            expectedClean: "Notification opens its stated destination.",
+            expectedBuggy: "Notification opens a different screen.",
+            locators: ["home.notificationsBell", "notifications.root"]),
     ]
 
     static let all: [Exercise] = {

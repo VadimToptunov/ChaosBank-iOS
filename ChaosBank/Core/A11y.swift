@@ -30,6 +30,13 @@ enum A11y {
         static let offlineBanner = "net.offlineBanner"
     }
 
+    enum Notifications {
+        static let root = "notifications.root"
+        static let bell = "home.notificationsBell"
+        static let badge = "home.notificationsBadge"
+        static func row(_ id: String) -> String { "notifications.row.\(id)" }
+    }
+
     enum Sync {
         static let root = "sync.root"
         static let counter = "sync.counter"

@@ -2012,5 +2012,43 @@
     "launchArgument" : "-ChaosBankDefects deepLinkSkipsAuth",
     "task" : "Cold-launch a deep link (e.g. chaosbank://markets) while locked and assert the auth gate is still shown.",
     "title" : "Deep link opens a screen without auth"
+  },
+  {
+    "category" : "state",
+    "condition" : "The unread badge reflects the actual unread count.",
+    "defects" : [
+      "notificationBadgeStale"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Badge stays at the original count after reading.",
+    "expectedClean" : "Badge reflects the unread count (0 after reading).",
+    "feature" : "Notifications",
+    "id" : "IOS-STA-19",
+    "keyLocators" : [
+      "home.notificationsBell",
+      "home.notificationsBadge"
+    ],
+    "launchArgument" : "-ChaosBankDefects notificationBadgeStale",
+    "task" : "Open the notification centre from Home, dismiss it, and assert the unread badge cleared.",
+    "title" : "Notification badge stays stale"
+  },
+  {
+    "category" : "state",
+    "condition" : "Tapping a notification opens the destination it names.",
+    "defects" : [
+      "notificationOpensWrongScreen"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Notification opens a different screen.",
+    "expectedClean" : "Notification opens its stated destination.",
+    "feature" : "Notifications",
+    "id" : "IOS-STA-20",
+    "keyLocators" : [
+      "home.notificationsBell",
+      "notifications.root"
+    ],
+    "launchArgument" : "-ChaosBankDefects notificationOpensWrongScreen",
+    "task" : "Tap a notification and assert it opens the destination it names.",
+    "title" : "Notification opens the wrong screen"
   }
 ]

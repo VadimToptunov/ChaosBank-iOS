@@ -76,6 +76,8 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case buySellSwapped
     case onlinePaymentsInverted
     case transferConfirmWrongRecipient
+    case notificationBadgeStale
+    case notificationOpensWrongScreen
 
     // MARK: Concurrency / races
     case doubleCharge
