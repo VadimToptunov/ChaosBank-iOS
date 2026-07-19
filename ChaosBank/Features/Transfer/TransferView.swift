@@ -39,6 +39,26 @@ struct TransferView: View {
 
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
+                // Saved payment templates (banking-breadth). Tapping one prefills the form.
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(services.templates.templates) { t in
+                            Button {
+                                vm.recipient = t.recipient
+                                vm.amountText = NSDecimalNumber(decimal: services.templates.prefillAmount(t)).stringValue
+                            } label: {
+                                Text(t.name)
+                                    .font(.appBody(13, weight: .medium)).foregroundStyle(Palette.text)
+                                    .padding(.horizontal, 12).padding(.vertical, 8)
+                                    .background(Palette.surface2)
+                                    .clipShape(Capsule())
+                            }
+                            .accessibilityIdentifier(A11y.Transfer.template(t.id))
+                        }
+                    }
+                }
+                .accessibilityIdentifier(A11y.Transfer.templatesRow)
+
                 CardSurface {
                     VStack(alignment: .leading, spacing: 14) {
                         field("Recipient", text: $vm.recipient,

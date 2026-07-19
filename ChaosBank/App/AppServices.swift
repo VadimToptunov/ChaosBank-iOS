@@ -20,6 +20,7 @@ final class AppServices {
     let market: MarketStore
     let notifications = NotificationStore()
     let locale = LocaleSettings()
+    let templates = TemplateStore()
 
     /// Increments after every successful mutation.
     private(set) var dataVersion = 0

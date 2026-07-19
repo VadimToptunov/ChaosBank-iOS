@@ -329,6 +329,11 @@ nonisolated enum Exercises {
             expectedClean: "Symbol placed per locale (after in de-DE, before in en-US).",
             expectedBuggy: "Symbol always placed before the amount (en-US style).",
             locators: ["dev.localeSelector", "dev.localeCurrencySample"]),
+        .templatePrefillsWrongAmount: Spec(difficulty: "junior",
+            task: "On Transfer, tap the Rent template and assert the amount field prefills its saved value (1200.00).",
+            expectedClean: "Template prefills its exact saved amount.",
+            expectedBuggy: "Prefilled amount is wrong (e.g. ×10).",
+            locators: ["transfer.template.t1", "transfer.amountField"]),
     ]
 
     static let all: [Exercise] = {

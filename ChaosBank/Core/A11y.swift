@@ -134,6 +134,8 @@ enum A11y {
         static let retryButton = "transfer.retryButton"
         static let successToast = "transfer.successToast"
         static let error = "transfer.error"
+        static let templatesRow = "transfer.templatesRow"
+        static func template(_ id: String) -> String { "transfer.template.\(id)" }
     }
 
     enum Exchange {

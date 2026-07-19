@@ -2126,5 +2126,24 @@
     "launchArgument" : "-ChaosBankDefects currencySymbolPlacementIgnoresLocale",
     "task" : "Select de-DE and assert the currency symbol follows the amount (e.g. 1.234,56 €), not before it.",
     "title" : "Currency symbol placed wrong for the locale"
+  },
+  {
+    "category" : "state",
+    "condition" : "Applying a saved template prefills its exact saved amount.",
+    "defects" : [
+      "templatePrefillsWrongAmount"
+    ],
+    "difficulty" : "junior",
+    "expectedBuggy" : "Prefilled amount is wrong (e.g. ×10).",
+    "expectedClean" : "Template prefills its exact saved amount.",
+    "feature" : "Transfer \/ Templates",
+    "id" : "IOS-STA-21",
+    "keyLocators" : [
+      "transfer.template.t1",
+      "transfer.amountField"
+    ],
+    "launchArgument" : "-ChaosBankDefects templatePrefillsWrongAmount",
+    "task" : "On Transfer, tap the Rent template and assert the amount field prefills its saved value (1200.00).",
+    "title" : "Payment template prefills the wrong amount"
   }
 ]

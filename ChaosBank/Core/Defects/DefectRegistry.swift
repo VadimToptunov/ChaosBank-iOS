@@ -343,6 +343,9 @@ nonisolated enum DefectRegistry {
         Defect(id: .notificationOpensWrongScreen, title: "Notification opens the wrong screen",
                feature: "Notifications", category: .state, severity: .major,
                violates: "Tapping a notification opens the destination it names.", flakiness: .deterministic),
+        Defect(id: .templatePrefillsWrongAmount, title: "Payment template prefills the wrong amount",
+               feature: "Transfer / Templates", category: .state, severity: .major,
+               violates: "Applying a saved template prefills its exact saved amount.", flakiness: .deterministic),
 
         // MARK: - Batch: concurrency
         Defect(id: .homeRefreshRace, title: "Overlapping refreshes clobber the dashboard",
