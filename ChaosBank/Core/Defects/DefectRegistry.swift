@@ -428,6 +428,10 @@ nonisolated enum DefectRegistry {
                feature: "Transfer / KYC", category: .security, severity: .critical,
                violates: "A large transfer is blocked until identity (KYC) is verified.",
                flakiness: .deterministic),
+        Defect(id: .virtualCardShowsRealPan, title: "Virtual card exposes the real card number",
+               feature: "Card", category: .security, severity: .critical,
+               violates: "A virtual card shows a distinct virtual number, never the real PAN.",
+               flakiness: .deterministic),
 
         // MARK: - Batch: network
         Defect(id: .balanceReadReturnsZero, title: "Balance read returns zero on error",

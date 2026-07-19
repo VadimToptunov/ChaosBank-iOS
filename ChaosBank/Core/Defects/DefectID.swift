@@ -138,6 +138,7 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case deepLinkSkipsAuth
     case biometricUnlocksFromAnyStage
     case kycBypassAllowsTransfer
+    case virtualCardShowsRealPan
 
     // MARK: Network (scenario-driven backend)
     case retryDuplicate

@@ -21,6 +21,16 @@ final class CardAndTokenTests: XCTestCase {
 
     // MARK: Card
 
+    func testVirtualCardShowsDistinctNumberByDefault() {
+        configure([])
+        XCTAssertEqual(CardViewModel().virtualCardNumber, "4000 1234 5678 9010")
+    }
+
+    func testVirtualCardShowsRealPanDefect() {
+        configure([.virtualCardShowsRealPan])
+        XCTAssertEqual(CardViewModel().virtualCardNumber, "4916 2043 1188 4291")
+    }
+
     func testFreezeTogglePersists() {
         configure([])
         let vm = CardViewModel()

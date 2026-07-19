@@ -339,6 +339,11 @@ nonisolated enum Exercises {
             expectedClean: "Large transfer blocked until KYC is verified.",
             expectedBuggy: "Unverified user can still send a large transfer.",
             locators: ["dev.kycToggle", "transfer.continueButton", "transfer.kycNotice"]),
+        .virtualCardShowsRealPan: Spec(difficulty: "middle",
+            task: "Create a virtual card and assert its number differs from the real card PAN.",
+            expectedClean: "Virtual card shows a distinct number.",
+            expectedBuggy: "Virtual card leaks the real card PAN.",
+            locators: ["card.virtualButton", "card.virtualNumber", "card.number"]),
     ]
 
     static let all: [Exercise] = {

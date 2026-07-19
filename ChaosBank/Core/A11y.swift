@@ -233,5 +233,7 @@ enum A11y {
         static let limitError = "card.limitError"
         static let pinButton = "card.pinButton"
         static let orderPhysicalButton = "card.orderPhysicalButton"
+        static let virtualButton = "card.virtualButton"
+        static let virtualNumber = "card.virtualNumber"
     }
 }

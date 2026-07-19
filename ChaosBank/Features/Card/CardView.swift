@@ -8,6 +8,7 @@ import SwiftUI
 struct CardView: View {
     @State private var vm = CardViewModel()
     @State private var showPIN = false
+    @State private var virtualCreated = false
 
     var body: some View {
         ChaosBankScreen(title: "Card", a11y: A11y.Card.root) {
@@ -63,6 +64,22 @@ struct CardView: View {
                 showPIN = true
             }
             .accessibilityIdentifier(A11y.Card.pinButton)
+
+            // Virtual card issuance (banking-breadth). Should reveal a distinct number.
+            if virtualCreated {
+                CardSurface {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Virtual card").font(.appBody(12)).foregroundStyle(Palette.muted)
+                        Text(vm.virtualCardNumber)
+                            .font(.appMono(16, weight: .semibold)).foregroundStyle(Palette.text)
+                            .accessibilityIdentifier(A11y.Card.virtualNumber)
+                    }
+                }
+            }
+            SecondaryButton(title: "Create virtual card", systemImage: "plus.rectangle.on.rectangle") {
+                virtualCreated = true
+            }
+            .accessibilityIdentifier(A11y.Card.virtualButton)
 
             PrimaryButton(title: "Order physical card", systemImage: "creditcard") {
             }

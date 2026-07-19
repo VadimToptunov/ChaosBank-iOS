@@ -65,4 +65,11 @@ final class CardViewModel {
     var visibleCVV: String? {
         Defects.isActive(.cardCvvVisible) ? cvv : nil
     }
+
+    private let virtualPan = "4000 1234 5678 9010"
+
+    /// `virtualCardShowsRealPan`: the virtual card leaks the real PAN instead of a distinct number.
+    var virtualCardNumber: String {
+        Defects.isActive(.virtualCardShowsRealPan) ? fullPAN : virtualPan
+    }
 }
