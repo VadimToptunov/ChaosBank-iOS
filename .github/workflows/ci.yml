@@ -23,6 +23,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Validate catalog & cross-platform parity
+        run: >
+          python3 Scripts/check_exercises.py exercises.json IOS
+          https://raw.githubusercontent.com/VadimToptunov/ChaosBank-Android/main/exercises.json
+
       - name: Select newest Xcode
         run: |
           LATEST=$(ls -d /Applications/Xcode*.app | sort -V | tail -1)

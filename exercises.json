@@ -260,6 +260,26 @@
   },
   {
     "category" : "money",
+    "condition" : "The advertised APR equals the rate used to compute the monthly payment.",
+    "defects" : [
+      "loanAprUnderstated"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Payment reflects a higher rate than the advertised APR.",
+    "expectedClean" : "Payment computed at the advertised APR.",
+    "feature" : "Loans",
+    "id" : "IOS-MON-15",
+    "keyLocators" : [
+      "loans.apr",
+      "loans.monthly",
+      "loans.total"
+    ],
+    "launchArgument" : "-ChaosBankDefects loanAprUnderstated",
+    "task" : "On the loan screen, assert the monthly payment matches the advertised APR (7.9%).",
+    "title" : "Loan APR understated vs the rate charged"
+  },
+  {
+    "category" : "money",
     "condition" : "The percent change sign matches the price move.",
     "defects" : [
       "changePctSignFlipped"
@@ -268,7 +288,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Markets",
-    "id" : "IOS-MON-15",
+    "id" : "IOS-MON-16",
     "keyLocators" : [
 
     ],
@@ -286,7 +306,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Asset detail",
-    "id" : "IOS-MON-16",
+    "id" : "IOS-MON-17",
     "keyLocators" : [
 
     ],
@@ -304,7 +324,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Asset detail",
-    "id" : "IOS-MON-17",
+    "id" : "IOS-MON-18",
     "keyLocators" : [
 
     ],
@@ -322,7 +342,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Order",
-    "id" : "IOS-MON-18",
+    "id" : "IOS-MON-19",
     "keyLocators" : [
 
     ],
@@ -340,7 +360,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Order",
-    "id" : "IOS-MON-19",
+    "id" : "IOS-MON-20",
     "keyLocators" : [
 
     ],
@@ -358,7 +378,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Portfolio",
-    "id" : "IOS-MON-20",
+    "id" : "IOS-MON-21",
     "keyLocators" : [
 
     ],
@@ -376,7 +396,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Portfolio",
-    "id" : "IOS-MON-21",
+    "id" : "IOS-MON-22",
     "keyLocators" : [
 
     ],
@@ -394,7 +414,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Portfolio",
-    "id" : "IOS-MON-22",
+    "id" : "IOS-MON-23",
     "keyLocators" : [
 
     ],
@@ -667,6 +687,63 @@
   },
   {
     "category" : "localization",
+    "condition" : "Under a right-to-left layout, rows mirror correctly (start\/end, not hard-coded left\/right).",
+    "defects" : [
+      "rtlBreaksLayout"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "A row stays left-to-right — hard-coded left\/right doesn't mirror.",
+    "expectedClean" : "Rows mirror under RTL (start\/end).",
+    "feature" : "Transactions",
+    "id" : "IOS-LOC-03",
+    "keyLocators" : [
+      "dev.rtlToggle",
+      "transactions.list"
+    ],
+    "launchArgument" : "-ChaosBankDefects rtlBreaksLayout",
+    "task" : "Enable RTL (dev menu), open Transactions, and assert the rows mirror correctly.",
+    "title" : "Row doesn't mirror under RTL"
+  },
+  {
+    "category" : "localization",
+    "condition" : "Grouping and decimal separators follow the selected locale (e.g. 1.234,56 in de-DE).",
+    "defects" : [
+      "numberGroupingIgnoresLocale"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Grouping is stuck on en-US regardless of locale.",
+    "expectedClean" : "Grouping follows the locale (de-DE → 1.234.567,89).",
+    "feature" : "Localization",
+    "id" : "IOS-LOC-04",
+    "keyLocators" : [
+      "dev.localeSelector",
+      "dev.localeSample"
+    ],
+    "launchArgument" : "-ChaosBankDefects numberGroupingIgnoresLocale",
+    "task" : "Select the de-DE locale (dev menu) and assert the sample number groups as 1.234.567,89.",
+    "title" : "Number grouping ignores the locale"
+  },
+  {
+    "category" : "localization",
+    "condition" : "The currency symbol sits where the locale expects (before in en-US, after in de-DE).",
+    "defects" : [
+      "currencySymbolPlacementIgnoresLocale"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Symbol always placed before the amount (en-US style).",
+    "expectedClean" : "Symbol placed per locale (after in de-DE, before in en-US).",
+    "feature" : "Localization",
+    "id" : "IOS-LOC-05",
+    "keyLocators" : [
+      "dev.localeSelector",
+      "dev.localeCurrencySample"
+    ],
+    "launchArgument" : "-ChaosBankDefects currencySymbolPlacementIgnoresLocale",
+    "task" : "Select de-DE and assert the currency symbol follows the amount (e.g. 1.234,56 €), not before it.",
+    "title" : "Currency symbol placed wrong for the locale"
+  },
+  {
+    "category" : "localization",
     "condition" : "The currency symbol matches the selected currency.",
     "defects" : [
       "balanceWrongCurrencySymbol"
@@ -675,7 +752,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Home",
-    "id" : "IOS-LOC-03",
+    "id" : "IOS-LOC-06",
     "keyLocators" : [
 
     ],
@@ -693,7 +770,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Markets",
-    "id" : "IOS-LOC-04",
+    "id" : "IOS-LOC-07",
     "keyLocators" : [
 
     ],
@@ -711,7 +788,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Transactions",
-    "id" : "IOS-LOC-05",
+    "id" : "IOS-LOC-08",
     "keyLocators" : [
 
     ],
@@ -760,6 +837,25 @@
   },
   {
     "category" : "state",
+    "condition" : "Pagination terminates once every matching row is shown.",
+    "defects" : [
+      "paginationNeverEnds"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Load more never stops — the list grows forever.",
+    "expectedClean" : "Load more stops when the list is exhausted.",
+    "feature" : "Transactions",
+    "id" : "IOS-STA-03",
+    "keyLocators" : [
+      "transactions.loadMore",
+      "transactions.list"
+    ],
+    "launchArgument" : "-ChaosBankDefects paginationNeverEnds",
+    "task" : "Tap Load more repeatedly and assert pagination terminates once every matching row is shown.",
+    "title" : "Pagination never ends"
+  },
+  {
+    "category" : "state",
     "condition" : "Toggle state persists and reads back correctly.",
     "defects" : [
       "cardToggleInvert"
@@ -768,7 +864,7 @@
     "expectedBuggy" : "Freeze reads back inverted.",
     "expectedClean" : "Freeze state reads back correctly.",
     "feature" : "Card",
-    "id" : "IOS-STA-03",
+    "id" : "IOS-STA-04",
     "keyLocators" : [
       "card.freezeToggle",
       "card.frozenBadge"
@@ -787,7 +883,7 @@
     "expectedBuggy" : "Money-out rows leak through.",
     "expectedClean" : "Filter shows only money-in rows.",
     "feature" : "Transactions",
-    "id" : "IOS-STA-04",
+    "id" : "IOS-STA-05",
     "keyLocators" : [
       "transactions.filter.in",
       "transactions.list"
@@ -806,7 +902,7 @@
     "expectedBuggy" : "Order stuck showing pending.",
     "expectedClean" : "Order reports filled.",
     "feature" : "Order",
-    "id" : "IOS-STA-05",
+    "id" : "IOS-STA-06",
     "keyLocators" : [
       "order.placeButton",
       "order.statusToast"
@@ -825,7 +921,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Home",
-    "id" : "IOS-STA-06",
+    "id" : "IOS-STA-07",
     "keyLocators" : [
 
     ],
@@ -843,7 +939,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Home",
-    "id" : "IOS-STA-07",
+    "id" : "IOS-STA-08",
     "keyLocators" : [
 
     ],
@@ -861,7 +957,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Exchange",
-    "id" : "IOS-STA-08",
+    "id" : "IOS-STA-09",
     "keyLocators" : [
 
     ],
@@ -879,7 +975,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Transactions",
-    "id" : "IOS-STA-09",
+    "id" : "IOS-STA-10",
     "keyLocators" : [
 
     ],
@@ -897,7 +993,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Transactions",
-    "id" : "IOS-STA-10",
+    "id" : "IOS-STA-11",
     "keyLocators" : [
 
     ],
@@ -915,7 +1011,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Markets",
-    "id" : "IOS-STA-11",
+    "id" : "IOS-STA-12",
     "keyLocators" : [
 
     ],
@@ -933,7 +1029,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Markets",
-    "id" : "IOS-STA-12",
+    "id" : "IOS-STA-13",
     "keyLocators" : [
 
     ],
@@ -951,7 +1047,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Markets",
-    "id" : "IOS-STA-13",
+    "id" : "IOS-STA-14",
     "keyLocators" : [
 
     ],
@@ -969,7 +1065,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Asset detail",
-    "id" : "IOS-STA-14",
+    "id" : "IOS-STA-15",
     "keyLocators" : [
 
     ],
@@ -987,7 +1083,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Order",
-    "id" : "IOS-STA-15",
+    "id" : "IOS-STA-16",
     "keyLocators" : [
 
     ],
@@ -1005,7 +1101,7 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Card",
-    "id" : "IOS-STA-16",
+    "id" : "IOS-STA-17",
     "keyLocators" : [
 
     ],
@@ -1023,13 +1119,70 @@
     "expectedBuggy" : "Requirement violated.",
     "expectedClean" : "Behaves per the requirement.",
     "feature" : "Transfer",
-    "id" : "IOS-STA-17",
+    "id" : "IOS-STA-18",
     "keyLocators" : [
 
     ],
     "launchArgument" : "-ChaosBankDefects transferConfirmWrongRecipient",
     "task" : "Reproduce the defect and write a stable test that fails only when active.",
     "title" : "Confirm sheet shows wrong recipient"
+  },
+  {
+    "category" : "state",
+    "condition" : "The unread badge reflects the actual unread count.",
+    "defects" : [
+      "notificationBadgeStale"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Badge stays at the original count after reading.",
+    "expectedClean" : "Badge reflects the unread count (0 after reading).",
+    "feature" : "Notifications",
+    "id" : "IOS-STA-19",
+    "keyLocators" : [
+      "home.notificationsBell",
+      "home.notificationsBadge"
+    ],
+    "launchArgument" : "-ChaosBankDefects notificationBadgeStale",
+    "task" : "Open the notification centre from Home, dismiss it, and assert the unread badge cleared.",
+    "title" : "Notification badge stays stale"
+  },
+  {
+    "category" : "state",
+    "condition" : "Tapping a notification opens the destination it names.",
+    "defects" : [
+      "notificationOpensWrongScreen"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Notification opens a different screen.",
+    "expectedClean" : "Notification opens its stated destination.",
+    "feature" : "Notifications",
+    "id" : "IOS-STA-20",
+    "keyLocators" : [
+      "home.notificationsBell",
+      "notifications.root"
+    ],
+    "launchArgument" : "-ChaosBankDefects notificationOpensWrongScreen",
+    "task" : "Tap a notification and assert it opens the destination it names.",
+    "title" : "Notification opens the wrong screen"
+  },
+  {
+    "category" : "state",
+    "condition" : "Applying a saved template prefills its exact saved amount.",
+    "defects" : [
+      "templatePrefillsWrongAmount"
+    ],
+    "difficulty" : "junior",
+    "expectedBuggy" : "Prefilled amount is wrong (e.g. ×10).",
+    "expectedClean" : "Template prefills its exact saved amount.",
+    "feature" : "Transfer \/ Templates",
+    "id" : "IOS-STA-21",
+    "keyLocators" : [
+      "transfer.template.t1",
+      "transfer.amountField"
+    ],
+    "launchArgument" : "-ChaosBankDefects templatePrefillsWrongAmount",
+    "task" : "On Transfer, tap the Rent template and assert the amount field prefills its saved value (1200.00).",
+    "title" : "Payment template prefills the wrong amount"
   },
   {
     "category" : "concurrency",
@@ -1125,6 +1278,26 @@
     "launchArgument" : "-ChaosBankDefects homeRefreshRace",
     "task" : "Reproduce the defect and write a stable test that fails only when active.",
     "title" : "Overlapping refreshes clobber the dashboard"
+  },
+  {
+    "category" : "concurrency",
+    "condition" : "Concurrent read-modify-write increments are atomic; none are lost.",
+    "defects" : [
+      "syncLostUpdate"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Increments are lost to a race; counter < start + N.",
+    "expectedClean" : "Concurrent increments are atomic; counter == start + N.",
+    "feature" : "Sync",
+    "id" : "IOS-CON-06",
+    "keyLocators" : [
+      "dev.sync",
+      "sync.runButton",
+      "sync.counter"
+    ],
+    "launchArgument" : "-ChaosBankDefects syncLostUpdate",
+    "task" : "On the dev-menu Sync playground, run the concurrent +1 batch and assert the counter equals start + N.",
+    "title" : "Concurrent increments lose updates"
   },
   {
     "category" : "performance",
@@ -1435,6 +1608,25 @@
     "launchArgument" : "-ChaosBankDefects successToastTooBrief",
     "task" : "Reproduce the defect and write a stable test that fails only when active.",
     "title" : "Success toast flashes too briefly"
+  },
+  {
+    "category" : "ui",
+    "condition" : "Value-change animations complete within a stable, bounded time.",
+    "defects" : [
+      "flakyAnimation"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Settle time jitters per tick — a wait-for-idle step flakes.",
+    "expectedClean" : "Flash animation settles within a stable, bounded duration.",
+    "feature" : "Markets",
+    "id" : "IOS-UI-12",
+    "keyLocators" : [
+      "markets.asset.AAPL.price",
+      "markets.liveBadge"
+    ],
+    "launchArgument" : "-ChaosBankDefects flakyAnimation",
+    "task" : "Open Markets in live mode and assert a price cell settles to its neutral colour within a bounded time on every tick.",
+    "title" : "Ticker flash animation is unstable"
   },
   {
     "category" : "accessibility",
@@ -1786,6 +1978,84 @@
     "title" : "Login credentials written to the console"
   },
   {
+    "category" : "security",
+    "condition" : "A deep link still requires the auth gate before showing content.",
+    "defects" : [
+      "deepLinkSkipsAuth"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Deep link opens the target screen without any auth.",
+    "expectedClean" : "Deep links land on the auth gate until unlocked.",
+    "feature" : "Deep links",
+    "id" : "IOS-SEC-15",
+    "keyLocators" : [
+      "auth.passcode",
+      "tabBar.markets"
+    ],
+    "launchArgument" : "-ChaosBankDefects deepLinkSkipsAuth",
+    "task" : "Cold-launch a deep link (e.g. chaosbank:\/\/markets) while locked and assert the auth gate is still shown.",
+    "title" : "Deep link opens a screen without auth"
+  },
+  {
+    "category" : "security",
+    "condition" : "Biometrics are a fast re-entry only; they never skip initial login\/OTP\/passcode.",
+    "defects" : [
+      "biometricUnlocksFromAnyStage"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Biometrics unlock straight from login — the ladder is skipped.",
+    "expectedClean" : "Biometrics only re-enter from the passcode stage.",
+    "feature" : "Auth",
+    "id" : "IOS-SEC-16",
+    "keyLocators" : [
+      "auth.biometricButton",
+      "auth.passcode"
+    ],
+    "launchArgument" : "-ChaosBankDefects biometricUnlocksFromAnyStage",
+    "task" : "From a fresh launch (login stage) assert a biometric unlock does NOT skip login\/OTP\/passcode.",
+    "title" : "Biometrics bypass the auth ladder"
+  },
+  {
+    "category" : "security",
+    "condition" : "A large transfer is blocked until identity (KYC) is verified.",
+    "defects" : [
+      "kycBypassAllowsTransfer"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "Unverified user can still send a large transfer.",
+    "expectedClean" : "Large transfer blocked until KYC is verified.",
+    "feature" : "Transfer \/ KYC",
+    "id" : "IOS-SEC-17",
+    "keyLocators" : [
+      "dev.kycToggle",
+      "transfer.continueButton",
+      "transfer.kycNotice"
+    ],
+    "launchArgument" : "-ChaosBankDefects kycBypassAllowsTransfer",
+    "task" : "Turn KYC off (dev menu), enter a €2000 transfer, and assert Continue stays disabled.",
+    "title" : "Unverified KYC still sends large transfers"
+  },
+  {
+    "category" : "security",
+    "condition" : "A virtual card shows a distinct virtual number, never the real PAN.",
+    "defects" : [
+      "virtualCardShowsRealPan"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Virtual card leaks the real card PAN.",
+    "expectedClean" : "Virtual card shows a distinct number.",
+    "feature" : "Card",
+    "id" : "IOS-SEC-18",
+    "keyLocators" : [
+      "card.virtualButton",
+      "card.virtualNumber",
+      "card.number"
+    ],
+    "launchArgument" : "-ChaosBankDefects virtualCardShowsRealPan",
+    "task" : "Create a virtual card and assert its number differs from the real card PAN.",
+    "title" : "Virtual card exposes the real card number"
+  },
+  {
     "category" : "network",
     "condition" : "Retries are idempotent; a retried request never double-posts.",
     "defects" : [
@@ -1918,25 +2188,6 @@
     "title" : "Holdings read is stale after an order"
   },
   {
-    "category" : "ui",
-    "condition" : "Value-change animations complete within a stable, bounded time.",
-    "defects" : [
-      "flakyAnimation"
-    ],
-    "difficulty" : "senior",
-    "expectedBuggy" : "Settle time jitters per tick — a wait-for-idle step flakes.",
-    "expectedClean" : "Flash animation settles within a stable, bounded duration.",
-    "feature" : "Markets",
-    "id" : "IOS-UI-12",
-    "keyLocators" : [
-      "markets.asset.AAPL.price",
-      "markets.liveBadge"
-    ],
-    "launchArgument" : "-ChaosBankDefects flakyAnimation",
-    "task" : "Open Markets in live mode and assert a price cell settles to its neutral colour within a bounded time on every tick.",
-    "title" : "Ticker flash animation is unstable"
-  },
-  {
     "category" : "network",
     "condition" : "When offline, the UI clearly indicates it and serves cached data.",
     "defects" : [
@@ -1954,256 +2205,5 @@
     "launchArgument" : "-ChaosBankDefects offlineBannerMissing",
     "task" : "Enable offline mode (dev menu network selector) and assert the offline banner is shown on the current screen.",
     "title" : "No offline indicator while offline"
-  },
-  {
-    "category" : "state",
-    "condition" : "Pagination terminates once every matching row is shown.",
-    "defects" : [
-      "paginationNeverEnds"
-    ],
-    "difficulty" : "middle",
-    "expectedBuggy" : "Load more never stops — the list grows forever.",
-    "expectedClean" : "Load more stops when the list is exhausted.",
-    "feature" : "Transactions",
-    "id" : "IOS-STA-03",
-    "keyLocators" : [
-      "transactions.loadMore",
-      "transactions.list"
-    ],
-    "launchArgument" : "-ChaosBankDefects paginationNeverEnds",
-    "task" : "Tap Load more repeatedly and assert pagination terminates once every matching row is shown.",
-    "title" : "Pagination never ends"
-  },
-  {
-    "category" : "concurrency",
-    "condition" : "Concurrent read-modify-write increments are atomic; none are lost.",
-    "defects" : [
-      "syncLostUpdate"
-    ],
-    "difficulty" : "senior",
-    "expectedBuggy" : "Increments are lost to a race; counter < start + N.",
-    "expectedClean" : "Concurrent increments are atomic; counter == start + N.",
-    "feature" : "Sync",
-    "id" : "IOS-CON-06",
-    "keyLocators" : [
-      "dev.sync",
-      "sync.runButton",
-      "sync.counter"
-    ],
-    "launchArgument" : "-ChaosBankDefects syncLostUpdate",
-    "task" : "On the dev-menu Sync playground, run the concurrent +1 batch and assert the counter equals start + N.",
-    "title" : "Concurrent increments lose updates"
-  },
-  {
-    "category" : "security",
-    "condition" : "A deep link still requires the auth gate before showing content.",
-    "defects" : [
-      "deepLinkSkipsAuth"
-    ],
-    "difficulty" : "senior",
-    "expectedBuggy" : "Deep link opens the target screen without any auth.",
-    "expectedClean" : "Deep links land on the auth gate until unlocked.",
-    "feature" : "Deep links",
-    "id" : "IOS-SEC-15",
-    "keyLocators" : [
-      "auth.passcode",
-      "tabBar.markets"
-    ],
-    "launchArgument" : "-ChaosBankDefects deepLinkSkipsAuth",
-    "task" : "Cold-launch a deep link (e.g. chaosbank://markets) while locked and assert the auth gate is still shown.",
-    "title" : "Deep link opens a screen without auth"
-  },
-  {
-    "category" : "state",
-    "condition" : "The unread badge reflects the actual unread count.",
-    "defects" : [
-      "notificationBadgeStale"
-    ],
-    "difficulty" : "middle",
-    "expectedBuggy" : "Badge stays at the original count after reading.",
-    "expectedClean" : "Badge reflects the unread count (0 after reading).",
-    "feature" : "Notifications",
-    "id" : "IOS-STA-19",
-    "keyLocators" : [
-      "home.notificationsBell",
-      "home.notificationsBadge"
-    ],
-    "launchArgument" : "-ChaosBankDefects notificationBadgeStale",
-    "task" : "Open the notification centre from Home, dismiss it, and assert the unread badge cleared.",
-    "title" : "Notification badge stays stale"
-  },
-  {
-    "category" : "state",
-    "condition" : "Tapping a notification opens the destination it names.",
-    "defects" : [
-      "notificationOpensWrongScreen"
-    ],
-    "difficulty" : "middle",
-    "expectedBuggy" : "Notification opens a different screen.",
-    "expectedClean" : "Notification opens its stated destination.",
-    "feature" : "Notifications",
-    "id" : "IOS-STA-20",
-    "keyLocators" : [
-      "home.notificationsBell",
-      "notifications.root"
-    ],
-    "launchArgument" : "-ChaosBankDefects notificationOpensWrongScreen",
-    "task" : "Tap a notification and assert it opens the destination it names.",
-    "title" : "Notification opens the wrong screen"
-  },
-  {
-    "category" : "security",
-    "condition" : "Biometrics are a fast re-entry only; they never skip initial login\/OTP\/passcode.",
-    "defects" : [
-      "biometricUnlocksFromAnyStage"
-    ],
-    "difficulty" : "senior",
-    "expectedBuggy" : "Biometrics unlock straight from login — the ladder is skipped.",
-    "expectedClean" : "Biometrics only re-enter from the passcode stage.",
-    "feature" : "Auth",
-    "id" : "IOS-SEC-16",
-    "keyLocators" : [
-      "auth.biometricButton",
-      "auth.passcode"
-    ],
-    "launchArgument" : "-ChaosBankDefects biometricUnlocksFromAnyStage",
-    "task" : "From a fresh launch (login stage) assert a biometric unlock does NOT skip login\/OTP\/passcode.",
-    "title" : "Biometrics bypass the auth ladder"
-  },
-  {
-    "category" : "localization",
-    "condition" : "Under a right-to-left layout, rows mirror correctly (start\/end, not hard-coded left\/right).",
-    "defects" : [
-      "rtlBreaksLayout"
-    ],
-    "difficulty" : "middle",
-    "expectedBuggy" : "A row stays left-to-right — hard-coded left\/right doesn't mirror.",
-    "expectedClean" : "Rows mirror under RTL (start\/end).",
-    "feature" : "Transactions",
-    "id" : "IOS-LOC-03",
-    "keyLocators" : [
-      "dev.rtlToggle",
-      "transactions.list"
-    ],
-    "launchArgument" : "-ChaosBankDefects rtlBreaksLayout",
-    "task" : "Enable RTL (dev menu), open Transactions, and assert the rows mirror correctly.",
-    "title" : "Row doesn't mirror under RTL"
-  },
-  {
-    "category" : "localization",
-    "condition" : "Grouping and decimal separators follow the selected locale (e.g. 1.234,56 in de-DE).",
-    "defects" : [
-      "numberGroupingIgnoresLocale"
-    ],
-    "difficulty" : "middle",
-    "expectedBuggy" : "Grouping is stuck on en-US regardless of locale.",
-    "expectedClean" : "Grouping follows the locale (de-DE → 1.234.567,89).",
-    "feature" : "Localization",
-    "id" : "IOS-LOC-04",
-    "keyLocators" : [
-      "dev.localeSelector",
-      "dev.localeSample"
-    ],
-    "launchArgument" : "-ChaosBankDefects numberGroupingIgnoresLocale",
-    "task" : "Select the de-DE locale (dev menu) and assert the sample number groups as 1.234.567,89.",
-    "title" : "Number grouping ignores the locale"
-  },
-  {
-    "category" : "localization",
-    "condition" : "The currency symbol sits where the locale expects (before in en-US, after in de-DE).",
-    "defects" : [
-      "currencySymbolPlacementIgnoresLocale"
-    ],
-    "difficulty" : "middle",
-    "expectedBuggy" : "Symbol always placed before the amount (en-US style).",
-    "expectedClean" : "Symbol placed per locale (after in de-DE, before in en-US).",
-    "feature" : "Localization",
-    "id" : "IOS-LOC-05",
-    "keyLocators" : [
-      "dev.localeSelector",
-      "dev.localeCurrencySample"
-    ],
-    "launchArgument" : "-ChaosBankDefects currencySymbolPlacementIgnoresLocale",
-    "task" : "Select de-DE and assert the currency symbol follows the amount (e.g. 1.234,56 €), not before it.",
-    "title" : "Currency symbol placed wrong for the locale"
-  },
-  {
-    "category" : "state",
-    "condition" : "Applying a saved template prefills its exact saved amount.",
-    "defects" : [
-      "templatePrefillsWrongAmount"
-    ],
-    "difficulty" : "junior",
-    "expectedBuggy" : "Prefilled amount is wrong (e.g. ×10).",
-    "expectedClean" : "Template prefills its exact saved amount.",
-    "feature" : "Transfer \/ Templates",
-    "id" : "IOS-STA-21",
-    "keyLocators" : [
-      "transfer.template.t1",
-      "transfer.amountField"
-    ],
-    "launchArgument" : "-ChaosBankDefects templatePrefillsWrongAmount",
-    "task" : "On Transfer, tap the Rent template and assert the amount field prefills its saved value (1200.00).",
-    "title" : "Payment template prefills the wrong amount"
-  },
-  {
-    "category" : "security",
-    "condition" : "A large transfer is blocked until identity (KYC) is verified.",
-    "defects" : [
-      "kycBypassAllowsTransfer"
-    ],
-    "difficulty" : "senior",
-    "expectedBuggy" : "Unverified user can still send a large transfer.",
-    "expectedClean" : "Large transfer blocked until KYC is verified.",
-    "feature" : "Transfer \/ KYC",
-    "id" : "IOS-SEC-17",
-    "keyLocators" : [
-      "dev.kycToggle",
-      "transfer.continueButton",
-      "transfer.kycNotice"
-    ],
-    "launchArgument" : "-ChaosBankDefects kycBypassAllowsTransfer",
-    "task" : "Turn KYC off (dev menu), enter a €2000 transfer, and assert Continue stays disabled.",
-    "title" : "Unverified KYC still sends large transfers"
-  },
-  {
-    "category" : "security",
-    "condition" : "A virtual card shows a distinct virtual number, never the real PAN.",
-    "defects" : [
-      "virtualCardShowsRealPan"
-    ],
-    "difficulty" : "middle",
-    "expectedBuggy" : "Virtual card leaks the real card PAN.",
-    "expectedClean" : "Virtual card shows a distinct number.",
-    "feature" : "Card",
-    "id" : "IOS-SEC-18",
-    "keyLocators" : [
-      "card.virtualButton",
-      "card.virtualNumber",
-      "card.number"
-    ],
-    "launchArgument" : "-ChaosBankDefects virtualCardShowsRealPan",
-    "task" : "Create a virtual card and assert its number differs from the real card PAN.",
-    "title" : "Virtual card exposes the real card number"
-  },
-  {
-    "category" : "money",
-    "condition" : "The advertised APR equals the rate used to compute the monthly payment.",
-    "defects" : [
-      "loanAprUnderstated"
-    ],
-    "difficulty" : "senior",
-    "expectedBuggy" : "Payment reflects a higher rate than the advertised APR.",
-    "expectedClean" : "Payment computed at the advertised APR.",
-    "feature" : "Loans",
-    "id" : "IOS-MON-23",
-    "keyLocators" : [
-      "loans.apr",
-      "loans.monthly",
-      "loans.total"
-    ],
-    "launchArgument" : "-ChaosBankDefects loanAprUnderstated",
-    "task" : "On the loan screen, assert the monthly payment matches the advertised APR (7.9%).",
-    "title" : "Loan APR understated vs the rate charged"
   }
 ]

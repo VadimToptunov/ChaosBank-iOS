@@ -37,6 +37,17 @@ final class FinalCoverageTests: XCTestCase {
         XCTAssertTrue(json.contains("IOS-"))
         XCTAssertTrue(json.contains("launchArgument"))
         XCTAssertGreaterThan(json.count, 1000)
+        // Guard against the hand-editing bug the parity checker caught: ids are unique.
+        let ids = Exercises.all.map(\.id)
+        XCTAssertEqual(Set(ids).count, ids.count, "duplicate exercise ids")
+    }
+
+    /// Utility: prints the canonical catalog JSON so Scripts/regenerate_exercises.sh can
+    /// capture it (the simulator sandbox can't write to the repo directly).
+    func testDumpExercisesCatalog() {
+        print("<<<EXERCISES_JSON_BEGIN>>>")
+        print(Exercises.json())
+        print("<<<EXERCISES_JSON_END>>>")
     }
 
     func testDefectRegistrySeedOutOfRange() {
