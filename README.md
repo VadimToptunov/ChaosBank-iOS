@@ -321,6 +321,16 @@ roughly two-thirds of the code is SwiftUI `View` bodies, which unit tests do not
 execute — those are excluded from the unit-coverage budget and covered by UI tests
 instead (intentionally left to the reference suites; see Roadmap).
 
+## Documentation
+
+- [docs/USER_GUIDE.md](docs/USER_GUIDE.md) — for QA/SDET engineers: launch the app, switch
+  defects, read `exercises.json`, write a clean-pass → buggy-fail regression test.
+- [docs/DEVELOPERS_GUIDE.md](docs/DEVELOPERS_GUIDE.md) — build, test, the coverage gate, and
+  the full recipe for adding a defect / regenerating the catalog.
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — layers, the defect-injection model, config
+  resolution, determinism, the exercise pipeline.
+- [CONTRIBUTING.md](CONTRIBUTING.md) — workflow + the 1:1 parity contract with Android.
+
 ## Roadmap
 
 - Reference test suites in parallel folders (XCUITest / Swift Testing / KassiOS /
