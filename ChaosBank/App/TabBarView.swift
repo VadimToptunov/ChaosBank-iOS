@@ -18,12 +18,15 @@ struct TabBarView: View {
                 }
                 .tag(0)
 
-            NavigationStack { MarketsView() }
-                .tabItem {
-                    Label("Markets", systemImage: "chart.line.uptrend.xyaxis")
-                        .accessibilityIdentifier(A11y.TabBar.markets)
-                }
-                .tag(1)
+            NavigationStack {
+                if LaunchOptions.current.uiKit { UIKitMarketsView().navigationTitle("Markets") }
+                else { MarketsView() }
+            }
+            .tabItem {
+                Label("Markets", systemImage: "chart.line.uptrend.xyaxis")
+                    .accessibilityIdentifier(A11y.TabBar.markets)
+            }
+            .tag(1)
 
             NavigationStack { PortfolioView() }
                 .tabItem {

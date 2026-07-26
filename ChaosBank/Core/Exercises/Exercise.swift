@@ -364,6 +364,11 @@ nonisolated enum Exercises {
             expectedClean: "The toggle reflects the model on load (Online payments = on).",
             expectedBuggy: "The toggle shows a hardcoded default (off), ignoring the model's initial state.",
             locators: ["card.onlinePaymentsToggle", "card.freezeToggle"]),
+        .controlActionNotWired: Spec(difficulty: "middle",
+            task: "In the UIKit build, open Markets, tap the Crypto segment and assert the list switches to crypto assets (BTC, ETH).",
+            expectedClean: "Tapping a segment switches the list (its action is wired).",
+            expectedBuggy: "Tapping a segment does nothing — the list stays on the watchlist.",
+            locators: ["markets.segment.crypto", "markets.segment.stocks", "markets.list"]),
     ]
 
     static let all: [Exercise] = {

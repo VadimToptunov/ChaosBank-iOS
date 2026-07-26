@@ -462,6 +462,10 @@ nonisolated enum DefectRegistry {
         Defect(id: .toggleInitialStateNotBound, title: "Toggle ignores the model's initial state",
                feature: "Card (UIKit build)", category: .state, severity: .major,
                violates: "A control renders its model's current value on load, not a hardcoded default.", flakiness: .deterministic),
+
+        Defect(id: .controlActionNotWired, title: "Segment control does nothing when tapped",
+               feature: "Markets (UIKit build)", category: .ui, severity: .major,
+               violates: "Every interactive control has its action wired, so tapping a segment switches the list.", flakiness: .deterministic),
     ]
 
     static func defect(_ id: DefectID) -> Defect {

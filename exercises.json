@@ -2262,5 +2262,25 @@
     "launchArgument" : "-ChaosBankDefects toggleInitialStateNotBound",
     "task" : "In the UIKit build (-ChaosBankUIKit 1), open Card and assert the Online-payments toggle is ON on load (its model default), before any interaction.",
     "title" : "Toggle ignores the model's initial state"
+  },
+  {
+    "category" : "ui",
+    "condition" : "Every interactive control has its action wired, so tapping a segment switches the list.",
+    "defects" : [
+      "controlActionNotWired"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "Tapping a segment does nothing — the list stays on the watchlist.",
+    "expectedClean" : "Tapping a segment switches the list (its action is wired).",
+    "feature" : "Markets (UIKit build)",
+    "id" : "IOS-UI-14",
+    "keyLocators" : [
+      "markets.segment.crypto",
+      "markets.segment.stocks",
+      "markets.list"
+    ],
+    "launchArgument" : "-ChaosBankDefects controlActionNotWired",
+    "task" : "In the UIKit build, open Markets, tap the Crypto segment and assert the list switches to crypto assets (BTC, ETH).",
+    "title" : "Segment control does nothing when tapped"
   }
 ]

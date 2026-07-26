@@ -157,4 +157,5 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case listCellReuseBleed
     case listRecycledA11yStale
     case toggleInitialStateNotBound
+    case controlActionNotWired
 }
