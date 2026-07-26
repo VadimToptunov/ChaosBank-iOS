@@ -16,7 +16,10 @@ struct UIKitMarketsView: UIViewControllerRepresentable {
 }
 
 @MainActor
-final class MarketsViewController: UITableViewController {
+final class MarketsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    // Own the table as a subview (not a UITableViewController, whose `view` *is*
+    // the table) so the screen root and the list get distinct locators.
+    private let tableView = UITableView(frame: .zero, style: .plain)
     private let segments = [
         ("watchlist", "Watchlist", A11y.Markets.segmentWatchlist),
         ("stocks", "Stocks", A11y.Markets.segmentStocks),
@@ -28,9 +31,20 @@ final class MarketsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Markets"
+        view.backgroundColor = UIColor(Palette.bg)
         view.accessibilityIdentifier = A11y.Markets.root
         tableView.accessibilityIdentifier = A11y.Markets.list
+        tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "asset")
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
         tableView.tableHeaderView = segmentBar()
         reload()
     }
@@ -53,8 +67,9 @@ final class MarketsViewController: UITableViewController {
             }
             stack.addArrangedSubview(b)
         }
-        stack.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 52)
+        stack.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 52)
         stack.translatesAutoresizingMaskIntoConstraints = true
+        stack.autoresizingMask = .flexibleWidth
         stack.layoutMargins = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
         stack.isLayoutMarginsRelativeArrangement = true
         return stack
@@ -78,9 +93,9 @@ final class MarketsViewController: UITableViewController {
         tableView.reloadData()
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { rows.count }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { rows.count }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "asset", for: indexPath)
         let asset = rows[indexPath.row]
         var config = cell.defaultContentConfiguration()
@@ -96,7 +111,7 @@ final class MarketsViewController: UITableViewController {
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard !rows.isEmpty else { return }
         // Correct: open the tapped row's asset. `rowTapOpensWrongItem`: use the next

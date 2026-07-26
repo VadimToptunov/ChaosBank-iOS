@@ -27,13 +27,16 @@ struct UIKitTransactionsView: UIViewControllerRepresentable {
 /// (day headers); rows are transactions. The logic layer is identical to the
 /// SwiftUI screen — this is purely the UIKit rendering of it.
 @MainActor
-final class TransactionsTableViewController: UITableViewController {
+final class TransactionsTableViewController: UIViewController, UITableViewDataSource {
+    // Own the table as a subview (not a UITableViewController, whose `view` *is*
+    // the table) so the screen root and the list get distinct locators.
+    private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     private let vm: TransactionsViewModel
     private var groups: [(key: String, rows: [Transaction])] = []
 
     init(services: AppServices) {
         self.vm = TransactionsViewModel(services: services)
-        super.init(style: .insetGrouped)
+        super.init(nibName: nil, bundle: nil)
     }
 
     @available(*, unavailable)
@@ -42,10 +45,20 @@ final class TransactionsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Transactions"
+        view.backgroundColor = UIColor(Palette.bg)
+        tableView.dataSource = self
         tableView.register(TransactionCell.self, forCellReuseIdentifier: TransactionCell.reuseID)
         tableView.accessibilityIdentifier = A11y.Transactions.list
         view.accessibilityIdentifier = A11y.Transactions.root
         tableView.rowHeight = 56
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
 
         Task {
             await vm.load()
@@ -54,17 +67,17 @@ final class TransactionsTableViewController: UITableViewController {
         }
     }
 
-    override func numberOfSections(in tableView: UITableView) -> Int { groups.count }
+    func numberOfSections(in tableView: UITableView) -> Int { groups.count }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         groups[section].key
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         groups[section].rows.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TransactionCell.reuseID, for: indexPath) as! TransactionCell
         cell.configure(groups[indexPath.section].rows[indexPath.row])
         return cell

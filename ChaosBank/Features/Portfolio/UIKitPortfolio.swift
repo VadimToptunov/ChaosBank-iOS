@@ -17,13 +17,16 @@ struct UIKitPortfolioView: UIViewControllerRepresentable {
 }
 
 @MainActor
-final class PortfolioViewController: UITableViewController {
+final class PortfolioViewController: UIViewController, UITableViewDataSource {
+    // Own the table as a subview (not a UITableViewController, whose `view` *is*
+    // the table) so the screen root and the list get distinct locators.
+    private let tableView = UITableView(frame: .zero, style: .plain)
     private let vm: PortfolioViewModel
     private var holdings: [Holding] = []
 
     init(services: AppServices) {
         self.vm = PortfolioViewModel(services: services)
-        super.init(style: .plain)
+        super.init(nibName: nil, bundle: nil)
     }
 
     @available(*, unavailable)
@@ -32,9 +35,19 @@ final class PortfolioViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Portfolio"
+        view.backgroundColor = UIColor(Palette.bg)
         view.accessibilityIdentifier = A11y.Portfolio.root
         tableView.accessibilityIdentifier = A11y.Portfolio.list
+        tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "holding")
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
         Task {
             await vm.load()
             holdings = vm.holdings
@@ -65,9 +78,9 @@ final class PortfolioViewController: UITableViewController {
         return stack
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { holdings.count }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { holdings.count }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "holding", for: indexPath)
         let h = holdings[indexPath.row]
         var config = cell.defaultContentConfiguration()
