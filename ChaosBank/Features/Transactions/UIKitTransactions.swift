@@ -101,7 +101,12 @@ final class TransactionCell: UITableViewCell {
 
     func configure(_ tx: Transaction) {
         titleLabel.text = tx.title
-        accessibilityIdentifier = A11y.Transactions.row(tx.id)
+        // Correct: every reused cell updates its row locator. `listRecycledA11yStale`:
+        // the id is only set once, so a recycled cell keeps a previous row's id and
+        // the locator resolves to the wrong row.
+        if !Defects.isActive(.listRecycledA11yStale) || accessibilityIdentifier == nil {
+            accessibilityIdentifier = A11y.Transactions.row(tx.id)
+        }
 
         let amount = tx.money.formattedSigned
         // Correct: every reused cell resets its amount, so a scrolled row never

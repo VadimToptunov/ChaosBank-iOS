@@ -454,6 +454,10 @@ nonisolated enum DefectRegistry {
         Defect(id: .listCellReuseBleed, title: "Recycled list cell bleeds a stale value",
                feature: "Transactions (UIKit build)", category: .ui, severity: .major,
                violates: "A reused cell fully resets its content, so a scrolled row never shows another row's value.", flakiness: .deterministic),
+
+        Defect(id: .listRecycledA11yStale, title: "Recycled list cell keeps a stale accessibility id",
+               feature: "Transactions (UIKit build)", category: .accessibility, severity: .major,
+               violates: "A reused cell updates its accessibility identifier, so a row's locator always matches its content.", flakiness: .deterministic),
     ]
 
     static func defect(_ id: DefectID) -> Defect {

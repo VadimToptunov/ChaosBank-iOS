@@ -138,14 +138,16 @@ configuration, read in one place in `LaunchOptions`).
 
 Its Android counterpart is the **XML "views build"** (`RecyclerView` + XML layouts)
 behind `CHAOSBANK_VIEWS`. Both host the same defect *names* for cross-platform parity
-(each implemented natively): the first is `listCellReuseBleed` — a recycled list cell
-bleeds a stale value. So far **Transactions** is ported; more screens follow.
+(each implemented natively): `listCellReuseBleed` (a recycled cell bleeds a stale
+value) and `listRecycledA11yStale` (a recycled cell keeps a stale accessibility id, so
+a row's locator resolves to the wrong row). So far **Transactions** is ported; more
+screens follow.
 
-## Defect catalog (120 defects, 10 categories)
+## Defect catalog (121 defects, 10 categories)
 
 Every defect ships **OFF** in the `clean` profile. Counts by category: money 23,
 state 21, security 18, validation 12, ui 13, network 8, performance 6,
-concurrency 6, localization 8, accessibility 5. The latest additions are the first
+concurrency 6, localization 8, accessibility 6. The latest additions are the first
 **reliability stressors** — a dev-menu network-state selector
 (normal / offline / slow / flaky), unstable animations, and never-ending pagination.
 See [`ROADMAP.md`](ROADMAP.md). The **complete, machine-readable list** is in

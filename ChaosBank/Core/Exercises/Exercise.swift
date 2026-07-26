@@ -354,6 +354,11 @@ nonisolated enum Exercises {
             expectedClean: "Every reused cell fully resets; each sign matches its row's direction.",
             expectedBuggy: "A scrolled money-out row shows a '+' amount bled from a reused money-in cell.",
             locators: ["transactions.list", "transactions.row.t01"]),
+        .listRecycledA11yStale: Spec(difficulty: "senior",
+            task: "In the UIKit build, scroll Transactions and assert each transactions.row.<id> locator resolves to the row whose amount/title it names (ids aren't left stale on reused cells).",
+            expectedClean: "Every reused cell updates its accessibility id; each row locator matches its content.",
+            expectedBuggy: "A recycled cell keeps a previous row's id, so the locator resolves to the wrong row.",
+            locators: ["transactions.list", "transactions.row.t01"]),
     ]
 
     static let all: [Exercise] = {

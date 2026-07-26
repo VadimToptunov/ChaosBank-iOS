@@ -2224,5 +2224,24 @@
     "launchArgument" : "-ChaosBankDefects listCellReuseBleed",
     "task" : "In the UIKit build (-ChaosBankUIKit 1), scroll Transactions and assert every money-out row shows a '−' amount — none bled a '+' from a recycled money-in cell.",
     "title" : "Recycled list cell bleeds a stale value"
+  },
+  {
+    "category" : "accessibility",
+    "condition" : "A reused cell updates its accessibility identifier, so a row's locator always matches its content.",
+    "defects" : [
+      "listRecycledA11yStale"
+    ],
+    "difficulty" : "senior",
+    "expectedBuggy" : "A recycled cell keeps a previous row's id, so the locator resolves to the wrong row.",
+    "expectedClean" : "Every reused cell updates its accessibility id; each row locator matches its content.",
+    "feature" : "Transactions (UIKit build)",
+    "id" : "IOS-A11Y-06",
+    "keyLocators" : [
+      "transactions.list",
+      "transactions.row.t01"
+    ],
+    "launchArgument" : "-ChaosBankDefects listRecycledA11yStale",
+    "task" : "In the UIKit build, scroll Transactions and assert each transactions.row.<id> locator resolves to the row whose amount\/title it names (ids aren't left stale on reused cells).",
+    "title" : "Recycled list cell keeps a stale accessibility id"
   }
 ]
