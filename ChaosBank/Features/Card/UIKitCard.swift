@@ -62,6 +62,9 @@ final class CardViewController: UIViewController {
         // Initial control state. Correct: bind from the model. `toggleInitialStateNotBound`:
         // leave the switches at their hardcoded default (off), ignoring the model — so
         // Online payments (model default: on) wrongly shows off on load.
+        // Same locators as the SwiftUI build so tests reach either build unchanged.
+        freezeSwitch.accessibilityIdentifier = A11y.Card.freezeToggle
+        onlineSwitch.accessibilityIdentifier = A11y.Card.onlinePaymentsToggle
         let bound = !Defects.isActive(.toggleInitialStateNotBound)
         freezeSwitch.isOn = bound ? vm.frozen : false
         onlineSwitch.isOn = bound ? vm.onlinePayments : false
