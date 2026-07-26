@@ -394,6 +394,11 @@ nonisolated enum Exercises {
             expectedClean: "Flipping the switch runs its handler — the model updates and the FROZEN badge shows.",
             expectedBuggy: "The switch's change handler isn't wired, so nothing happens and the badge never appears.",
             locators: ["card.freezeToggle", "card.frozenBadge"]),
+        .submitEnabledWhenInvalid: Spec(difficulty: "middle",
+            task: "In the UIKit build (-ChaosBankUIKit 1), open Transfer with an empty form and assert the Continue button is disabled.",
+            expectedClean: "Continue is disabled until the form is valid (recipient + a within-balance amount).",
+            expectedBuggy: "Continue is enabled even on an empty/invalid form.",
+            locators: ["transfer.continueButton", "transfer.recipientField", "transfer.amountField"]),
     ]
 
     static let all: [Exercise] = {

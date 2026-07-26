@@ -149,13 +149,14 @@ accessibility id, so per-row locators don't exist); and `listNotClearedOnReload`
 (switching segment appends rows instead of replacing them); and `labelNotFormatted` (a
 money total is bound as a raw number, skipping the currency formatter); and
 `switchChangeNotHandled` (a switch's change handler is never attached, so flipping it
-does nothing). So far **Transactions**, **Card**, **Markets** and **Portfolio** are
-ported; more follow.
+does nothing); and `submitEnabledWhenInvalid` (a submit button's enabled state isn't
+synced to form validity). So far **Transactions**, **Card**, **Markets**, **Portfolio**
+and **Transfer** are ported; more follow.
 
-## Defect catalog (128 defects, 10 categories)
+## Defect catalog (129 defects, 10 categories)
 
 Every defect ships **OFF** in the `clean` profile. Counts by category: money 23,
-state 24, security 18, validation 13, ui 15, network 8, performance 6,
+state 24, security 18, validation 14, ui 15, network 8, performance 6,
 concurrency 6, localization 8, accessibility 7. The latest additions are the first
 **reliability stressors** — a dev-menu network-state selector
 (normal / offline / slow / flaky), unstable animations, and never-ending pagination.

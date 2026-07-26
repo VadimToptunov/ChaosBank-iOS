@@ -26,7 +26,9 @@ struct HomeView: View {
         .onChange(of: services.dataVersion) {
             Task { await vm?.refreshAfterMutation() }
         }
-        .sheet(isPresented: $showTransfer) { TransferView() }
+        .sheet(isPresented: $showTransfer) {
+            if LaunchOptions.current.uiKit { UIKitTransferView() } else { TransferView() }
+        }
         .sheet(isPresented: $showExchange) { ExchangeView() }
         .sheet(isPresented: $showAddMoney) { AddMoneyView() }
         .sheet(isPresented: $showNotifications) { NotificationsView() }

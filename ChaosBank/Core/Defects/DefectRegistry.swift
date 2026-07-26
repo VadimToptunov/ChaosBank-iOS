@@ -486,6 +486,10 @@ nonisolated enum DefectRegistry {
         Defect(id: .switchChangeNotHandled, title: "Toggling the freeze switch does nothing",
                feature: "Card (UIKit build)", category: .state, severity: .major,
                violates: "A switch's change handler is wired, so flipping it updates the model and the UI reacts.", flakiness: .deterministic),
+
+        Defect(id: .submitEnabledWhenInvalid, title: "Continue stays enabled on an invalid form",
+               feature: "Transfer (UIKit build)", category: .validation, severity: .major,
+               violates: "The submit button's enabled state tracks form validity, so it's disabled until the form is valid.", flakiness: .deterministic),
     ]
 
     static func defect(_ id: DefectID) -> Defect {
