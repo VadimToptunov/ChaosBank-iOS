@@ -123,6 +123,7 @@ final class CardViewController: UIViewController {
 
         limitField.text = vm.monthlyLimitText
         limitField.keyboardType = .numberPad
+        limitField.clearButtonMode = .whileEditing
         limitField.textColor = UIColor(Palette.text)
         limitField.textAlignment = .right
         limitField.accessibilityIdentifier = A11y.Card.limitField

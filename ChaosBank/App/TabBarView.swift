@@ -19,8 +19,16 @@ struct TabBarView: View {
                 .tag(0)
 
             NavigationStack {
-                if LaunchOptions.current.uiKit { UIKitMarketsView().navigationTitle("Markets") }
-                else { MarketsView() }
+                // The views build renders Markets → AssetDetail → Order with its own
+                // UIKit UINavigationController (parity with the SwiftUI NavigationStack),
+                // so the SwiftUI bar is hidden to avoid stacking two nav bars.
+                if LaunchOptions.current.uiKit {
+                    UIKitMarketsView()
+                        .ignoresSafeArea(edges: .top)
+                        .toolbar(.hidden, for: .navigationBar)
+                } else {
+                    MarketsView()
+                }
             }
             .tabItem {
                 Label("Markets", systemImage: "chart.line.uptrend.xyaxis")
