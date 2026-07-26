@@ -151,13 +151,14 @@ money total is bound as a raw number, skipping the currency formatter); and
 `switchChangeNotHandled` (a switch's change handler is never attached, so flipping it
 does nothing); and `submitEnabledWhenInvalid` (a submit button's enabled state isn't
 synced to form validity); and `outputNotRecomputed` (a derived field isn't recomputed
-when its input changes). So far **Transactions**, **Card**, **Markets**, **Portfolio**,
-**Transfer** and **Exchange** are ported; more follow.
+when its input changes); and `rowTapOpensWrongItem` (a row's tap handler uses the wrong
+index, opening a neighbouring item). So far **Transactions**, **Card**, **Markets**,
+**Portfolio**, **Transfer** and **Exchange** are ported; more follow.
 
-## Defect catalog (130 defects, 10 categories)
+## Defect catalog (131 defects, 10 categories)
 
 Every defect ships **OFF** in the `clean` profile. Counts by category: money 23,
-state 25, security 18, validation 14, ui 15, network 8, performance 6,
+state 26, security 18, validation 14, ui 15, network 8, performance 6,
 concurrency 6, localization 8, accessibility 7. The latest additions are the first
 **reliability stressors** — a dev-menu network-state selector
 (normal / offline / slow / flaky), unstable animations, and never-ending pagination.

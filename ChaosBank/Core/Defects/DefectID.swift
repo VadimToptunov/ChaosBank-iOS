@@ -165,4 +165,5 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case switchChangeNotHandled
     case submitEnabledWhenInvalid
     case outputNotRecomputed
+    case rowTapOpensWrongItem
 }

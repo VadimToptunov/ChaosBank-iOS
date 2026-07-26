@@ -404,6 +404,11 @@ nonisolated enum Exercises {
             expectedClean: "'You get' recomputes as the amount changes.",
             expectedBuggy: "'You get' stays at its initial value regardless of the amount typed.",
             locators: ["exchange.amountField", "exchange.youGet"]),
+        .rowTapOpensWrongItem: Spec(difficulty: "senior",
+            task: "In the UIKit build (-ChaosBankUIKit 1), open Markets, tap the AAPL row and assert the order sheet it opens names AAPL.",
+            expectedClean: "The row's tap opens the asset that row shows.",
+            expectedBuggy: "Tapping a row opens a neighbouring asset (an off-by-one index bug).",
+            locators: ["markets.list", "markets.asset.AAPL"]),
     ]
 
     static let all: [Exercise] = {

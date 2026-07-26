@@ -95,4 +95,19 @@ final class MarketsViewController: UITableViewController {
         cell.accessibilityIdentifier = A11y.Markets.asset(asset.symbol)
         return cell
     }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        guard !rows.isEmpty else { return }
+        // Correct: open the tapped row's asset. `rowTapOpensWrongItem`: use the next
+        // row's index (off-by-one), so tapping opens a neighbouring asset.
+        let idx = Defects.isActive(.rowTapOpensWrongItem) ? (indexPath.row + 1) % rows.count : indexPath.row
+        let asset = rows[idx]
+        let alert = UIAlertController(title: "Order",
+                                      message: "Buy \(asset.symbol) at \(Money(asset.basePrice, asset.currency).formatted)?",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Buy", style: .default))
+        present(alert, animated: true)
+    }
 }

@@ -494,6 +494,10 @@ nonisolated enum DefectRegistry {
         Defect(id: .outputNotRecomputed, title: "'You get' doesn't update when the amount changes",
                feature: "Exchange (UIKit build)", category: .state, severity: .major,
                violates: "A derived field is recomputed when its inputs change, so 'You get' tracks the amount.", flakiness: .deterministic),
+
+        Defect(id: .rowTapOpensWrongItem, title: "Tapping a market row opens the wrong asset",
+               feature: "Markets (UIKit build)", category: .state, severity: .major,
+               violates: "A row's tap handler uses that row's item, so it opens the asset it shows.", flakiness: .deterministic),
     ]
 
     static func defect(_ id: DefectID) -> Defect {
