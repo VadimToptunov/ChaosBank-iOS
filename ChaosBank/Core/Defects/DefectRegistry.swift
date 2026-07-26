@@ -490,6 +490,10 @@ nonisolated enum DefectRegistry {
         Defect(id: .submitEnabledWhenInvalid, title: "Continue stays enabled on an invalid form",
                feature: "Transfer (UIKit build)", category: .validation, severity: .major,
                violates: "The submit button's enabled state tracks form validity, so it's disabled until the form is valid.", flakiness: .deterministic),
+
+        Defect(id: .outputNotRecomputed, title: "'You get' doesn't update when the amount changes",
+               feature: "Exchange (UIKit build)", category: .state, severity: .major,
+               violates: "A derived field is recomputed when its inputs change, so 'You get' tracks the amount.", flakiness: .deterministic),
     ]
 
     static func defect(_ id: DefectID) -> Defect {

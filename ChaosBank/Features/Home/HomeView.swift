@@ -29,7 +29,9 @@ struct HomeView: View {
         .sheet(isPresented: $showTransfer) {
             if LaunchOptions.current.uiKit { UIKitTransferView() } else { TransferView() }
         }
-        .sheet(isPresented: $showExchange) { ExchangeView() }
+        .sheet(isPresented: $showExchange) {
+            if LaunchOptions.current.uiKit { UIKitExchangeView() } else { ExchangeView() }
+        }
         .sheet(isPresented: $showAddMoney) { AddMoneyView() }
         .sheet(isPresented: $showNotifications) { NotificationsView() }
     }

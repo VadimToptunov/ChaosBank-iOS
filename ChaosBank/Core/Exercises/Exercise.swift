@@ -399,6 +399,11 @@ nonisolated enum Exercises {
             expectedClean: "Continue is disabled until the form is valid (recipient + a within-balance amount).",
             expectedBuggy: "Continue is enabled even on an empty/invalid form.",
             locators: ["transfer.continueButton", "transfer.recipientField", "transfer.amountField"]),
+        .outputNotRecomputed: Spec(difficulty: "middle",
+            task: "In the UIKit build, open Exchange, type 100 into the amount and assert the 'You get' value updates from zero.",
+            expectedClean: "'You get' recomputes as the amount changes.",
+            expectedBuggy: "'You get' stays at its initial value regardless of the amount typed.",
+            locators: ["exchange.amountField", "exchange.youGet"]),
     ]
 
     static let all: [Exercise] = {
