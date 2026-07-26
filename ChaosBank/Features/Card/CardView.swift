@@ -41,6 +41,13 @@ struct CardView: View {
                             Text("$").moneyStyle(15, weight: .semibold).foregroundStyle(Palette.sand)
                             TextField("0", text: $vm.monthlyLimitText)
                                 .keyboardType(.numberPad)
+                                // numberPad only hints the on-screen keyboard; filter
+                                // to digits so hardware-keyboard / paste input (e.g.
+                                // "TestTestTest") can't land in a numeric field.
+                                .onChange(of: vm.monthlyLimitText) { _, v in
+                                    let digits = String(v.filter(\.isNumber))
+                                    if digits != v { vm.monthlyLimitText = digits }
+                                }
                                 .multilineTextAlignment(.trailing)
                                 .moneyStyle(15, weight: .semibold)
                                 .foregroundStyle(Palette.text)

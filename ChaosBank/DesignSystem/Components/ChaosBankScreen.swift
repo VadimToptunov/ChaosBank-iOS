@@ -34,6 +34,11 @@ struct ChaosBankScreen<Content: View>: View {
                         .accessibilityIdentifier(A11y.Net.offlineBanner)
                 }
                 content()
+                // Clearance for the floating (iOS 26 glass) tab bar, which draws
+                // over the scroll content: without it the last control (e.g. Card's
+                // "Order physical card") stays behind the bar. This bottom space lets
+                // it scroll clear.
+                Color.clear.frame(height: 96)
             }
             .padding(20)
             .frame(maxWidth: .infinity, alignment: .leading)
