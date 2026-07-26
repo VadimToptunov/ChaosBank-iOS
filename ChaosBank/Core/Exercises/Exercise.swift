@@ -374,6 +374,11 @@ nonisolated enum Exercises {
             expectedClean: "Editing the field updates the model, so validation reacts to the typed value.",
             expectedBuggy: "The field shows the text but the model keeps its old value — no error appears.",
             locators: ["card.limitField", "card.limitError"]),
+        .rowLocatorMissing: Spec(difficulty: "middle",
+            task: "In the UIKit build (-ChaosBankUIKit 1), open Portfolio and assert each holding row resolves by its locator (e.g. portfolio.holding.AAPL).",
+            expectedClean: "Each row sets its accessibility identifier, so portfolio.holding.<symbol> resolves.",
+            expectedBuggy: "Rows never set their id, so the per-holding locators don't exist.",
+            locators: ["portfolio.list", "portfolio.holding.AAPL"]),
     ]
 
     static let all: [Exercise] = {

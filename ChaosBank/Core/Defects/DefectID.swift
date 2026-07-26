@@ -159,4 +159,5 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case toggleInitialStateNotBound
     case controlActionNotWired
     case fieldEditNotCommitted
+    case rowLocatorMissing
 }

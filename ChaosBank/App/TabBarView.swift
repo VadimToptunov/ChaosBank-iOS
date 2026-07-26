@@ -28,12 +28,15 @@ struct TabBarView: View {
             }
             .tag(1)
 
-            NavigationStack { PortfolioView() }
-                .tabItem {
-                    Label("Portfolio", systemImage: "chart.pie.fill")
-                        .accessibilityIdentifier(A11y.TabBar.portfolio)
-                }
-                .tag(2)
+            NavigationStack {
+                if LaunchOptions.current.uiKit { UIKitPortfolioView().navigationTitle("Portfolio") }
+                else { PortfolioView() }
+            }
+            .tabItem {
+                Label("Portfolio", systemImage: "chart.pie.fill")
+                    .accessibilityIdentifier(A11y.TabBar.portfolio)
+            }
+            .tag(2)
 
             NavigationStack {
                 // The "views build" renders Card with UIKit; SwiftUI otherwise.

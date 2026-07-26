@@ -470,6 +470,10 @@ nonisolated enum DefectRegistry {
         Defect(id: .fieldEditNotCommitted, title: "Text field edits never reach the model",
                feature: "Card (UIKit build)", category: .validation, severity: .major,
                violates: "A field's edits update the model two-way, so validation and downstream reads see the typed value.", flakiness: .deterministic),
+
+        Defect(id: .rowLocatorMissing, title: "List rows expose no accessibility locator",
+               feature: "Portfolio (UIKit build)", category: .accessibility, severity: .major,
+               violates: "Each row sets its accessibility identifier, so it can be located by tests.", flakiness: .deterministic),
     ]
 
     static func defect(_ id: DefectID) -> Defect {
