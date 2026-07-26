@@ -119,7 +119,12 @@ struct HomeView: View {
         // Recent activity
         VStack(alignment: .leading, spacing: 12) {
             NavigationLink {
-                TransactionsView()
+                // The "views build" renders this screen with UIKit; SwiftUI otherwise.
+                if LaunchOptions.current.uiKit {
+                    UIKitTransactionsView().navigationTitle("Transactions")
+                } else {
+                    TransactionsView()
+                }
             } label: {
                 SectionHeader(title: "Recent activity", trailing: "See all")
             }

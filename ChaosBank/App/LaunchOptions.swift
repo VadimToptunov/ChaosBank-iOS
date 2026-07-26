@@ -20,6 +20,11 @@ nonisolated struct LaunchOptions: Sendable {
     let initialTab: Int
     let showDevMenu: Bool
     let showWebLogin: Bool
+    /// Render the ported screens with **UIKit** (UITableView/UIViewController)
+    /// instead of SwiftUI — the "views build". Enabled by `-ChaosBankUIKit 1`, by
+    /// the `CHAOSBANK_UIKIT` env var, or baked in via the `CHAOSBANK_UIKIT` compile
+    /// flag (a distributable build configuration, read in this one place).
+    let uiKit: Bool
 
     static let current = resolve()
 
@@ -32,11 +37,16 @@ nonisolated struct LaunchOptions: Sendable {
         }
         let tabRaw = (defaults.string(forKey: "ChaosBankTab") ?? environment["CHAOSBANK_TAB"] ?? "home").lowercased()
         let tab = ["home": 0, "markets": 1, "portfolio": 2, "card": 3][tabRaw] ?? 0
+        var uiKit = flag("ChaosBankUIKit", "CHAOSBANK_UIKIT")
+        #if CHAOSBANK_UIKIT
+        uiKit = true
+        #endif
         return LaunchOptions(
             startUnlocked: flag("ChaosBankStartUnlocked", "CHAOSBANK_START_UNLOCKED"),
             initialTab: tab,
             showDevMenu: flag("ChaosBankShowDev", "CHAOSBANK_SHOW_DEV"),
-            showWebLogin: flag("ChaosBankShowWebLogin", "CHAOSBANK_SHOW_WEB_LOGIN")
+            showWebLogin: flag("ChaosBankShowWebLogin", "CHAOSBANK_SHOW_WEB_LOGIN"),
+            uiKit: uiKit
         )
     }
 }

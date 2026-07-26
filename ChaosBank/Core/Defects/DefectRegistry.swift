@@ -450,6 +450,10 @@ nonisolated enum DefectRegistry {
         Defect(id: .offlineBannerMissing, title: "No offline indicator while offline",
                feature: "App / Network", category: .network, severity: .major,
                violates: "When offline, the UI clearly indicates it and serves cached data.", flakiness: .deterministic),
+
+        Defect(id: .listCellReuseBleed, title: "Recycled list cell bleeds a stale value",
+               feature: "Transactions (UIKit build)", category: .ui, severity: .major,
+               violates: "A reused cell fully resets its content, so a scrolled row never shows another row's value.", flakiness: .deterministic),
     ]
 
     static func defect(_ id: DefectID) -> Defect {

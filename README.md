@@ -127,10 +127,24 @@ scheme. No duplicated targets, no `#if` scattered through the app.
 
 ---
 
-## Defect catalog (119 defects, 10 categories)
+## Views build (UIKit)
+
+Ported screens can render with **UIKit** (`UIViewController`/`UITableView`) instead
+of SwiftUI — the "views build" — to host defects characteristic of the UIKit view
+layer. It reuses the exact same view models (only the view layer differs) and keeps
+the same accessibility identifiers. Enable it at runtime with `-ChaosBankUIKit 1`, or
+bake it in via the `CHAOSBANK_UIKIT` compile flag (a distributable build
+configuration, read in one place in `LaunchOptions`).
+
+Its Android counterpart is the **XML "views build"** (`RecyclerView` + XML layouts)
+behind `CHAOSBANK_VIEWS`. Both host the same defect *names* for cross-platform parity
+(each implemented natively): the first is `listCellReuseBleed` — a recycled list cell
+bleeds a stale value. So far **Transactions** is ported; more screens follow.
+
+## Defect catalog (120 defects, 10 categories)
 
 Every defect ships **OFF** in the `clean` profile. Counts by category: money 23,
-state 21, security 18, validation 12, ui 12, network 8, performance 6,
+state 21, security 18, validation 12, ui 13, network 8, performance 6,
 concurrency 6, localization 8, accessibility 5. The latest additions are the first
 **reliability stressors** — a dev-menu network-state selector
 (normal / offline / slow / flaky), unstable animations, and never-ending pagination.
@@ -174,6 +188,7 @@ representative selection.
 | | `otpResendNoCooldown` | OTP resend ignores its cooldown |
 | | `successToastMissing` | no confirmation toast after a transfer |
 | | `flakyAnimation` ⭑ | ticker flash settle-time jitters → wait-for-idle flakes |
+| | `listCellReuseBleed` ⭑ | UIKit build: a recycled table cell bleeds a stale amount |
 | **Accessibility** | `duplicateAssetA11yId` | two market rows share one identifier |
 | | `missingA11yLabel` | Place-order button has no accessibility label |
 | | `wrongA11yLabel` | Buy button is labelled "Sell" |

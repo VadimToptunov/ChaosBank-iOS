@@ -349,6 +349,11 @@ nonisolated enum Exercises {
             expectedClean: "Payment computed at the advertised APR.",
             expectedBuggy: "Payment reflects a higher rate than the advertised APR.",
             locators: ["loans.apr", "loans.monthly", "loans.total"]),
+        .listCellReuseBleed: Spec(difficulty: "senior",
+            task: "In the UIKit build (-ChaosBankUIKit 1), scroll Transactions and assert every money-out row shows a '−' amount — none bled a '+' from a recycled money-in cell.",
+            expectedClean: "Every reused cell fully resets; each sign matches its row's direction.",
+            expectedBuggy: "A scrolled money-out row shows a '+' amount bled from a reused money-in cell.",
+            locators: ["transactions.list", "transactions.row.t01"]),
     ]
 
     static let all: [Exercise] = {

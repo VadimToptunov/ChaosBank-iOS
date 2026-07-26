@@ -150,4 +150,9 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case transactionsDupOnFetch
     case staleHoldingsAfterOrder
     case offlineBannerMissing
+
+    // MARK: UIKit "views build" — defects characteristic of the UIKit view layer
+    // (only reachable when the app renders with UIKit; mirrored on Android's XML
+    // build under the same names for cross-platform parity).
+    case listCellReuseBleed
 }
