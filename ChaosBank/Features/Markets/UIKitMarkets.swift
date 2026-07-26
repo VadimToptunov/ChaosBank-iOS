@@ -66,11 +66,15 @@ final class MarketsViewController: UITableViewController {
     }
 
     private func reload() {
+        let next: [Asset]
         switch current {
-        case "stocks": rows = SeedData.assets.filter { $0.kind == .stock }
-        case "crypto": rows = SeedData.assets.filter { $0.kind == .crypto }
-        default: rows = SeedData.assets.filter { SeedData.watchlistSymbols.contains($0.symbol) }
+        case "stocks": next = SeedData.assets.filter { $0.kind == .stock }
+        case "crypto": next = SeedData.assets.filter { $0.kind == .crypto }
+        default: next = SeedData.assets.filter { SeedData.watchlistSymbols.contains($0.symbol) }
         }
+        // Correct: replace the list. `listNotClearedOnReload`: append instead, so
+        // switching segments accumulates rows from every segment visited.
+        if Defects.isActive(.listNotClearedOnReload) { rows += next } else { rows = next }
         tableView.reloadData()
     }
 

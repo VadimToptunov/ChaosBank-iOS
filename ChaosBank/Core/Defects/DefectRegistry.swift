@@ -474,6 +474,10 @@ nonisolated enum DefectRegistry {
         Defect(id: .rowLocatorMissing, title: "List rows expose no accessibility locator",
                feature: "Portfolio (UIKit build)", category: .accessibility, severity: .major,
                violates: "Each row sets its accessibility identifier, so it can be located by tests.", flakiness: .deterministic),
+
+        Defect(id: .listNotClearedOnReload, title: "Switching segment appends instead of replacing",
+               feature: "Markets (UIKit build)", category: .state, severity: .major,
+               violates: "Reloading a list replaces its contents, so switching segment shows only that segment's rows.", flakiness: .deterministic),
     ]
 
     static func defect(_ id: DefectID) -> Defect {

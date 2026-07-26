@@ -379,6 +379,11 @@ nonisolated enum Exercises {
             expectedClean: "Each row sets its accessibility identifier, so portfolio.holding.<symbol> resolves.",
             expectedBuggy: "Rows never set their id, so the per-holding locators don't exist.",
             locators: ["portfolio.list", "portfolio.holding.AAPL"]),
+        .listNotClearedOnReload: Spec(difficulty: "senior",
+            task: "In the UIKit build, open Markets, tap Stocks then Watchlist and assert the list shows only the watchlist rows (no leftover stocks appended).",
+            expectedClean: "Each segment reload replaces the list — only the current segment's rows show.",
+            expectedBuggy: "Reload appends, so switching segments accumulates rows from every segment visited.",
+            locators: ["markets.segment.stocks", "markets.segment.watchlist", "markets.list"]),
     ]
 
     static let all: [Exercise] = {
