@@ -389,6 +389,11 @@ nonisolated enum Exercises {
             expectedClean: "The total renders through the currency formatter.",
             expectedBuggy: "The total shows a raw, unformatted number (no symbol/grouping).",
             locators: ["portfolio.totalValue"]),
+        .switchChangeNotHandled: Spec(difficulty: "middle",
+            task: "In the UIKit build, open Card, turn Freeze on and assert the FROZEN badge appears on the card.",
+            expectedClean: "Flipping the switch runs its handler — the model updates and the FROZEN badge shows.",
+            expectedBuggy: "The switch's change handler isn't wired, so nothing happens and the badge never appears.",
+            locators: ["card.freezeToggle", "card.frozenBadge"]),
     ]
 
     static let all: [Exercise] = {

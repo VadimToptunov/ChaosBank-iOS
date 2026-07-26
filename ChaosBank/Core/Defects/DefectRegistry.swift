@@ -482,6 +482,10 @@ nonisolated enum DefectRegistry {
         Defect(id: .labelNotFormatted, title: "Total shown as a raw, unformatted number",
                feature: "Portfolio (UIKit build)", category: .ui, severity: .minor,
                violates: "Money labels are rendered via the currency formatter, not a raw value.", flakiness: .deterministic),
+
+        Defect(id: .switchChangeNotHandled, title: "Toggling the freeze switch does nothing",
+               feature: "Card (UIKit build)", category: .state, severity: .major,
+               violates: "A switch's change handler is wired, so flipping it updates the model and the UI reacts.", flakiness: .deterministic),
     ]
 
     static func defect(_ id: DefectID) -> Defect {

@@ -24,6 +24,7 @@ final class CardViewController: UIViewController {
     private let onlineSwitch = UISwitch()
     private let limitField = UITextField()
     private let limitErrorLabel = UILabel()
+    private let frozenBadge = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,8 +65,11 @@ final class CardViewController: UIViewController {
         let bound = !Defects.isActive(.toggleInitialStateNotBound)
         freezeSwitch.isOn = bound ? vm.frozen : false
         onlineSwitch.isOn = bound ? vm.onlinePayments : false
-        // Changes are always wired (only the initial binding is defective).
-        freezeSwitch.addTarget(self, action: #selector(freezeChanged), for: .valueChanged)
+        // Change handlers are wired. `switchChangeNotHandled`: the freeze switch's
+        // handler is never attached, so flipping it doesn't update the model or the badge.
+        if !Defects.isActive(.switchChangeNotHandled) {
+            freezeSwitch.addTarget(self, action: #selector(freezeChanged), for: .valueChanged)
+        }
         onlineSwitch.addTarget(self, action: #selector(onlineChanged), for: .valueChanged)
     }
 
@@ -78,6 +82,14 @@ final class CardViewController: UIViewController {
         card.heightAnchor.constraint(equalToConstant: 190).isActive = true
 
         let brand = label("ChaosBank", size: 18, weight: .bold, color: UIColor(Palette.sand))
+        frozenBadge.text = "FROZEN"
+        frozenBadge.font = .monospacedSystemFont(ofSize: 11, weight: .bold)
+        frozenBadge.textColor = UIColor(Palette.loss)
+        frozenBadge.accessibilityIdentifier = A11y.Card.frozenBadge
+        frozenBadge.isHidden = !vm.frozen
+        let brandRow = UIStackView(arrangedSubviews: [brand, UIView(), frozenBadge])
+        brandRow.axis = .horizontal
+        brandRow.alignment = .center
         let pan = label(vm.displayedPAN, size: 18, weight: .semibold, color: UIColor(Palette.text))
         pan.accessibilityIdentifier = A11y.Card.number
         let holder = label(vm.holder, size: 12, weight: .medium, color: UIColor(Palette.muted))
@@ -86,7 +98,7 @@ final class CardViewController: UIViewController {
 
         let bottom = UIStackView(arrangedSubviews: [holder, expiry])
         bottom.axis = .horizontal
-        let v = UIStackView(arrangedSubviews: [brand, UIView(), pan, bottom])
+        let v = UIStackView(arrangedSubviews: [brandRow, UIView(), pan, bottom])
         v.axis = .vertical
         v.spacing = 6
         v.translatesAutoresizingMaskIntoConstraints = false
@@ -167,7 +179,10 @@ final class CardViewController: UIViewController {
 
     // MARK: Actions
 
-    @objc private func freezeChanged() { vm.frozen = freezeSwitch.isOn }
+    @objc private func freezeChanged() {
+        vm.frozen = freezeSwitch.isOn
+        frozenBadge.isHidden = !vm.frozen
+    }
     @objc private func onlineChanged() { vm.onlinePayments = onlineSwitch.isOn }
     @objc private func limitChanged() {
         let digits = (limitField.text ?? "").filter(\.isNumber)
