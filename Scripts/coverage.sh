@@ -19,7 +19,7 @@ RB="$(mktemp -d)/result.xcresult"
 # Files excluded from the unit-coverage budget (SwiftUI view/app bodies + network).
 # ChaosBankApp is the @main scene + URL-open glue; ChaosBankScreen is a View scaffold —
 # both are UI, exercised by instrumented/manual tests, not host unit tests.
-EXCLUDE='View\.swift$|ChaosBankApp|ChaosBankScreen|AuthViews|WebLoginView|Components\.swift|Sparkline|LiveTicker|A11y\.swift|Colors\.swift|BuildBadge|LivePriceService|UIKitTransactions'
+EXCLUDE='View\.swift$|ChaosBankApp|ChaosBankScreen|AuthViews|WebLoginView|Components\.swift|Sparkline|LiveTicker|A11y\.swift|Colors\.swift|BuildBadge|LivePriceService|UIKit'
 
 echo "› Running tests with coverage ($DEST)…"
 xcodebuild test \

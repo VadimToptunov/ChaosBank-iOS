@@ -359,6 +359,11 @@ nonisolated enum Exercises {
             expectedClean: "Every reused cell updates its accessibility id; each row locator matches its content.",
             expectedBuggy: "A recycled cell keeps a previous row's id, so the locator resolves to the wrong row.",
             locators: ["transactions.list", "transactions.row.t01"]),
+        .toggleInitialStateNotBound: Spec(difficulty: "middle",
+            task: "In the UIKit build (-ChaosBankUIKit 1), open Card and assert the Online-payments toggle is ON on load (its model default), before any interaction.",
+            expectedClean: "The toggle reflects the model on load (Online payments = on).",
+            expectedBuggy: "The toggle shows a hardcoded default (off), ignoring the model's initial state.",
+            locators: ["card.onlinePaymentsToggle", "card.freezeToggle"]),
     ]
 
     static let all: [Exercise] = {

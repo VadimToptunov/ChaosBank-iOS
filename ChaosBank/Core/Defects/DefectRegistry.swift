@@ -458,6 +458,10 @@ nonisolated enum DefectRegistry {
         Defect(id: .listRecycledA11yStale, title: "Recycled list cell keeps a stale accessibility id",
                feature: "Transactions (UIKit build)", category: .accessibility, severity: .major,
                violates: "A reused cell updates its accessibility identifier, so a row's locator always matches its content.", flakiness: .deterministic),
+
+        Defect(id: .toggleInitialStateNotBound, title: "Toggle ignores the model's initial state",
+               feature: "Card (UIKit build)", category: .state, severity: .major,
+               violates: "A control renders its model's current value on load, not a hardcoded default.", flakiness: .deterministic),
     ]
 
     static func defect(_ id: DefectID) -> Defect {

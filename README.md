@@ -140,13 +140,14 @@ Its Android counterpart is the **XML "views build"** (`RecyclerView` + XML layou
 behind `CHAOSBANK_VIEWS`. Both host the same defect *names* for cross-platform parity
 (each implemented natively): `listCellReuseBleed` (a recycled cell bleeds a stale
 value) and `listRecycledA11yStale` (a recycled cell keeps a stale accessibility id, so
-a row's locator resolves to the wrong row). So far **Transactions** is ported; more
-screens follow.
+a row's locator resolves to the wrong row); and `toggleInitialStateNotBound` (a control
+shows a hardcoded default instead of its model's initial value). So far **Transactions**
+and **Card** are ported; more screens follow.
 
-## Defect catalog (121 defects, 10 categories)
+## Defect catalog (122 defects, 10 categories)
 
 Every defect ships **OFF** in the `clean` profile. Counts by category: money 23,
-state 21, security 18, validation 12, ui 13, network 8, performance 6,
+state 22, security 18, validation 12, ui 13, network 8, performance 6,
 concurrency 6, localization 8, accessibility 6. The latest additions are the first
 **reliability stressors** — a dev-menu network-state selector
 (normal / offline / slow / flaky), unstable animations, and never-ending pagination.

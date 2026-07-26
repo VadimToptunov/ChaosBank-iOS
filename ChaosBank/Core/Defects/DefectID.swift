@@ -156,4 +156,5 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     // build under the same names for cross-platform parity).
     case listCellReuseBleed
     case listRecycledA11yStale
+    case toggleInitialStateNotBound
 }

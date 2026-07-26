@@ -2243,5 +2243,24 @@
     "launchArgument" : "-ChaosBankDefects listRecycledA11yStale",
     "task" : "In the UIKit build, scroll Transactions and assert each transactions.row.<id> locator resolves to the row whose amount\/title it names (ids aren't left stale on reused cells).",
     "title" : "Recycled list cell keeps a stale accessibility id"
+  },
+  {
+    "category" : "state",
+    "condition" : "A control renders its model's current value on load, not a hardcoded default.",
+    "defects" : [
+      "toggleInitialStateNotBound"
+    ],
+    "difficulty" : "middle",
+    "expectedBuggy" : "The toggle shows a hardcoded default (off), ignoring the model's initial state.",
+    "expectedClean" : "The toggle reflects the model on load (Online payments = on).",
+    "feature" : "Card (UIKit build)",
+    "id" : "IOS-STA-22",
+    "keyLocators" : [
+      "card.onlinePaymentsToggle",
+      "card.freezeToggle"
+    ],
+    "launchArgument" : "-ChaosBankDefects toggleInitialStateNotBound",
+    "task" : "In the UIKit build (-ChaosBankUIKit 1), open Card and assert the Online-payments toggle is ON on load (its model default), before any interaction.",
+    "title" : "Toggle ignores the model's initial state"
   }
 ]

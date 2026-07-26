@@ -32,12 +32,19 @@ struct TabBarView: View {
                 }
                 .tag(2)
 
-            NavigationStack { CardView() }
-                .tabItem {
-                    Label("Card", systemImage: "creditcard.fill")
-                        .accessibilityIdentifier(A11y.TabBar.card)
+            NavigationStack {
+                // The "views build" renders Card with UIKit; SwiftUI otherwise.
+                if LaunchOptions.current.uiKit {
+                    UIKitCardView().navigationTitle("Card")
+                } else {
+                    CardView()
                 }
-                .tag(3)
+            }
+            .tabItem {
+                Label("Card", systemImage: "creditcard.fill")
+                    .accessibilityIdentifier(A11y.TabBar.card)
+            }
+            .tag(3)
         }
         .tint(Palette.sand)
         .accessibilityIdentifier(A11y.TabBar.root)
