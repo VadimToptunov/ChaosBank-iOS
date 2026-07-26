@@ -2340,5 +2340,23 @@
     "launchArgument" : "-ChaosBankDefects listNotClearedOnReload",
     "task" : "In the UIKit build, open Markets, tap Stocks then Watchlist and assert the list shows only the watchlist rows (no leftover stocks appended).",
     "title" : "Switching segment appends instead of replacing"
+  },
+  {
+    "category" : "ui",
+    "condition" : "Money labels are rendered via the currency formatter, not a raw value.",
+    "defects" : [
+      "labelNotFormatted"
+    ],
+    "difficulty" : "junior",
+    "expectedBuggy" : "The total shows a raw, unformatted number (no symbol\/grouping).",
+    "expectedClean" : "The total renders through the currency formatter.",
+    "feature" : "Portfolio (UIKit build)",
+    "id" : "IOS-UI-15",
+    "keyLocators" : [
+      "portfolio.totalValue"
+    ],
+    "launchArgument" : "-ChaosBankDefects labelNotFormatted",
+    "task" : "In the UIKit build (-ChaosBankUIKit 1), open Portfolio and assert the total value is currency-formatted (e.g. $12,345.67), not a raw number.",
+    "title" : "Total shown as a raw, unformatted number"
   }
 ]

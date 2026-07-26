@@ -384,6 +384,11 @@ nonisolated enum Exercises {
             expectedClean: "Each segment reload replaces the list — only the current segment's rows show.",
             expectedBuggy: "Reload appends, so switching segments accumulates rows from every segment visited.",
             locators: ["markets.segment.stocks", "markets.segment.watchlist", "markets.list"]),
+        .labelNotFormatted: Spec(difficulty: "junior",
+            task: "In the UIKit build (-ChaosBankUIKit 1), open Portfolio and assert the total value is currency-formatted (e.g. $12,345.67), not a raw number.",
+            expectedClean: "The total renders through the currency formatter.",
+            expectedBuggy: "The total shows a raw, unformatted number (no symbol/grouping).",
+            locators: ["portfolio.totalValue"]),
     ]
 
     static let all: [Exercise] = {

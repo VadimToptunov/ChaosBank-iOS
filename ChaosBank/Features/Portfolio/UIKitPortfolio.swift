@@ -45,7 +45,9 @@ final class PortfolioViewController: UITableViewController {
 
     private func header() -> UIView {
         let total = UILabel()
-        total.text = vm.totalValue.formatted
+        // Correct: render via the currency formatter. `labelNotFormatted`: bind the
+        // raw Decimal, so the total shows with no symbol/grouping.
+        total.text = Defects.isActive(.labelNotFormatted) ? "\(vm.totalValue.amount)" : vm.totalValue.formatted
         total.font = .systemFont(ofSize: 28, weight: .bold)
         total.textColor = UIColor(Palette.text)
         total.accessibilityIdentifier = A11y.Portfolio.totalValue

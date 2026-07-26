@@ -478,6 +478,10 @@ nonisolated enum DefectRegistry {
         Defect(id: .listNotClearedOnReload, title: "Switching segment appends instead of replacing",
                feature: "Markets (UIKit build)", category: .state, severity: .major,
                violates: "Reloading a list replaces its contents, so switching segment shows only that segment's rows.", flakiness: .deterministic),
+
+        Defect(id: .labelNotFormatted, title: "Total shown as a raw, unformatted number",
+               feature: "Portfolio (UIKit build)", category: .ui, severity: .minor,
+               violates: "Money labels are rendered via the currency formatter, not a raw value.", flakiness: .deterministic),
     ]
 
     static func defect(_ id: DefectID) -> Defect {
