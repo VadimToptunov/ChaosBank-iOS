@@ -48,3 +48,14 @@ jobs:
         env:
           DEST: ${{ steps.sim.outputs.dest }}
         run: ./Scripts/coverage.sh 95
+
+      # Drift-guard: exercises.json must equal the in-app generator's output (the
+      # iOS analogue of Android's CatalogJsonTest). Runs after coverage so the build
+      # is already warm. Fails if the committed catalog was hand-edited / not regenerated.
+      - name: Catalog drift-guard (regenerate & diff)
+        env:
+          DEST: ${{ steps.sim.outputs.dest }}
+        run: |
+          ./Scripts/regenerate_exercises.sh
+          git diff --exit-code exercises.json \
+            || { echo '::error::exercises.json is stale — run Scripts/regenerate_exercises.sh and commit'; exit 1; }

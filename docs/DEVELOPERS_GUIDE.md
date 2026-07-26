@@ -148,6 +148,9 @@ This runs `FinalCoverageTests/testDumpExercisesCatalog`, captures the JSON it pr
 between markers (the simulator sandbox can't write to the repo directly), writes
 `exercises.json`, and validates it. `DEST` overrides the simulator.
 
+CI runs this same script and **fails if it produces any diff** (the drift-guard, see
+[§7](#7-continuous-integration)) — so a hand-edited or stale catalog can't merge.
+
 ---
 
 ## 6. Catalog validation & cross-platform parity
@@ -173,6 +176,9 @@ python3 Scripts/check_exercises.py exercises.json IOS \
 1. **Validate catalog & parity** — `check_exercises.py` runs first (fails fast, pre-build).
 2. Select the newest Xcode, pick an available iPhone simulator.
 3. `./Scripts/coverage.sh 95` — build, test, enforce the logic-layer coverage floor.
+4. **Catalog drift-guard** — regenerates `exercises.json` via the in-app generator and
+   fails on any diff (the iOS analogue of Android's `CatalogJsonTest`). Catches a
+   hand-edited or un-regenerated catalog.
 
 ---
 

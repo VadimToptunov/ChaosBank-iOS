@@ -6,7 +6,16 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 DEST="${DEST:-platform=iOS Simulator,name=iPhone 17}"
-export DEVELOPER_DIR="${DEVELOPER_DIR:-/Applications/Xcode.app/Contents/Developer}"
+
+# Respect an already-selected Xcode (CI does `xcode-select -s <newest>`); only fall
+# back to Xcode.app when the active toolchain is the Command Line Tools (local default).
+if [ -z "${DEVELOPER_DIR:-}" ]; then
+  active="$(xcode-select -p 2>/dev/null || true)"
+  case "$active" in
+    */Xcode*.app/*) export DEVELOPER_DIR="$active" ;;
+    *)              export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer" ;;
+  esac
+fi
 
 LOG="$(mktemp)"
 trap 'rm -f "$LOG"' EXIT
