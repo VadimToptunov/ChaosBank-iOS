@@ -143,12 +143,14 @@ value) and `listRecycledA11yStale` (a recycled cell keeps a stale accessibility 
 a row's locator resolves to the wrong row); and `toggleInitialStateNotBound` (a control
 shows a hardcoded default instead of its model's initial value); and
 `controlActionNotWired` (a segment control's action is never attached, so tapping it does
-nothing). So far **Transactions**, **Card** and **Markets** are ported; more follow.
+nothing); and `fieldEditNotCommitted` (a text field's edits never reach the model, so
+validation doesn't react). So far **Transactions**, **Card** and **Markets** are ported;
+more follow.
 
-## Defect catalog (123 defects, 10 categories)
+## Defect catalog (124 defects, 10 categories)
 
 Every defect ships **OFF** in the `clean` profile. Counts by category: money 23,
-state 22, security 18, validation 12, ui 14, network 8, performance 6,
+state 22, security 18, validation 13, ui 14, network 8, performance 6,
 concurrency 6, localization 8, accessibility 6. The latest additions are the first
 **reliability stressors** — a dev-menu network-state selector
 (normal / offline / slow / flaky), unstable animations, and never-ending pagination.

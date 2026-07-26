@@ -23,6 +23,7 @@ final class CardViewController: UIViewController {
     private let freezeSwitch = UISwitch()
     private let onlineSwitch = UISwitch()
     private let limitField = UITextField()
+    private let limitErrorLabel = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,10 +114,17 @@ final class CardViewController: UIViewController {
         limitField.widthAnchor.constraint(equalToConstant: 80).isActive = true
         limitField.addTarget(self, action: #selector(limitChanged), for: .editingChanged)
 
+        limitErrorLabel.font = .systemFont(ofSize: 12, weight: .medium)
+        limitErrorLabel.textColor = UIColor(Palette.loss)
+        limitErrorLabel.textAlignment = .right
+        limitErrorLabel.accessibilityIdentifier = A11y.Card.limitError
+        limitErrorLabel.isHidden = true
+
         let rows = UIStackView(arrangedSubviews: [
             settingRow("Freeze card", freezeSwitch),
             settingRow("Online payments", onlineSwitch),
             settingRow("Monthly limit", limitField),
+            limitErrorLabel,
         ])
         rows.axis = .vertical
         rows.spacing = 14
@@ -161,7 +169,16 @@ final class CardViewController: UIViewController {
 
     @objc private func freezeChanged() { vm.frozen = freezeSwitch.isOn }
     @objc private func onlineChanged() { vm.onlinePayments = onlineSwitch.isOn }
-    @objc private func limitChanged() { vm.monthlyLimitText = (limitField.text ?? "").filter(\.isNumber); limitField.text = vm.monthlyLimitText }
+    @objc private func limitChanged() {
+        let digits = (limitField.text ?? "").filter(\.isNumber)
+        limitField.text = digits
+        // Correct: commit the edit to the model (two-way). `fieldEditNotCommitted`:
+        // skip the commit, so the field shows the text but the model — and its
+        // validation — keep the old value.
+        if !Defects.isActive(.fieldEditNotCommitted) { vm.monthlyLimitText = digits }
+        limitErrorLabel.text = vm.limitError
+        limitErrorLabel.isHidden = vm.limitError == nil
+    }
     @objc private func noop() {}
 
     @objc private func showPIN() { present(alert("Card PIN", "Your PIN is \(vm.pinText)"), animated: true) }

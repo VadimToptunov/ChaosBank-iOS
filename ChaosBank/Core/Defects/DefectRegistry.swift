@@ -466,6 +466,10 @@ nonisolated enum DefectRegistry {
         Defect(id: .controlActionNotWired, title: "Segment control does nothing when tapped",
                feature: "Markets (UIKit build)", category: .ui, severity: .major,
                violates: "Every interactive control has its action wired, so tapping a segment switches the list.", flakiness: .deterministic),
+
+        Defect(id: .fieldEditNotCommitted, title: "Text field edits never reach the model",
+               feature: "Card (UIKit build)", category: .validation, severity: .major,
+               violates: "A field's edits update the model two-way, so validation and downstream reads see the typed value.", flakiness: .deterministic),
     ]
 
     static func defect(_ id: DefectID) -> Defect {

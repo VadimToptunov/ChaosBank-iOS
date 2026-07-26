@@ -158,4 +158,5 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case listRecycledA11yStale
     case toggleInitialStateNotBound
     case controlActionNotWired
+    case fieldEditNotCommitted
 }

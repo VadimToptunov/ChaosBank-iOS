@@ -369,6 +369,11 @@ nonisolated enum Exercises {
             expectedClean: "Tapping a segment switches the list (its action is wired).",
             expectedBuggy: "Tapping a segment does nothing — the list stays on the watchlist.",
             locators: ["markets.segment.crypto", "markets.segment.stocks", "markets.list"]),
+        .fieldEditNotCommitted: Spec(difficulty: "senior",
+            task: "In the UIKit build, open Card, type 0 into the monthly-limit field and assert the 'must be greater than zero' error appears (the edit reached the model).",
+            expectedClean: "Editing the field updates the model, so validation reacts to the typed value.",
+            expectedBuggy: "The field shows the text but the model keeps its old value — no error appears.",
+            locators: ["card.limitField", "card.limitError"]),
     ]
 
     static let all: [Exercise] = {
