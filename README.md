@@ -173,6 +173,7 @@ representative selection.
 | **UI** | `disabledButtonTappable` | a disabled-looking button still fires |
 | | `otpResendNoCooldown` | OTP resend ignores its cooldown |
 | | `successToastMissing` | no confirmation toast after a transfer |
+| | `flakyAnimation` ⭑ | ticker flash settle-time jitters → wait-for-idle flakes |
 | **Accessibility** | `duplicateAssetA11yId` | two market rows share one identifier |
 | | `missingA11yLabel` | Place-order button has no accessibility label |
 | | `wrongA11yLabel` | Buy button is labelled "Sell" |
@@ -193,12 +194,11 @@ representative selection.
 | | `slowResponseRace` | a stale late response clobbers fresh state |
 | | `timeoutAsSuccess` | a timeout is shown as a successful transfer |
 | | `staleOfflineBalance` | offline cache serves an outdated balance |
+| | `offlineBannerMissing` ⭑ | offline, but no banner — cached data served silently |
 | **Performance** | `transactionsHeavyList` | huge non-lazy, non-paginated list hitches |
 | | `mainThreadStall` | Portfolio blocks the main thread on open |
 | | `feedPollsTooOften` | live feed polls 10× too often |
 | | `transactionsSortEveryRender` | history re-sorts on every render |
-| **Reliability** ⭑ | `flakyAnimation` | ticker flash settle-time jitters → wait-for-idle flakes |
-| | `offlineBannerMissing` | offline, but no banner — cached data served silently |
 
 ---
 
