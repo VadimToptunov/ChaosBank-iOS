@@ -350,6 +350,15 @@ roughly two-thirds of the code is SwiftUI `View` bodies, which unit tests do not
 execute — those are excluded from the unit-coverage budget and covered by UI tests
 instead (intentionally left to the reference suites; see Roadmap).
 
+### UI tests
+
+A complete, hand-written **[KassiOS](https://github.com/VadimToptunov/KassiOS)**
+UI-test suite driving this app end to end lives in a companion repo:
+**[ChaosBank ⨯ KassiOS](https://github.com/VadimToptunov/ChaosBank-KassiOS-Tests)**.
+It passes on the `clean` profile and turns **red** on each injected defect — the
+clean-pass → buggy-fail regression contract, proven through the UI — and doubles
+as the dogfooding ground for KassiOS itself.
+
 ## Documentation
 
 - [docs/USER_GUIDE.md](docs/USER_GUIDE.md) — for QA/SDET engineers: launch the app, switch
@@ -364,9 +373,11 @@ instead (intentionally left to the reference suites; see Roadmap).
 
 ## Roadmap
 
-- Reference test suites in parallel folders (XCUITest / Swift Testing / KassiOS /
-  Appium / Maestro) — the app is ready for them: stable locators, `exercises.json`,
-  and the launch-argument contract above.
+- A **[KassiOS](https://github.com/VadimToptunov/KassiOS)** reference suite already
+  exists → [ChaosBank ⨯ KassiOS](https://github.com/VadimToptunov/ChaosBank-KassiOS-Tests).
+  More reference suites in parallel (XCUITest / Swift Testing / Appium / Maestro) —
+  the app is ready for them: stable locators, `exercises.json`, and the
+  launch-argument contract above.
 - More performance & concurrency scenarios.
 
 ## License
