@@ -11,6 +11,7 @@
 //    -ChaosBankTab markets
 //    -ChaosBankShowDev 1
 //    -ChaosBankShowWebLogin 1
+//    -ChaosBankInspectableWeb 1
 //
 
 import Foundation
@@ -25,6 +26,12 @@ nonisolated struct LaunchOptions: Sendable {
     /// the `CHAOSBANK_UIKIT` env var, or baked in via the `CHAOSBANK_UIKIT` compile
     /// flag (a distributable build configuration, read in this one place).
     let uiKit: Bool
+    /// Mark the web-login `WKWebView` as **inspectable** (`-ChaosBankInspectableWeb 1`,
+    /// iOS 16.4+). Off by default, so the web login stays an opaque hybrid — tests
+    /// must reach its fields through the native tree (WebView "Mode 1"). Turned on,
+    /// the WKWebView exposes a WEBVIEW automation context, so Appium/Chromedriver can
+    /// `switch_to.context(WEBVIEW_…)` and walk the DOM (WebView "Mode 2").
+    let inspectableWeb: Bool
 
     static let current = resolve()
 
@@ -46,7 +53,8 @@ nonisolated struct LaunchOptions: Sendable {
             initialTab: tab,
             showDevMenu: flag("ChaosBankShowDev", "CHAOSBANK_SHOW_DEV"),
             showWebLogin: flag("ChaosBankShowWebLogin", "CHAOSBANK_SHOW_WEB_LOGIN"),
-            uiKit: uiKit
+            uiKit: uiKit,
+            inspectableWeb: flag("ChaosBankInspectableWeb", "CHAOSBANK_INSPECTABLE_WEB")
         )
     }
 }

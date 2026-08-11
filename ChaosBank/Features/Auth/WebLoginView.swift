@@ -50,6 +50,11 @@ struct WebLoginView: UIViewRepresentable {
         webView.isOpaque = false
         webView.backgroundColor = .clear
         webView.scrollView.backgroundColor = .clear
+        // WebView "Mode 2" stand: expose a WEBVIEW automation context so a driver can
+        // `switch_to.context(WEBVIEW_…)`. Off by default (opaque hybrid → Mode 1).
+        if #available(iOS 16.4, *), LaunchOptions.current.inspectableWeb {
+            webView.isInspectable = true
+        }
         webView.loadHTMLString(Self.html, baseURL: nil)
         return webView
     }

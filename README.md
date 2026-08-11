@@ -93,7 +93,15 @@ triple-tap the build badge).
 -ChaosBankTab markets            # deep-link a tab: home|markets|portfolio|card
 -ChaosBankShowDev 1              # auto-open the developer menu
 -ChaosBankShowWebLogin 1         # auto-open the web login sheet
+-ChaosBankInspectableWeb 1       # make the web-login WKWebView inspectable (iOS 16.4+)
 ```
+
+> **WebView modes.** The web login is a hybrid: an HTML form inside a `WKWebView`.
+> By default it's an *opaque* hybrid — Appium/XCUITest see only `NATIVE_APP`, so a
+> driver must reach the web-hosted fields through the native accessibility tree
+> ("Mode 1"). Passing `-ChaosBankInspectableWeb 1` sets `WKWebView.isInspectable`,
+> which exposes a `WEBVIEW_…` automation context so a driver can
+> `switch_to.context(...)` and walk the DOM ("Mode 2").
 
 ### Build configurations (distributable per-defect builds)
 
