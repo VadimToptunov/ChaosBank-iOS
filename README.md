@@ -339,7 +339,7 @@ xcrun simctl launch <device> VadimToptunov.ChaosBank -ChaosBankProfile flaky
 
 A unit-test target (`ChaosBankTests`, XCTest) covers the correct baseline and the
 regression pattern — the same assertion passes on `clean` and fails when a defect
-is active. **205 tests** across the catalog (integrity, profiles, exercises), money
+is active. **209 tests** across the catalog (integrity, profiles, exercises), money
 & rounding, locale parsing, the mock backend & every network scenario/error path
 (including offline mode), the seeded price feed, the auth ladder, and every view model (Home, Transfer,
 Exchange, Transactions, Order, Portfolio, Card + TokenStore).
