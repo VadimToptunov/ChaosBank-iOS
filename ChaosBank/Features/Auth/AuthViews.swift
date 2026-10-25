@@ -22,6 +22,7 @@ struct AuthContainerView: View {
             case .unlocked: EmptyView()
             }
         }
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier(A11y.Auth.gate)
     }
 }
