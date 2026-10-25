@@ -49,6 +49,7 @@ private struct LoginView: View {
             Spacer().frame(height: 12)
         }
         .padding(24)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier(A11y.Auth.loginRoot)
         .onAppear {
             if LaunchOptions.current.showWebLogin { showWebLogin = true }
@@ -131,6 +132,7 @@ private struct OTPView: View {
             Spacer()
         }
         .padding(24)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier(A11y.Auth.otpRoot)
     }
 }
@@ -197,6 +199,7 @@ private struct PasscodeView: View {
             Spacer()
         }
         .padding(24)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier(A11y.Auth.passcodeRoot)
     }
 
