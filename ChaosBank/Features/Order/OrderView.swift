@@ -159,6 +159,7 @@ struct OrderView: View {
         .padding(20)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Palette.bg)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier(A11y.Order.confirmSheet)
         .presentationDetents([.medium])
     }
