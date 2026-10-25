@@ -76,6 +76,7 @@ struct MarketsView: View {
                     }
                 }
             }
+            .accessibilityElement(children: .contain)
             .accessibilityIdentifier(A11y.Markets.list)
         }
         .onAppear { services.startFeed() }

@@ -62,6 +62,7 @@ struct PortfolioView: View {
                     }
                 }
             }
+            .accessibilityElement(children: .contain)
             .accessibilityIdentifier(A11y.Portfolio.list)
         }
     }
@@ -102,6 +103,7 @@ struct PortfolioView: View {
         }
         .padding(.vertical, 10)
         .padding(.horizontal, 8)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier(A11y.Portfolio.holding(holding.symbol))
     }
 

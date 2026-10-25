@@ -156,6 +156,7 @@ struct CardView: View {
         }
         .frame(height: 200)
         .opacity(vm.frozen ? 0.55 : 1)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier(A11y.Card.visual)
     }
 

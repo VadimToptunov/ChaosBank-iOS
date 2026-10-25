@@ -73,6 +73,7 @@ struct HomeView: View {
                         set: { vm.selectedCurrency = Currency(rawValue: $0) ?? .EUR }
                     )
                 )
+                .accessibilityElement(children: .contain)
                 .accessibilityIdentifier(A11y.Home.currencySegment)
 
                 Text("Total balance")
@@ -86,10 +87,12 @@ struct HomeView: View {
                 HStack(spacing: 6) {
                     Image(systemName: vm.todayChange.amount < 0 ? "arrow.down.right" : "arrow.up.right")
                         .font(.system(size: 12, weight: .bold))
+                        .accessibilityHidden(true)
                     Text("\(vm.todayChange.formattedSigned) · \(MoneyFormat.percent(vm.todayChangePercent)) today")
                         .moneyStyle(13, weight: .medium)
                 }
                 .foregroundStyle(Palette.pnl(vm.todayChange.amount))
+                .accessibilityElement(children: .combine)
                 .accessibilityIdentifier(A11y.Home.todayChange)
             }
         }
@@ -144,6 +147,7 @@ struct HomeView: View {
                     }
                 }
             }
+            .accessibilityElement(children: .contain)
             .accessibilityIdentifier(A11y.Home.recentActivity)
         }
     }
@@ -171,6 +175,7 @@ struct HomeView: View {
                 .stroke(account.currency == selected ? Palette.sand : Palette.line,
                         lineWidth: account.currency == selected ? 1.5 : 1)
         )
+        .accessibilityElement(children: .combine)
         .accessibilityIdentifier(A11y.Home.account(account.currency))
     }
 

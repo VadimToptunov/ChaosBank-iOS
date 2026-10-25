@@ -69,6 +69,7 @@ struct DevMenuView: View {
                                 set: { services.setPriceSource(PriceSourceKind(rawValue: $0) ?? .simulated) }
                             )
                         )
+                        .accessibilityElement(children: .contain)
                         .accessibilityIdentifier(A11y.Dev.priceSource)
                         Text(services.market.source == .live
                              ? "Real Yahoo Finance quotes — non-deterministic."
@@ -87,6 +88,7 @@ struct DevMenuView: View {
                                 set: { services.setNetworkCondition(NetworkCondition(rawValue: $0) ?? .normal) }
                             )
                         )
+                        .accessibilityElement(children: .contain)
                         .accessibilityIdentifier(A11y.Dev.networkCondition)
                         Text(networkHint(services.networkCondition))
                             .font(.appBody(11)).foregroundStyle(Palette.muted)
@@ -110,6 +112,7 @@ struct DevMenuView: View {
                             selection: Binding(get: { services.locale.locale.rawValue },
                                                set: { services.locale.selectLocale(LocaleId(rawValue: $0) ?? .enUS) })
                         )
+                        .accessibilityElement(children: .contain)
                         .accessibilityIdentifier(A11y.Dev.localeSelector)
                         Text("Number: \(LocaleFormat.grouped(Decimal(string: "1234567.89")!, locale: services.locale.locale))")
                             .font(.appMono(11)).foregroundStyle(Palette.muted)

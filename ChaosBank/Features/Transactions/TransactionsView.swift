@@ -73,6 +73,7 @@ struct TransactionsView: View {
                 }
             }
         }
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier(A11y.Transactions.list)
 
         if vm.canLoadMore {
