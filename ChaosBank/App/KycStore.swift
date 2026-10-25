@@ -13,7 +13,8 @@ import Observation
 @MainActor
 @Observable
 final class KycStore {
-    private(set) var verified = true
+    private(set) var verified: Bool
+    init(verified: Bool = true) { self.verified = verified }
     func applyVerified(_ value: Bool) { verified = value }
 }
 

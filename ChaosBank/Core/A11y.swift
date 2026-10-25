@@ -38,6 +38,25 @@ enum A11y {
         static let cardButton = "card.loanButton"
     }
 
+    enum Kyc {
+        static let cardButton = "card.kycButton"
+        static let cardStatus = "card.kycStatus"
+        static let root = "kyc.root"
+        static let docPassport = "kyc.doc.passport"
+        static let docIdCard = "kyc.doc.idCard"
+        static let scanButton = "kyc.scanButton"
+        static let scanError = "kyc.scanError"
+        static let docName = "kyc.docName"
+        static let docNumber = "kyc.docNumber"
+        static let docExpiry = "kyc.docExpiry"
+        static let selfieButton = "kyc.selfieButton"
+        static let selfieResult = "kyc.selfieResult"
+        static let submitButton = "kyc.submitButton"
+        static let resultTitle = "kyc.resultTitle"
+        static let resultReason = "kyc.resultReason"
+        static let doneButton = "kyc.doneButton"
+    }
+
     enum Notifications {
         static let root = "notifications.root"
         static let bell = "home.notificationsBell"

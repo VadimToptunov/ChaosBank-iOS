@@ -50,6 +50,7 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case orderQtyDefaultsZero
     case loginAcceptsEmptyCreds
     case cardLimitAcceptsZero
+    case kycNameMismatchAccepted
 
     // MARK: Localization
     case localeParse
@@ -83,6 +84,7 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case notificationBadgeStale
     case notificationOpensWrongScreen
     case templatePrefillsWrongAmount
+    case kycStuckPending
 
     // MARK: Concurrency / races
     case doubleCharge
@@ -139,6 +141,8 @@ nonisolated enum DefectID: String, CaseIterable, Codable, Sendable {
     case deepLinkSkipsAuth
     case biometricUnlocksFromAnyStage
     case kycBypassAllowsTransfer
+    case kycAcceptsExpiredDocument
+    case kycSelfieMismatchAccepted
     case virtualCardShowsRealPan
 
     // MARK: Network (scenario-driven backend)

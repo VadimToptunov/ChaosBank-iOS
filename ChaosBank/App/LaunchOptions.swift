@@ -12,6 +12,9 @@
 //    -ChaosBankShowDev 1
 //    -ChaosBankShowWebLogin 1
 //    -ChaosBankInspectableWeb 1
+//    -ChaosBankKycUnverified 1
+//    -ChaosBankKycDocument expired      (valid | expired | unreadable | nameMismatch)
+//    -ChaosBankKycSelfie mismatch       (match | mismatch | noFace)
 //
 
 import Foundation
@@ -32,6 +35,15 @@ nonisolated struct LaunchOptions: Sendable {
     /// the WKWebView exposes a WEBVIEW automation context, so Appium/Chromedriver can
     /// `switch_to.context(WEBVIEW_…)` and walk the DOM (WebView "Mode 2").
     let inspectableWeb: Bool
+    /// Start with an unverified identity (`-ChaosBankKycUnverified 1`), so the KYC
+    /// flow and the large-transfer gate can be exercised from launch.
+    let kycUnverified: Bool
+    /// What the mock document scanner and selfie check return in the KYC flow
+    /// (`-ChaosBankKycDocument`, `-ChaosBankKycSelfie`). The simulator has no
+    /// camera, so the flow reads these instead; unknown values fall back to the
+    /// happy path (`valid`, `match`).
+    let kycDocument: String
+    let kycSelfie: String
 
     static let current = resolve()
 
@@ -54,7 +66,10 @@ nonisolated struct LaunchOptions: Sendable {
             showDevMenu: flag("ChaosBankShowDev", "CHAOSBANK_SHOW_DEV"),
             showWebLogin: flag("ChaosBankShowWebLogin", "CHAOSBANK_SHOW_WEB_LOGIN"),
             uiKit: uiKit,
-            inspectableWeb: flag("ChaosBankInspectableWeb", "CHAOSBANK_INSPECTABLE_WEB")
+            inspectableWeb: flag("ChaosBankInspectableWeb", "CHAOSBANK_INSPECTABLE_WEB"),
+            kycUnverified: flag("ChaosBankKycUnverified", "CHAOSBANK_KYC_UNVERIFIED"),
+            kycDocument: defaults.string(forKey: "ChaosBankKycDocument") ?? environment["CHAOSBANK_KYC_DOCUMENT"] ?? "valid",
+            kycSelfie: defaults.string(forKey: "ChaosBankKycSelfie") ?? environment["CHAOSBANK_KYC_SELFIE"] ?? "match"
         )
     }
 }
