@@ -22,7 +22,7 @@ final class AppServices {
     let notifications = NotificationStore()
     let locale = LocaleSettings()
     let templates = TemplateStore()
-    let kyc = KycStore()
+    let kyc = KycStore(verified: !LaunchOptions.current.kycUnverified)
 
     /// Increments after every successful mutation.
     private(set) var dataVersion = 0

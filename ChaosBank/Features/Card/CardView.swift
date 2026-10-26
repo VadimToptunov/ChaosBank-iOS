@@ -6,6 +6,7 @@
 import SwiftUI
 
 struct CardView: View {
+    @Environment(AppServices.self) private var services
     @State private var vm = CardViewModel()
     @State private var showPIN = false
     @State private var virtualCreated = false
@@ -99,6 +100,23 @@ struct CardView: View {
                     .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Palette.line, lineWidth: 1))
             }
             .accessibilityIdentifier(A11y.Loans.cardButton)
+
+            Text(services.kyc.verified ? "Identity verified" : "Identity not verified")
+                .font(.appBody(13, weight: .medium))
+                .foregroundStyle(services.kyc.verified ? Palette.gain : Palette.muted)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibilityIdentifier(A11y.Kyc.cardStatus)
+            NavigationLink {
+                KycView()
+            } label: {
+                Label("Verify identity", systemImage: "person.text.rectangle")
+                    .font(.appBody(16, weight: .semibold)).foregroundStyle(Palette.text)
+                    .frame(maxWidth: .infinity).padding(.vertical, 15)
+                    .background(Palette.surface2)
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Palette.line, lineWidth: 1))
+            }
+            .accessibilityIdentifier(A11y.Kyc.cardButton)
 
             PrimaryButton(title: "Order physical card", systemImage: "creditcard") {
             }

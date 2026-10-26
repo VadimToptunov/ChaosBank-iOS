@@ -292,6 +292,9 @@ nonisolated enum DefectRegistry {
         Defect(id: .cardLimitAcceptsZero, title: "Card monthly limit accepts zero",
                feature: "Card", category: .validation, severity: .minor,
                violates: "The monthly limit must be positive.", flakiness: .deterministic),
+        Defect(id: .kycNameMismatchAccepted, title: "KYC accepts a document in someone else's name",
+               feature: "KYC", category: .validation, severity: .critical,
+               violates: "The name on the document must match the account holder.", flakiness: .deterministic),
 
         // MARK: - Batch: localization
         Defect(id: .balanceWrongCurrencySymbol, title: "Balance always shows the € symbol",
@@ -350,6 +353,9 @@ nonisolated enum DefectRegistry {
         Defect(id: .templatePrefillsWrongAmount, title: "Payment template prefills the wrong amount",
                feature: "Transfer / Templates", category: .state, severity: .major,
                violates: "Applying a saved template prefills its exact saved amount.", flakiness: .deterministic),
+        Defect(id: .kycStuckPending, title: "Approved KYC check stays \"under review\"",
+               feature: "KYC", category: .state, severity: .major,
+               violates: "An approved check reports the identity as verified.", flakiness: .deterministic),
 
         // MARK: - Batch: concurrency
         Defect(id: .homeRefreshRace, title: "Overlapping refreshes clobber the dashboard",
@@ -432,6 +438,12 @@ nonisolated enum DefectRegistry {
                feature: "Transfer / KYC", category: .security, severity: .critical,
                violates: "A large transfer is blocked until identity (KYC) is verified.",
                flakiness: .deterministic),
+        Defect(id: .kycAcceptsExpiredDocument, title: "KYC accepts an expired document",
+               feature: "KYC", category: .security, severity: .critical,
+               violates: "An expired identity document is rejected.", flakiness: .deterministic),
+        Defect(id: .kycSelfieMismatchAccepted, title: "KYC passes a selfie that doesn't match",
+               feature: "KYC", category: .security, severity: .critical,
+               violates: "A selfie that doesn't match the document photo is rejected.", flakiness: .deterministic),
         Defect(id: .virtualCardShowsRealPan, title: "Virtual card exposes the real card number",
                feature: "Card", category: .security, severity: .critical,
                violates: "A virtual card shows a distinct virtual number, never the real PAN.",

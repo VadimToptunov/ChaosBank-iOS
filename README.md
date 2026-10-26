@@ -97,6 +97,11 @@ triple-tap the build badge).
 -ChaosBankShowDev 1              # auto-open the developer menu
 -ChaosBankShowWebLogin 1         # auto-open the web login sheet
 -ChaosBankInspectableWeb 1       # make the web-login WKWebView inspectable (iOS 16.4+)
+
+# Mock KYC: start unverified and script what the "camera" sees
+-ChaosBankKycUnverified 1
+-ChaosBankKycDocument expired    # valid (default) | expired | unreadable | nameMismatch
+-ChaosBankKycSelfie mismatch     # match (default) | mismatch | noFace
 ```
 
 > **WebView modes.** The web login is a hybrid: an HTML form inside a `WKWebView`.
@@ -182,10 +187,10 @@ when its input changes); and `rowTapOpensWrongItem` (a row's tap handler uses th
 index, opening a neighbouring item). So far **Transactions**, **Card**, **Markets**,
 **Portfolio**, **Transfer** and **Exchange** are ported; more follow.
 
-## Defect catalog (131 defects, 10 categories)
+## Defect catalog (135 defects, 10 categories)
 
 Every defect ships **OFF** in the `clean` profile. Counts by category: money 23,
-state 26, security 18, validation 14, ui 15, network 8, performance 6,
+state 27, security 20, validation 15, ui 15, network 8, performance 6,
 concurrency 6, localization 8, accessibility 7. The latest additions are the first
 **reliability stressors** — a dev-menu network-state selector
 (normal / offline / slow / flaky), unstable animations, and never-ending pagination.
@@ -246,6 +251,8 @@ representative selection.
 | | `biometricUnlocksFromAnyStage` ⭑ | biometrics skip login/OTP/passcode from a fresh launch |
 | | `kycBypassAllowsTransfer` ⭑ | unverified KYC still sends transfers over €1,000 |
 | | `virtualCardShowsRealPan` ⭑ | a virtual card leaks the real card number |
+| | `kycAcceptsExpiredDocument` ⭑ | KYC accepts an expired identity document |
+| | `kycSelfieMismatchAccepted` ⭑ | KYC passes a selfie that doesn't match the document |
 | **Networking** | `retryDuplicate` | retry after a slow response double-posts |
 | | `slowResponseRace` | a stale late response clobbers fresh state |
 | | `timeoutAsSuccess` | a timeout is shown as a successful transfer |
@@ -293,6 +300,9 @@ any exercise's defect(s) live.
 - **Broker** — Markets (live ticking prices, sparklines), Asset detail, Order
   ticket (market / limit lifecycle), Portfolio (live P&L, allocation).
 - **Card** — freeze / online-payments toggles, limits, PIN.
+- **Identity check (KYC)** — Card → Verify identity: document scan → selfie → review, with
+  the "camera" scripted from launch options (see "Launch arguments"). Unverified users can't send
+  transfers over €1,000.
 - **Auth ladder** — **web login** (a `WKWebView` sheet — deliberately reached via a
   web context, not native locators) → **OTP** (resend cooldown, expiry,
   auto-submit, lockout) → **6-digit passcode** → **Face ID** fallback, plus
