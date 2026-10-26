@@ -16,6 +16,8 @@ nonisolated struct BuildConfig: Sendable {
     var label: String
     /// Which price feed to run at launch.
     var priceSource: PriceSourceKind = .simulated
+    /// ChaosBank-Server base URL (`-ChaosBankBackend <url>` / `CHAOSBANK_BACKEND`); nil = the embedded mock.
+    var backendURL: URL? = nil
 
     var seedBadge: String { String(format: "%02d", seed) }
 
@@ -107,6 +109,11 @@ nonisolated struct BuildConfig: Sendable {
         let rawSource = defaults.string(forKey: "ChaosBankPriceSource") ?? environment["CHAOSBANK_PRICE_SOURCE"]
         let priceSource = PriceSourceKind(rawValue: rawSource?.lowercased() ?? "") ?? .simulated
 
-        return BuildConfig(seed: seed, activeDefects: defects, label: label, priceSource: priceSource)
+        let rawBackend = defaults.string(forKey: "ChaosBankBackend") ?? environment["CHAOSBANK_BACKEND"]
+        let backendURL = rawBackend
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .flatMap { $0.hasPrefix("http://") || $0.hasPrefix("https://") ? URL(string: $0) : nil }
+
+        return BuildConfig(seed: seed, activeDefects: defects, label: label, priceSource: priceSource, backendURL: backendURL)
     }
 }

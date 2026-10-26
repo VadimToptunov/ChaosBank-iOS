@@ -88,6 +88,9 @@ triple-tap the build badge).
 # Real vs simulated market data
 -ChaosBankPriceSource live       # or 'simulated' (default) / env CHAOSBANK_PRICE_SOURCE
 
+# Data from ChaosBank-Server instead of the embedded mock (see below)
+-ChaosBankBackend http://localhost:8080   # or env CHAOSBANK_BACKEND
+
 # Test / demo affordances (never change product behavior)
 -ChaosBankStartUnlocked 1        # skip the auth ladder
 -ChaosBankTab markets            # deep-link a tab: home|markets|portfolio|card
@@ -102,6 +105,22 @@ triple-tap the build badge).
 > ("Mode 1"). Passing `-ChaosBankInspectableWeb 1` sets `WKWebView.isInspectable`,
 > which exposes a `WEBVIEW_…` automation context so a driver can
 > `switch_to.context(...)` and walk the DOM ("Mode 2").
+
+### Running against ChaosBank-Server
+
+By default the app runs offline on an embedded mock. With `-ChaosBankBackend <url>` it
+talks to [ChaosBank-Server](https://github.com/VadimToptunov/ChaosBank-Server) over
+HTTP instead (`docker compose up` there; the simulator reaches the Mac at `localhost`).
+Each launch opens its own chaos session, starts from the same seed data and signs in
+by itself. The developer menu shows which backend is in use (`dev.backend`).
+
+- Client-side defects work exactly as before. Active defects that the server also
+  knows are switched on in the session, and the dev menu's network condition goes to
+  the server (`offline` stays in the app).
+- The server prices exchanges itself, so the client defects that only change the
+  credited amount (`exchangeFeeNotApplied`, `exchangeFeeDoubled`, `roundingDrift` on
+  the exchange) don't show against it. Orders go up with the app's own execution
+  price, so order defects do carry over.
 
 ### Build configurations (distributable per-defect builds)
 
