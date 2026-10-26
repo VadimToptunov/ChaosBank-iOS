@@ -188,6 +188,9 @@ struct DevMenuView: View {
                     .accessibilityIdentifier(A11y.Dev.activeLabel)
                 Text("Build \(services.config.version) · RNG seed \(services.config.seedBadge)")
                     .font(.appMono(11)).foregroundStyle(Palette.muted)
+                Text("Backend: \(services.backend.label)")
+                    .font(.appMono(11)).foregroundStyle(Palette.muted)
+                    .accessibilityIdentifier(A11y.Dev.backend)
             }
         }
     }
