@@ -124,4 +124,38 @@ final class KycFlowTests: XCTestCase {
         XCTAssertEqual(opts.kycDocument, "expired")
         XCTAssertEqual(opts.kycSelfie, "mismatch")
     }
+
+    // MARK: Scripted scanner, face check and guards
+
+    func testEveryDocumentScriptReadsWhatItSays() async {
+        let expiredScan = await ScriptedDocumentScanner(script: "expired").scan(.passport)
+        XCTAssertEqual(expiredScan.expiry, KycReview.date(2024, 1, 31))
+        let other = await ScriptedDocumentScanner(script: "nameMismatch").scan(.passport)
+        XCTAssertEqual(other.name, "ALEX MORGAN")
+        let unreadable = await ScriptedDocumentScanner(script: "unreadable").scan(.passport)
+        XCTAssertFalse(unreadable.isReadable)
+        let idCard = await ScriptedDocumentScanner(script: "valid").scan(.idCard)
+        XCTAssertEqual(idCard.number, "ID7731205")
+    }
+
+    func testEverySelfieScriptAndItsMessage() async {
+        for (script, expected) in [("match", KycSelfieScan.match), ("mismatch", .mismatch), ("noFace", .noFace)] {
+            let result = await ScriptedSelfieChecker(script: script).check(against: valid)
+            XCTAssertEqual(result, expected)
+        }
+        XCTAssertEqual(KycSelfieScan.match.message, "Face matches the document")
+        XCTAssertEqual(KycSelfieScan.mismatch.message, "Face doesn't match the document")
+        XCTAssertEqual(KycSelfieScan.noFace.message, "No face detected — try again")
+    }
+
+    func testNothingHappensOutOfOrder() async {
+        let model = KycFlowModel(scanner: ScriptedDocumentScanner(script: "valid"), faceCheck: ScriptedSelfieChecker(script: "match"))
+        await model.takeSelfie()
+        XCTAssertNil(model.selfie, "no selfie before a document")
+        let store = KycStore(verified: false)
+        await model.submit(to: store)
+        XCTAssertNil(model.outcome, "no submit before a document and a face")
+        XCTAssertFalse(store.verified)
+    }
 }
+
