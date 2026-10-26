@@ -23,3 +23,6 @@ xcuserdata/
 # CocoaPods / Carthage (unused, but ignore if ever added)
 Pods/
 Carthage/Build/
+
+# JetBrains IDE settings (e.g. opening docs/ in an IDE)
+.idea/
