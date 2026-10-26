@@ -76,6 +76,7 @@ enum A11y {
         static let menu = "dev.menu"
         static let close = "dev.close"
         static let activeLabel = "dev.activeLabel"
+        static let backend = "dev.backend"
         static func profile(_ id: String) -> String { "dev.profile.\(id)" }
         static func defectToggle(_ id: DefectID) -> String { "dev.defect.\(id.rawValue)" }
         static let priceSource = "dev.priceSource"

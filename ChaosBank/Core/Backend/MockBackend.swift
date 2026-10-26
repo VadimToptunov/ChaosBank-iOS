@@ -19,7 +19,9 @@ enum BackendError: Error, Equatable {
     case offline
 }
 
-actor MockBackend {
+actor MockBackend: Backend {
+    nonisolated let label = "Embedded mock"
+
     private var accountsByCurrency: [Currency: Account]
     private var transactions: [Transaction]   // newest first
     private var holdings: [String: Holding]
@@ -57,6 +59,9 @@ actor MockBackend {
         self.orders = []
         self.assets = Dictionary(uniqueKeysWithValues: SeedData.assets.map { ($0.symbol, $0) })
     }
+
+    /// Client-side defects need nothing from the embedded mock; scenarios come via `setScenario`.
+    func setDefects(_ defects: Set<DefectID>) {}
 
     func setScenario(_ scenario: BackendScenario) {
         self.scenario = scenario

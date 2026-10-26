@@ -16,7 +16,8 @@ import Observation
 @Observable
 final class AppServices {
     private(set) var config: BuildConfig
-    let backend: MockBackend
+    /// The embedded mock, or ChaosBank-Server when launched with `-ChaosBankBackend <url>`.
+    let backend: any Backend
     let market: MarketStore
     let notifications = NotificationStore()
     let locale = LocaleSettings()
@@ -34,7 +35,11 @@ final class AppServices {
 
     init(config: BuildConfig) {
         self.config = config
-        self.backend = MockBackend(scenario: BackendScenario.from(config.activeDefects))
+        if let url = config.backendURL {
+            self.backend = HttpBackend(baseURL: url, seed: config.seed, defects: config.activeDefects)
+        } else {
+            self.backend = MockBackend(scenario: BackendScenario.from(config.activeDefects))
+        }
         self.market = MarketStore(seed: config.seed, assets: SeedData.assets, source: config.priceSource)
     }
 
@@ -54,7 +59,11 @@ final class AppServices {
 
     private func syncScenario() {
         let scenario = BackendScenario.from(config.activeDefects)
-        Task { await backend.setScenario(scenario) }
+        let defects = config.activeDefects
+        Task {
+            await backend.setDefects(defects)
+            await backend.setScenario(scenario)
+        }
     }
 
     func bumpData() { dataVersion += 1 }
