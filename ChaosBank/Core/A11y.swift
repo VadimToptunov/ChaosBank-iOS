@@ -87,7 +87,6 @@ enum A11y {
         static let loginRoot = "auth.login"
         static let username = "auth.username"
         static let password = "auth.password"
-        static let loginButton = "auth.loginButton"
         static let loginError = "auth.loginError"
         // Web login sheet. The form itself lives in a WKWebView; its fields are
         // reachable via web ids (see below), not native accessibility identifiers.
