@@ -138,6 +138,19 @@ final class KycFlowTests: XCTestCase {
         XCTAssertEqual(idCard.number, "ID7731205")
     }
 
+    func testValidScanStaysValidWhateverTheDate() async {
+        // A fixed expiry in the fixture would start failing the happy path once
+        // the real date passed it; the scripted document expires relative to now.
+        let later = KycReview.date(2040, 5, 1)
+        let scan = await ScriptedDocumentScanner(script: "valid", now: { later }).scan(.passport)
+        XCTAssertEqual(scan.expiry, KycReview.date(2045, 5, 1))
+        use([])
+        XCTAssertEqual(KycReview.decide(document: scan, selfie: .match, today: later), .verified)
+        let other = await ScriptedDocumentScanner(script: "nameMismatch", now: { later }).scan(.passport)
+        XCTAssertEqual(KycReview.decide(document: other, selfie: .match, today: later),
+                       .rejected("Name doesn't match the account holder"))
+    }
+
     func testEverySelfieScriptAndItsMessage() async {
         for (script, expected) in [("match", KycSelfieScan.match), ("mismatch", .mismatch), ("noFace", .noFace)] {
             let result = await ScriptedSelfieChecker(script: script).check(against: valid)

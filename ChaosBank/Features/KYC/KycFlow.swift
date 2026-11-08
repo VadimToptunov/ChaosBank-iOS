@@ -52,8 +52,11 @@ protocol KycDocumentScanning { func scan(_ kind: KycDocumentKind) async -> KycDo
 protocol KycSelfieChecking { func check(against document: KycDocumentScan) async -> KycSelfieScan }
 
 /// Replays `-ChaosBankKycDocument`: valid | expired | unreadable | nameMismatch.
+/// A readable document that isn't meant to be expired expires five years after
+/// `now`, so the fixture never goes stale; the expired one is fixed in the past.
 struct ScriptedDocumentScanner: KycDocumentScanning {
     let script: String
+    var now: () -> Date = { Date() }
 
     func scan(_ kind: KycDocumentKind) async -> KycDocumentScan {
         try? await Task.sleep(for: .milliseconds(600))
@@ -64,9 +67,9 @@ struct ScriptedDocumentScanner: KycDocumentScanning {
         case "unreadable":
             return KycDocumentScan(name: nil, number: nil, expiry: nil)
         case "nameMismatch":
-            return KycDocumentScan(name: "ALEX MORGAN", number: number, expiry: KycReview.date(2031, 4, 30))
+            return KycDocumentScan(name: "ALEX MORGAN", number: number, expiry: KycReview.validExpiry(from: now()))
         default:
-            return KycDocumentScan(name: KycReview.accountHolder, number: number, expiry: KycReview.date(2031, 4, 30))
+            return KycDocumentScan(name: KycReview.accountHolder, number: number, expiry: KycReview.validExpiry(from: now()))
         }
     }
 }
@@ -96,6 +99,12 @@ enum KycReview {
     static func date(_ y: Int, _ m: Int, _ d: Int) -> Date {
         var c = DateComponents(); c.year = y; c.month = m; c.day = d
         return Calendar(identifier: .gregorian).date(from: c) ?? .distantPast
+    }
+
+    /// Five years after `today`'s date: the expiry of a scripted valid document.
+    static func validExpiry(from today: Date) -> Date {
+        let calendar = Calendar(identifier: .gregorian)
+        return calendar.date(byAdding: .year, value: 5, to: calendar.startOfDay(for: today)) ?? .distantFuture
     }
 
     /// The decision on a readable document and a detected face.
